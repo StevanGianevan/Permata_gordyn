@@ -9,6 +9,18 @@
     transition: 0.3s;
 }
 
+.navbar-nav button{
+    transition: 0.3s;
+}
+.navbar-nav button a{
+    color: white;
+}
+
+.navbar-nav button a:hover{
+    color: white;
+    text-decoration: none;
+}
+
 /* body */
 /* landing page */
 .konten1{
@@ -152,6 +164,7 @@
 
 
 /* PRODUCTS */
+/* LANDING PAGE */
 .lproduct{
     /* width: 100%; */
     height: 700px;
@@ -172,3 +185,6 @@
 .lproduct_konten button{
     margin-top: 29px;
 }
+
+
+/* Slider Product */

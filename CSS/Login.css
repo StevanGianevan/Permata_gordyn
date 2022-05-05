@@ -39,7 +39,7 @@ section .container .user .imgBx{
     width: 50%;
     height: 100%;
     /* background:  white; */
-    background-image: url("../Image/bw background.png");
+    background-image: url("../Image/bw.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
