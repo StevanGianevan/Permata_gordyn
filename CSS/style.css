@@ -2,10 +2,7 @@
     height: 100%;
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 6edb307 (VisitUs Added)
 /* header */
 .header{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
@@ -120,11 +117,8 @@
 /* footer */
 .footer{
     background-color: black;
-<<<<<<< HEAD
     margin-top: 10%;
-=======
     margin-top: 5%;
->>>>>>> 6edb307 (VisitUs Added)
     padding-top: 5%;
 }
 
@@ -195,8 +189,6 @@
 
 
 /* Slider Product */
-<<<<<<< HEAD
-=======
 .sliderP{
     width: 100%;
 }
@@ -228,4 +220,3 @@
     margin: 40px 40px;
     text-align: center;
 }
->>>>>>> 6edb307 (VisitUs Added)
