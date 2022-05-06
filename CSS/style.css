@@ -2,7 +2,10 @@
     height: 100%;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6edb307 (VisitUs Added)
 /* header */
 .header{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
@@ -117,7 +120,11 @@
 /* footer */
 .footer{
     background-color: black;
+<<<<<<< HEAD
     margin-top: 10%;
+=======
+    margin-top: 5%;
+>>>>>>> 6edb307 (VisitUs Added)
     padding-top: 5%;
 }
 
@@ -188,3 +195,37 @@
 
 
 /* Slider Product */
+<<<<<<< HEAD
+=======
+.sliderP{
+    width: 100%;
+}
+
+
+/* Visit Us */
+/* Landing Page */
+.box{
+    margin: 40px 80px;
+    box-shadow: 0 0 20px 0 grey;
+}
+
+.row .contact-us{
+    margin-top: 50px;
+    margin-left: 80px;
+}
+
+.row .contact-us h2{
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.row .contact-us p img{
+    margin: 20px 20px;
+}
+
+.row .maps-view{
+    margin: 40px 40px;
+    text-align: center;
+}
+>>>>>>> 6edb307 (VisitUs Added)
