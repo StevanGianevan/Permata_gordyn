@@ -64,12 +64,18 @@
 /* sejarah permata gordyn */
 .konten2{
     width: 100%;
-    height: 500px;
+    height: 380px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
 }
+.konten2 p{
+    text-align: center;
+}
 
+.konten2 .sejarah{
+    padding-top: 80px;
+}
 
 /* banner */
 .banner{

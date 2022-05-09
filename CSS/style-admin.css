@@ -1,0 +1,78 @@
+* {
+    font-family: monospace;
+}
+
+.header {
+    background-color: black;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.nav-item .nav-link a i {
+    color: white;
+}
+
+.dropdown-menu a:hover {
+    color: white;
+    background-color: black;
+}
+
+
+/* sidebar */
+#body-row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+#sidebar-container {
+    min-height: calc(100vh - 80.59px);
+    background-color: rgb(0, 0, 0);
+    padding: 0;
+}
+
+.sidebar-expanded {
+    width: 230px;
+}
+
+.sidebar-collapsed {
+    width: 60px;
+}
+
+#sidebar-container .list-group li{
+    padding: 10px;
+    height: 42px;
+}
+
+#sidebar-container .list-group a{
+    padding-left: 30px;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    text-decoration: none;
+}
+
+#sidebar-container .list-group .active {
+    background-color: lightgrey;
+}
+#sidebar-container .list-group .active a{
+    background-color: lightgrey;
+    color: black;
+    font-weight: 800;
+}
+
+
+/* dashboard kontent */
+#body-col{
+    margin-top: 10px;
+}
+
+.box {
+    border-radius: 10px;
+    background-color: lightgrey;
+}
+
+.box p{
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+}
