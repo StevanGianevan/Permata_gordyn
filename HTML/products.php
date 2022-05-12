@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +28,7 @@
 
 <body>
     <!--Header-->
-    <div class="header">
+    <!-- <div class="header">
         <nav class="navbar navbar-expand-lg navbar-dark py-3">
             <a><img src="../Image/Logo.png" class="px-3" width="90px" height="auto"></a>
             <a class="navbar-brand" href="#">Permata Gordyn</a>
@@ -36,7 +39,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item home">
-                        <a class="nav-link" href="home.html">Home</a>
+                        <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item products active">
                         <a class="nav-link" href="products.html">Products</a>
@@ -57,8 +60,10 @@
                 </ul>
             </div>
         </nav>
-    </div>
-
+    </div> -->
+    <?php 
+        include 'header.php';
+    ?>
 
     <!-- Landing Page Product -->
     <div class="lproduct mx-2 my-2" style="background-color: grey;">

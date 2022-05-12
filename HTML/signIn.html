@@ -38,13 +38,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item home">
-                        <a class="nav-link" href="home.html">Home</a>
+                        <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item products">
-                        <a class="nav-link" href="products.html">Products</a>
+                        <a class="nav-link" href="products.php">Products</a>
                     </li>
                     <li class="nav-item contact">
-                        <a class="nav-link" href="contacts.html">Visit Us</a>
+                        <a class="nav-link" href="contacts.php">Visit Us</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -213,6 +213,7 @@
                             }
                             else if(dataResult.statusCode==201){
                                 alert('error email alr exist');
+                                $("#registerform")[0].reset();
                             }
                             
                         }
