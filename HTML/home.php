@@ -1,3 +1,13 @@
+<?php 
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: signIn.html");
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +29,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <title>Permata Gordyn | Products</title>
-
+    <title>Permata Gordyn | Home Page</title>
 </head>
 
 <body>
@@ -36,10 +45,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item home">
-                        <a class="nav-link" href="home.php">Home</a>
+                        <a class="nav-link active" href="home.html">Home</a>
                     </li>
                     <li class="nav-item products">
-                        <a class="nav-link active" href="products.html">Products</a>
+                        <a class="nav-link" href="products.html">Products</a>
                     </li>
                     <li class="nav-item contact">
                         <a class="nav-link" href="contacts.html">Visit Us</a>
@@ -50,15 +59,27 @@
                         <a class="nav-link disabled" href="#"><i class="fa fa-shopping-bag"></i></a>
                     </li>
                 </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item contact">
+                    <?php echo "<p1 style='color:white;'>Welcome " . $_SESSION['name'] . "</p1>"; ?>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item button ml-2">
+                        <button type="button" class="btn btn-secondary"><a href="logout.php">Logout</a></button>
+                    </li>
+                </ul>
             </div>
         </nav>
     </div>
-    <!-- Landing Page Product -->
-    <div class="lproduct mx-2 my-2" style="background-color: grey;">
+
+
+    <!-- landing page -->
+    <div class="konten1 mt-0" style="background-image: url(../Image/background.jpg);">
         <div class="container fill_hight">
             <div class="row align-items-center fill_hight">
                 <div class="col">
-                    <div class="lproduct_konten">
+                    <div class="konten1_konten">
                         <h2>Permata Gordyn</h2>
                         <h5>Selamat datang di website kami, kami menyediakan bermacam -
                             </br>macam jenis gordyn atau tirai penutup jendela
@@ -70,29 +91,53 @@
         </div>
     </div>
 
-    <!-- Slider Product -->
-    <div class="silderP">
+    <!-- sejarah Permata gordyn -->
+    <div class="konten2" style="background-color: black;">
         <div class="container">
-            <!-- <div class="row">
-                <div class="col text-center">
-                    <div class="section_title sliderP_title">
-                        <h2></h2>
+            <div class="row mx-auto">
+                <div class="col" >
+                    <div class="row" style="color: white;"><p>picture1</p></div>
+                    <div class="row" style="color: white;"><p>picture2</p></div>
+                </div>
+                <div class="col" >
+                    <div class="row" style="color: white;"><p>picture3</p></div>
+                    <div class="row" style="color: white;"><p>picture4</p></div>
+                </div>
+                <div class="col" style="color: white;">
+                    <p>picture1</p>
+                </div>
+                <div class="col" style="color: white;"><p>picture1</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Products -->
+    <div class="banner">
+        <div class="container">
+            <p>OUR PRODUCTS</p>
+            <div class="row">
+                <div class="col-md-4 p-0">
+                    <div class="banner_item align-item-center mb-2" style="background-image: url(../Image/Logo.png);">
+                        <div class="banner_category">
+                            <p class="mb-auto">Gordyn</p>
+                            <a class="text-decoration-none" href="#">see details</a>
+                        </div>
                     </div>
                 </div>
-            </div> -->
-            <div class="row align-items-center">
-                <div class="col text-center">
-                    <div class="slideP_sorting">
-                        <ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
-                            <li class="grid_sorting_button button d-flex flex-column justify-content align-items-center active is-checked"
-                                data-filter="*">all</li>
-                            <li class="grid_sorting_button button d-flex flex-column justify-content align-items-center active is-checked"
-                                data-filter=".gordyn">gordyn</li>
-                            <li class="grid_sorting_button button d-flex flex-column justify-content align-items-center active is-checked"
-                                data-filter=".vitrage">vitrage</li>
-                            <li class="grid_sorting_button button d-flex flex-column justify-content align-items-center active is-checked"
-                                data-filter=".rel">rel</li>
-                        </ul>
+                <div class="col-md-4 p-0">
+                    <div class="banner_item align-item-center" style="background-image: url(../Image/Logo.png);">
+                        <div class="banner_category">
+                            <p class="mb-auto">Vitrage</p>
+                            <a href="#">see details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 p-0">
+                    <div class="banner_item align-item-center" style="background-image: url(../Image/Logo.png);">
+                        <div class="banner_category">
+                            <p class="mb-auto">rel</p>
+                            <a href="#">see details</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,7 +150,7 @@
             <div class="info row">
                 <div class="footer_address col-lg-3 mr-auto">
                     <div class="footer_nav_container d-flex flex-sm-row flex-colomn align-items-center 
-                        justify-content-lg-start justify-content-center text-center">
+                    justify-content-lg-start justify-content-center text-center">
                         <ul class="footer_nav">
                             <li>OUR ADDRESS</li>
                             <li>Jl. Giok 2, Blok T2 No. 23 Permata Cimahi, Tanimulya, Kec. Ngamprah, Kabupaten Bandung
@@ -115,7 +160,7 @@
                 </div>
                 <div class="footer_products col-lg-3">
                     <div class="footer_nav_container d-flex flex-sm-row flex-colomn align-items-center 
-                        justify-content-lg-start justify-content-center text-center">
+                    justify-content-lg-start justify-content-center text-center">
                         <ul class="footer_nav">
                             <li>OUR PRODUCTS</li>
                             <li><a href="#">Gordyn</a></li>
@@ -127,7 +172,7 @@
                 </div>
                 <div class="footer_sosmed col-lg-3 mr-auto">
                     <div class="footer_nav_container footer_social d-flex flex-row align-items-center 
-                        justify-content-lg-end justify-content-center">
+                    justify-content-lg-end justify-content-center">
                         <ul>
                             <li>SOCMED</li>
                             <li><a href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>

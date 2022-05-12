@@ -38,7 +38,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item home">
-                        <a class="nav-link active" href="home.html">Home</a>
+                        <a class="nav-link" href="home.html">Home</a>
                     </li>
                     <li class="nav-item products">
                         <a class="nav-link" href="products.html">Products</a>
@@ -68,25 +68,25 @@
                     <img src="../Image/bw-1.jpg">
                 </div>
                 <div class="formBx">
-                    <form>
+                    <form action="procsign.php" method="POST">
                         <h2>Sign In</h2>
-                        <input type="text" class="username" placeholder="Username">
-                        <input type="password" class="password" placeholder="Password">
+                        <input id="email_log" name="email" type="email" class="email"  placeholder="Email">
+                        <input id="password_log" name="password" type="password" class="password"  placeholder="Password">
                     </form>
-                    <button class="signinbtn">Login</button>
+                    <button name="submit"class="signinbtn">Login</button>
                     <p class="signup">Don't have an account ? <a href="#" onclick="toggleForm();">Sign Up</a></p>
                 </div>
             </div>
             <div class="user signupBx">
                 <div class="formBx">
-                    <form>
+                    <form action="procsign.php" method="POST" id="registerform">
                         <h2>Sign Up</h2>
-                        <input type="text" name="" placeholder="Username">
-                        <input type="email" name="" placeholder="Email">
-                        <input type="password" name="" placeholder="Create Password">
-                        <input type="password" name="" placeholder="Confirm Password">
+                        <input id="name" name="name" type="text" class="usernamesignup" placeholder="Username">
+                        <input id ="email" name="email" type="email" class="emailsignup" placeholder="Email">
+                        <input id="password" name="password" type="password" class="passwordsignup" id="password" placeholder="Create Password">
+                        <input id="cpassword" name="cpassword" type="password" class="cpasswordsignup" id="cpassword" placeholder="Confirm Password">
                     </form>
-                    <button class="signupbtn">Sign Up</button>
+                    <button name="submit" type="submit" class="signupbtn">Sign Up</button>
                     <p class="signup">Already have an account ? <a href="#" onclick="toggleForm();">Sign In</a></p>
                 </div>
                 <div class="imgBx">
@@ -145,27 +145,84 @@
         </div>
     </footer>
 
-    <script type="text/javascript">
+    <script>
         function toggleForm() {
             var container = document.querySelector('.container');
             container.classList.toggle('active')
         }
         jQuery(document).ready(function () {
             console.log("ready!");
-            $('.signupbtn').on('click', function (event) {
-                var str1 = $(".username").val();
-                var str2 = $(".password").val();
-                console.log(str1);
-                console.log(str2);
-                window.location.href = "home.html";
-            })
-            $('.signinbtn').on('click', function (event) {
-                var str1 = $(".username").val();
-                var str2 = $(".password").val();
-                console.log(str1);
-                console.log(str2);
-                window.location.href = 'home.html';
-            })
+            $('.signinbtn').on('click', function() {
+                var email = $('#email_log').val();
+                var password = $('#password_log').val();
+                if(email!="" && password!="" ){
+                    $.ajax({
+                        url: "procsign.php",
+                        type: "POST",
+                        data: {
+                            type:2,
+                            email: email,
+                            password: password,						
+                        },
+                        cache: false,
+                        success: function(dataResult){
+                            var dataResult = JSON.parse(dataResult);
+                            if(dataResult.statusCode==200){
+                                location.href = "home.php";						
+                            }
+                            else if(dataResult.statusCode==201){
+                                alert('Invalid email or password');
+                            }
+                            
+                        }
+                    });
+                }
+                else{
+                    alert('Please fill all the field !');
+                }
+            });
+            $(document).on("click", '.signupbtn', function() {
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var cpassword = $('#cpassword').val();
+                if (password != cpassword){
+                    alert('Password does not match confirmation password!');
+                    $("#registerform")[0].reset();
+                }
+                else if(name!="" && email!="" && password!="" && cpassword!="" ){
+                    $.ajax({
+                        url: "procsign.php",
+                        type: "POST",
+                        data: {
+                            type: 1,
+                            name: name,
+                            email: email,
+                            password: password,
+                            cpassword: cpassword						
+                        },
+                        cache: false,
+                        success: function(dataResult){
+                            var dataResult = JSON.parse(dataResult);
+                            if(dataResult.statusCode==200){
+                                
+                                $("#registerform")[0].reset();
+                                
+                                alert('Registration Success!');
+                                						
+                            }
+                            else if(dataResult.statusCode==201){
+                                alert('error email alr exist');
+                            }
+                            
+                        }
+                    });
+                }
+                
+                else{
+                    alert('Please fill all the field !');
+                }
+            });
         });
     </script>
 </body>
