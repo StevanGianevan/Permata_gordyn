@@ -81,25 +81,29 @@
       <div class="form-row">
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">Produk id</label>
-          <input type="text" class="form-control ID"  id="validationTooltip01" placeholder="Produk id" required>
+          <input name="prodid" type="text" class="form-control ID"  id="validationTooltip01" placeholder="Produk id" required>
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">Kategori id</label>
-          <input type="text" class="form-control kategori_id"  id="validationTooltip02" placeholder="Kategori id" required>
+          <input name="katid" type="text" class="form-control kategori_id"  id="validationTooltip02" placeholder="Kategori id" required>
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">Nama Produk</label>
-          <input type="text" class="form-control nama_produk"  id="validationTooltip03" placeholder="Nama Produk" required>
+          <input name="prodname" type="text" class="form-control nama_produk"  id="validationTooltip03" placeholder="Nama Produk" required>
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip02">Harga Produk</label>
-          <input type="text" class="form-control harga_produk"  id="validationTooltip04" placeholder="Harga Produk" required>
+          <input name="prodprice" type="text" class="form-control harga_produk"  id="validationTooltip04" placeholder="Harga Produk" required>
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip02">Warna Produk</label>
-          <input type="text" class="form-control warna_produk"  id="validationTooltip04" placeholder="Warna Produk" required>
+          <input name="prodcolor" type="text" class="form-control warna_produk"  id="validationTooltip04" placeholder="Warna Produk" required>
         </div>
       </div>
+      <div class="form-row mb-3">
+          <label>Deskripsi Produk</label>
+          <input name="description" type="text" class="form-control warna_produk"  id="validationTooltip04" placeholder="Deskripsi Produk" required>
+        </div>
       <div class="form-row mb-3">
         <div class="col">
           <div class="custom-file">
@@ -124,7 +128,7 @@
           </div>
         </div>
       </div>
-      <button class="addproductbtn btn btn-dark">Submit form</button>
+      <button name="submit" class="addproductbtn btn btn-dark">Submit form</button>
       <hr />
       <table class="table">
         <p>List Product</p>
