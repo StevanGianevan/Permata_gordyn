@@ -2,7 +2,7 @@
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: access");
-header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
@@ -18,24 +18,35 @@ $response["output"]=array();
 $error_schema = array();
 
 try {
-    if($_SERVER['REQUEST_METHOD']=="GET"){
+    if($_SERVER['REQUEST_METHOD']=="POST"){
         $usersdb = new UsersDb($db);
         $headers = apache_request_headers();
+        $data = json_decode(file_get_contents("php://input"));
         
+        // if(empty($data->email) && empty($data->password)){
+        //     throw new Exception("Missing mandatory field");
+        // }
         // check header request
-        if(array_key_exists("id", $headers)==false){
-            throw new Exception("Missing mandatory field");
-        }
+        // if("email", $headers)==false){
+        //     throw new Exception("Missing email");
+        // }
+        // else if(array_key_exists("password", $headers)==false){
+        //     throw new Exception("Missing password");
+        // }
         
-        // $userId = $_GET['userId'];
-        $userId = $headers["id"];
+        // $email = $_GET['email'];
+        $email = $data->email;
+        $password = $data->password;
+        $realpwd = md5($password);
         // input request validation
-        if($userId == null){
-            throw new Exception("Missing mandatory field");
+        if($email == null){
+            throw new Exception("Missing email");
+        }
+        else if($password == null){
+            throw new Exception("Missing password");
         }
         
-        $query = "SELECT * FROM users 
-        WHERE id='$userId'";
+        $query = "SELECT * FROM users WHERE email='$email' and password='$realpwd'";
         
         $get_user = $usersdb->conn->prepare($query);
         $get_user->execute();
@@ -43,6 +54,8 @@ try {
         $query_result = $get_user->rowCount();
         
         if($query_result > 0){
+            $sessionEmail = "";
+            $sessionName = "";
             while ($row = $get_user->fetch(PDO::FETCH_ASSOC)){
                 // extract row
                 // this will make $row['name'] to
@@ -54,7 +67,8 @@ try {
                     "name" => $name,
                     "email" => $email
                 );
-          
+                $sessionEmail = $email;
+                $sessionName = $name;
                 $response["output"] = $userdata;
             }
             
@@ -63,7 +77,9 @@ try {
             $error_schema["message"] = "Success";
             
             $response["error_schema"] = $error_schema;
-          
+            session_start();
+            $_SESSION['email']=$sessionEmail;
+			$_SESSION['name']=$sessionName;
             // set response code - 200 OK
             http_response_code(200);
           
