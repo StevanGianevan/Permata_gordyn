@@ -41,11 +41,24 @@ echo '
                 <?php echo '
                 </li>
             </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item button ml-2">
-                    <button type="button" class="btn btn-secondary"><a href="logout.php">Logout</a></button>
-                </li>
-            </ul>
+            '; ?>
+            <?php 
+                    if (isset($_SESSION['email'])){
+                        echo '<ul class="navbar-nav">
+                        <li class="nav-item button ml-2">
+                            <button type="button" class="btn btn-secondary"><a href="logout.php">Logout</a></button>
+                        </li>
+                    </ul>';
+                    } else if (!isset($_SESSION['email'])){
+                        echo '
+                        <ul class="navbar-nav">
+                            <li class="nav-item button ml-2">
+                            <button type="button" class="btn btn-secondary"><a href="signIn.html">Login</a></button>
+                            </li>
+                        </ul>';
+                    }
+                ?>
+            <?php echo '
         </div>
     </nav>
 </div>

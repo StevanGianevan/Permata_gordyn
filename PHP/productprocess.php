@@ -9,6 +9,7 @@ $prodid='';
 $catid='';
 $prodprice='';
 $prodcolor='';
+$prodsize='';
 $image='';
 $image2='';
 $image3='';
@@ -28,48 +29,86 @@ if (isset($_POST['submit'])){
     $catid = $_POST['catid'];
     $prodprice = $_POST['prodprice'];
     $prodcolor = $_POST['prodcolor'];
+    $prodsize = $_POST['prodsize'];
     $description = $_POST['description'];
-    $conn->query("INSERT INTO product (id, category_id, name, price, colour, description) VALUES('$prodid', '$catid','$prodname', '$prodprice', '$prodcolor', '$description')") or die($conn->error);
+
+    $file = $_FILES['file'];
+    $fileName= $_FILES['file']['name'];
+    $fileTmpName= $_FILES['file']['tmp_name'];
+    $fileSize= $_FILES['file']['size'];
+    $fileError= $_FILES['file']['error'];
+    $fileType= $_FILES['file']['type'];
+    $fileExt = explode('.', $fileName);
+    $fileActualExt = strtolower(end($fileExt));
+    $allowed = array('jpg', 'jpeg', 'png', 'pdf');
+
+    if(in_array($fileActualExt, $allowed))
+    {
+        if($fileError === 0)
+        {
+            if($fileSize <1000000)
+            {
+                $fileNameNew = uniqid('', true).".".$fileActualExt;
+                $fileDestination = "../uploads/".$fileNameNew;
+                move_uploaded_file($fileTmpName, $fileDestination);
+                
+            }else{
+                echo "Your file is too large!";
+            }
+
+        }else{
+            echo "there was an error uploading your file!";
+        }
+    }else{
+        echo "You cannot upload files of this type!";
+    }
+    header("location: productadd.php?uploadsuccess");
+    $conn->query("INSERT INTO product (id, category_id, name, price, colour, description, size) VALUES('$prodid', '$catid','$prodname', '$prodprice', '$prodcolor', '$description', '$prodsize')") or die($conn->error);
     $_SESSION['message'] = "Record has been saved!";
     $_SESSION['msg_type'] = "success";
 
-    header("location: productadd.php");
+    
 }
 
 if (isset($_GET['delete'])){
-    $id = $_GET['delete'];
-    $conn->query("DELETE FROM category WHERE id=$id") or die($conn->error());
-    $conn->query("ALTER TABLE category AUTO_INCREMENT=1") or die($conn->error());
+    $prodid = $_GET['delete'];
+    $conn->query("DELETE FROM product WHERE id=$prodid") or die($conn->error());
+    $conn->query("ALTER TABLE product AUTO_INCREMENT=1") or die($conn->error());
 
     $_SESSION['message'] = "Record has been deleted";
     $_SESSION['msg_type'] = "danger";
-    header("location: index.php");
+    header("location:productadd.php");
 
 }
 if (isset($_GET['edit'])){
-    $id = $_GET['edit'];
+    $prodid = $_GET['edit'];
     $update = true;
-    $result = $conn->query("SELECT * FROM category WHERE id=$id") or die($conn->error());
+    $result = $conn->query("SELECT * FROM product WHERE id=$prodid") or die($conn->error());
     if (count(array($result))==1){
         $row = $result->fetch_array();
-        $product_id = $row['product_id'];
-        $name = $row['name'];
+        $prodid = $row['id'];
+        $prodname = $row['name'];
         $description = $row['description'];
+        $prodprice = $row['price'];
+        $prodsize = $row['size'];
+        $prodcolor = $row['colour'];
     }
 }
 
 if (isset($_POST['update'])){
-    $id = $_POST['id2'];
-    $product_id = $_POST['prodid'];
-    $name= $_POST['name'];
+    $prodid = $_POST['prodid'];
+    $prodname = $_POST['prodname'];
+    $prodprice = $_POST['prodprice'];
+    $prodcolor = $_POST['prodcolor'];
+    $prodsize = $_POST['prodsize'];
     $description = $_POST['description'];
 
 
-    $conn->query("UPDATE category SET product_id= '$product_id', name='$name', description='$description' WHERE id=$id")
+    $conn->query("UPDATE product SET id= '$prodid', name='$prodname', description='$description', price='$prodprice', colour='$prodcolor', size='$prodsize' WHERE id=$prodid")
     or die($conn->error);
 
     $_SESSION['message'] = "Record has been updated";
     $_SESSION['msg_type'] = "warning";
-    header("location: index.php");
+    header("location: productadd.php");
 }
 ?>

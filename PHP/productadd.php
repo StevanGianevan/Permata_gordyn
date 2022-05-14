@@ -31,7 +31,7 @@
             if ($conn->connect_error) {
              die("Connection failed: " . $conn->connect_error);
             } 
-            $result = $conn->query("SELECT * FROM category") or die($conn->error);
+            $result = $conn->query("SELECT * FROM product") or die($conn->error);
             //pre_r($result);
             ?>
         
@@ -39,9 +39,12 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Product ID</th>
+                        <th>Category_Id</th>
                         <th>Name</th>
+                        <th>Product Price</th>
+                        <th>Product Size</th>
+                        <th>Product Color</th>
                         <th>Product Description</th>
                         <th colspan="2">Action</th>
                     </tr>
@@ -50,13 +53,16 @@
             while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $row['id']; ?></td>
-                    <td><?php echo $row['product_id']; ?></td>
+                    <td><?php echo $row['category_id']; ?></td>
                     <td><?php echo $row['name']; ?></td>
+                    <td><?php echo $row['price']; ?></td>
+                    <td><?php echo $row['size']; ?></td>
+                    <td><?php echo $row['colour']; ?></td>
                     <td><?php echo $row['description']; ?></td>
                     <td>
-                        <a href="index.php?edit=<?php echo $row['id']; ?>"
+                        <a href="productadd.php?edit=<?php echo $row['id']; ?>"
                             class="btn btn-info">Edit</a>
-                        <a href="index.php?delete=<?php echo $row['id']; ?>"
+                        <a href="productadd.php?delete=<?php echo $row['id']; ?>"
                             class="btn btn-danger">Delete</a>  
                     </td>
                 </tr>
@@ -72,7 +78,7 @@
             }
         ?>
         <h1 style="center">Admin Page Product</h1>
-        <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <form role="form" method="post" action="productprocess.php" enctype="multipart/form-data">
             <input type="hidden" name="id2" value=" <?php echo $id; ?>">
             <div class="form-group row">
                 <label for="prodid" class="col-sm-2 col-form-label">Product Id</label>
@@ -95,19 +101,25 @@
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Product Price</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prodprice" name="prodprice" value="<?php echo $prodname; ?>" placeholder="Product Price">
+                    <input type="text" class="form-control" id="prodprice" name="prodprice" value="<?php echo $prodprice; ?>" placeholder="Product Price">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Product Size</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="prodsize" name="prodsize" value="<?php echo $prodsize; ?>" placeholder="Product Size">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Product Color</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prodcolor" name="prodcolor" value="<?php echo $prodname; ?>" placeholder="Product Color">
+                    <input type="text" class="form-control" id="prodcolor" name="prodcolor" value="<?php echo $prodcolor; ?>" placeholder="Product Color">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Product Image</label>
                 <div class="col-sm-10">
-                    <input type="file" class="form-control" id="image" name="image" value="" placeholder="Product Image">
+                    <input type="file" class="form-control" id="file" name="file" value="" placeholder="Product Image">
                 </div>
             </div>
             <div class="form-group row">
@@ -128,6 +140,11 @@
                 </div>
             </div>
         </form>
+        <?php
+ 
+	     echo "<img src='../uploads/gordyn.jpg' >"; 
+
+	     ?>  
         </div>
     </body>
 </html>
