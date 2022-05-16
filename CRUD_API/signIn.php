@@ -1,52 +1,3 @@
-<?php 
-// $sumber = 'http://localhost/PermataGordynMain/CRUD_API/get/get_user_api.php';
-// // $getprod = 'http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php';
-// // $konten = file_get_contents($sumber);
-// // $konten2 = file_get_contents($getprod);
-
-
-
-
-// function sendData($email, $password){
-//     $postData = array(
-//         'email' => $email,
-//         'password' => $password
-//     );
-
-//     $context = stream_context_create(array(
-//         'http' => array(
-//             // http://www.php.net/manual/en/context.http.php
-//             'method' => 'POST',
-//             'header' => "Content-Type: application/json\r\n",
-//             'content' => json_encode($postData)
-//         )
-//     ));
-
-//     $response = file_get_contents($sumber, FALSE, $context);
-//     // Check for errors
-//     if($response === FALSE){
-//         die('Error');
-//     }
-
-//     // Decode the response
-//     $responseData = json_decode($response, TRUE);
-//     if($responseData['error_schema']['status_code']==0)
-//     {
-//         $_SESSION['email']=$email;
-//         $_SESSION['name']=$name;
-//         header('home.php');
-//     }else{
-//         alert('Failed!');
-//     }
-//     // Print the date from the response
-   
-    
-//     }
-
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,41 +26,8 @@
 </head>
 
 <body>
-    <!--Header-->
-    <div class="header">
-        <nav class="navbar navbar-expand-lg navbar-dark py-3">
-            <a><img src="../Image/Logo.png" class="px-3" width="90px" height="auto"></a>
-            <a class="navbar-brand" href="#">Permata Gordyn</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item home">
-                        <a class="nav-link" href="home.php">Home</a>
-                    </li>
-                    <li class="nav-item products">
-                        <a class="nav-link" href="products.php">Products</a>
-                    </li>
-                    <li class="nav-item contact">
-                        <a class="nav-link" href="contacts.php">Visit Us</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item cart">
-                        <a class="nav-link disabled" href="#"><i class="fa fa-shopping-bag"></i></a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item button ml-2">
-                        <button type="button" class="btn btn-secondary"><a href="signIn.php">Login</a></button>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-
+    <!-- Header -->
+    <?php include 'header.php'; ?>
     <section>
         <div class="container">
             <div class="user signinBx">
@@ -117,7 +35,7 @@
                     <img src="../Image/bw-1.jpg">
                 </div>
                 <div class="formBx">
-                    <form action="" method="POST">
+                    <form action="" method="POST" id="loginfrm">
                         <h2>Sign In</h2>
                         <input id="email_log" name="email" type="email" class="email"  placeholder="Email">
                         <input id="password_log" name="password" type="password" class="password"  placeholder="Password">
@@ -217,11 +135,13 @@
                     data: JSON.stringify(data),
                     // cache: false,
                     success: function(){
-                        location.href = "../HTML/home.php";
+                        location.href = "../CRUD_API/home.php";
+                        document.getElementById('loginfrm').reset();
                     },
                     error: function(dataResult){
                         // var result = jQuery.parseJSON( dataResult );
                         alert(dataResult.responseJSON.output);
+                        document.getElementById('loginfrm').reset();
                     }
                 });
             });
@@ -254,7 +174,8 @@
                         // else if(dataResult.statusCode==201){
                         //     alert("Password does not match confirmation password");				
                         // }
-                        alert("successfully registered new user");		
+                        alert("successfully registered new user");
+                        document.getElementById('registerform').reset();		
                         // }
                         // else if(dataResult.statusCode==203){
                         //     alert("password does not match confirmation password");				
@@ -263,8 +184,9 @@
                             
                     },
                     error: function(response){
-                        console.log(response);
+                        document.getElementById('registerform').reset();
                         alert(response.responseJSON.output);
+                        
                         // console.log(response);
                         // var result = JSON.stringify(response.responseText);
                         // var done = JSON.parse(result);
