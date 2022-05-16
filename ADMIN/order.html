@@ -41,10 +41,7 @@
               <i class="bi bi-person"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="#">Logout</a>
             </div>
           </li>
         </ul>
@@ -68,9 +65,9 @@
         <li>
           <a href="user.html"><i class="bi bi-person"></i> User</a>
         </li>
-        <li>
+        <!-- <li>
           <a href="history.html"><i class="bi bi-clock-history"></i> History</a>
-        </li>
+        </li> -->
       </ul>
     </div>
 
@@ -78,6 +75,58 @@
       <div class="box">
         <p>Order</p>
       </div>
+      <table class="table table-hover">
+        <thead class="thead-dark" style="text-transform: uppercase;">
+          <tr>
+            <th>id</th>
+            <th>cart id</th>
+            <th>nama</th>
+            <th>address</th>
+            <th>email</th>
+            <th>date order</th>
+            <th>status pembayaran</th>
+            <th>status order</th>
+            <th>keterangan pemesanan</th>
+            <th>post code</th>
+            <th></th>
+          </tr>
+        </thead>
+        <!-- looping body -->
+        <tbody>
+          <tr>
+            <th>1</th>
+            <th>1</th>
+            <th>stevan</th>
+            <th>permata cimahi</th>
+            <th>stevan@gmail.com</th>
+            <th>12/12/2022</th>
+            <th style="color: green;">sudah bayar</th>
+            <th>sedang di proses</th>
+            <th>bristol </br> 2 m x 1 m</th>
+            <th>40552</th>
+            <th class="col-1 text-center">
+              <button class="btn" style="background-color: transparent;"><i class="bi bi-pencil"></i></button>
+              <button class="btn" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
+            </th>
+          </tr>
+          <tr>
+            <th>2</th>
+            <th>3</th>
+            <th>josef</th>
+            <th>permata cimahi</th>
+            <th>josef@gmail.com</th>
+            <th>24/08/2022</th>
+            <th style="color: red;">belum bayar</th>
+            <th>menunggu pembayaran</th>
+            <th>zebra blind </br> 3 m x 4 m</th>
+            <th>40552</th>
+            <th class="col-1 text-center">
+              <button class="btn" style="background-color: transparent;"><i class="bi bi-pencil"></i></button>
+              <button class="btn" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
+            </th>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
