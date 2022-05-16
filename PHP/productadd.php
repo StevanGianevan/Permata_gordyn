@@ -120,6 +120,7 @@
                 <label for="name" class="col-sm-2 col-form-label">Product Image</label>
                 <div class="col-sm-10">
                     <input type="file" class="form-control" id="file" name="file" value="" placeholder="Product Image">
+                    <img src= "<?php echo $image ;?>">
                 </div>
             </div>
             <div class="form-group row">
@@ -140,11 +141,6 @@
                 </div>
             </div>
         </form>
-        <?php
- 
-	     echo "<img src='../uploads/gordyn.jpg' >"; 
-
-	     ?>  
         </div>
     </body>
 </html>
