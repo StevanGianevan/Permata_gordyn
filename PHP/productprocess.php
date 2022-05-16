@@ -71,9 +71,10 @@ if (isset($_POST['submit'])){
     
 }
 
+
 if (isset($_GET['delete'])){
     $prodid = $_GET['delete'];
-    $conn->query("DELETE FROM product WHERE id=$prodid") or die($conn->error());
+    $conn->query("DELETE FROM product WHERE id='$prodid'") or die($conn->error());
     $conn->query("ALTER TABLE product AUTO_INCREMENT=1") or die($conn->error());
 
     $_SESSION['message'] = "Record has been deleted";
@@ -137,7 +138,7 @@ if (isset($_POST['update'])){
         echo "You cannot upload files of this type!";
     }
     $productUrl="http://localhost/PermataGordynMain/uploads/".$fileNameNew;
-    $conn->query("UPDATE product SET id= '$prodid', name='$prodname', description='$description', price='$prodprice', colour='$prodcolor', size='$prodsize', image1='$productUrl' WHERE id=$prodid")
+    $conn->query("UPDATE product SET id= '$prodid', name='$prodname', description='$description', price='$prodprice', colour='$prodcolor', size='$prodsize', image1='$productUrl' WHERE id='$prodid'")
     or die($conn->error);
 
     $_SESSION['message'] = "Record has been updated";

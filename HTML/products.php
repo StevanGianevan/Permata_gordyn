@@ -1,6 +1,12 @@
 <?php 
 session_start();
+
+$sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php";
+$konten = file_get_contents($sumber);
+$data = json_decode($konten, true);
+phpinfo();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,38 +112,17 @@ session_start();
                                 <div class="carousel-inner">
                                     <div class="carousel-item active ">
                                         <div class="row">
+                                            <?php foreach ($data['output'] as $row) {
+                                            ?>
                                             <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
+                                                <img class="card-img-top" src="<?php echo $row['image1']?>" alt="Dimout">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="productdetail.html">see details</a>
+                                                    <h5 class="card-title"><?php echo $row['name']?></h5>
+                                                    <p class="card-text">Rp. <?php echo $row['price']?></p>
+                                                    <p class="card-text"><?php echo $row['description']?></p>
                                                 </div>
                                             </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
+                                            <?php }?>
                                         </div>
                                     </div>
                                     <div class="carousel-item">

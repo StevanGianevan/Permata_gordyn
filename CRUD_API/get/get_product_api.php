@@ -54,7 +54,9 @@ try {
                     "price" => $price,
                     "category_id" => $category_id,
                     "size" => $size,
-                    "colour" => $colour
+                    "colour" => $colour,
+                    "image1" => $image1,
+                    "description" =>$description
                 );
           
                 array_push($response["output"], $productdata);

@@ -20,7 +20,6 @@ $error_schema = array();
 try {
     if($_SERVER['REQUEST_METHOD']=="POST"){
         $usersdb = new UsersDb($db);
-        $headers = apache_request_headers();
         $data = json_decode(file_get_contents("php://input"));
         
         // if(empty($data->email) && empty($data->password)){
@@ -45,7 +44,10 @@ try {
         else if($password == null){
             throw new Exception("Missing password");
         }
-        
+        else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                http_response_code(400);
+                throw new Exception("Email is not correct!");
+        }
         $query = "SELECT * FROM users WHERE email='$email' and password='$realpwd'";
         
         $get_user = $usersdb->conn->prepare($query);
@@ -87,7 +89,8 @@ try {
             echo json_encode($response);
             
         } else {
-            throw new Exception("Data not found");
+            http_response_code(400);
+            throw new Exception("Invalid Email or Password!");
         }
     } else {
         throw new Exception("Not authorized access");

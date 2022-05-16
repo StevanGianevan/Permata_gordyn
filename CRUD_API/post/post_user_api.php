@@ -27,7 +27,7 @@ try {
         $data = json_decode(file_get_contents("php://input"));
         
         // make sure data is not empty
-        if(!empty($data->name) && !empty($data->email) && !empty($data->password)){
+        if(!empty($data->name) && !empty($data->email) && !empty($data->password) && !empty($data->cpassword)){
             $id = strtoupper(uniqid());
             $name = $data->name;
             $email = $data->email;
@@ -40,16 +40,22 @@ try {
             $get_user->execute();
         
             $query_result = $get_user->rowCount();
-        
+            
             if($data->password != $data->cpassword)
             {
                 //send error password does not match confirmation password
-                echo json_encode(array("statusMessage"=>201));
+                // echo json_encode(array("statusMessage"=>201));
+                http_response_code(400);
                 throw new Exception("Password does not match confirmation password!");
+            }
+            else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                http_response_code(400);
+                throw new Exception("Please enter the correct email format!");
             }
             else if ($query_result > 0){
                 //send error email already exist in database!
-                echo json_encode(array("statusMessage"=>202));
+                // echo json_encode(array("statusMessage"=>202));
+                http_response_code(400);
                 throw new Exception("Email already exist!");
             }
             else{
@@ -59,7 +65,7 @@ try {
                 // register the user
                 if($register_user->execute()){
                     // set error schema
-                    echo json_encode(array("statusMessage"=>201));
+                    // echo json_encode(array("statusMessage"=>201));
                     $error_schema["error_code"] = 0;
                     $error_schema["message"] = "Success";
                     
@@ -84,7 +90,7 @@ try {
                 else{
           
                     // set response code - 503 service unavailable
-                    http_response_code(503);
+                    http_response_code(500);
               
                     // tell the user
                     throw new Exception("Unable to register user.");
@@ -98,14 +104,13 @@ try {
         }
     } else {
         // set response code - 404 Not found
-        http_response_code(404);
-        throw new Exception("Error 404 request denied!");
+        http_response_code(405);
+        throw new Exception("Method not allowed!");
     }
 } catch(Exception $e) {
     $error_schema["error_code"] = 1;
     $error_schema["message"] = "Failed";
     // tell the user no products found
-    echo json_encode(array("statusMessage"=>202));
     echo json_encode(
         array(
             "error_schema" => $error_schema,
@@ -117,8 +122,4 @@ try {
 }
 
 ?>
-<script>
-    Response.write ("<script language=""javascript"" id=""runscript"" name =""runscript"">" & VbCrLf )
-    Response.Write ("var " & arrJS & "= new Array(" )
 
-</script>

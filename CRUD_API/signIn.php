@@ -221,7 +221,7 @@
                     },
                     error: function(dataResult){
                         // var result = jQuery.parseJSON( dataResult );
-                        alert("Password Does not match");
+                        alert(dataResult.responseJSON.output);
                     }
                 });
             });
@@ -254,9 +254,7 @@
                         // else if(dataResult.statusCode==201){
                         //     alert("Password does not match confirmation password");				
                         // }
-                        if(dataResult.statusCode==202){
-                            alert("Email already exists!");	
-                        }			
+                        alert("successfully registered new user");		
                         // }
                         // else if(dataResult.statusCode==203){
                         //     alert("password does not match confirmation password");				
@@ -264,9 +262,9 @@
 
                             
                     },
-                    error: function(response, status, error){
-    
+                    error: function(response){
                         console.log(response);
+                        alert(response.responseJSON.output);
                         // console.log(response);
                         // var result = JSON.stringify(response.responseText);
                         // var done = JSON.parse(result);
@@ -280,83 +278,7 @@
             });
     });
 
-        // jQuery(document).ready(function () {
-        //     console.log("ready!");
-        //     $('.signinbtn').on('click', function() {
-        //         var email = $('#email_log').val();
-        //         var password = $('#password_log').val();
-        //         if(email!="" && password!="" ){
-        //             $.ajax({
-        //                 url: "procsign.php",
-        //                 type: "POST",
-        //                 data: {
-        //                     type:2,
-        //                     email: email,
-        //                     password: password,						
-        //                 },
-        //                 cache: false,
-        //                 success: function(dataResult){
-        //                     var dataResult = JSON.parse(dataResult);
-        //                     if(dataResult.statusCode==200){
-        //                         location.href = "home.php";						
-        //                     }
-        //                     else if(dataResult.statusCode==201){
-        //                         alert('Invalid email or password');
-        //                     }
-                            
-        //                 }
-        //             });
-        //         }
-        //         else{
-        //             alert('Please fill all the field !');
-        //         }
-        //     });
-        //     $(document).on("click", '.signupbtn', function() {
-        //         var name = $('#name').val();
-        //         var email = $('#email').val();
-        //         var password = $('#password').val();
-        //         var cpassword = $('#cpassword').val();
-        //         if (password != cpassword){
-        //             alert('Password does not match confirmation password!');
-        //             $("#registerform")[0].reset();
-        //         }
-        //         else if(name!="" && email!="" && password!="" && cpassword!="" ){
-        //             $.ajax({
-        //                 url: "procsign.php",
-        //                 type: "POST",
-        //                 data: {
-        //                     type: 1,
-        //                     name: name,
-        //                     email: email,
-        //                     password: password,
-        //                     cpassword: cpassword						
-        //                 },
-        //                 cache: false,
-        //                 success: function(dataResult){
-        //                     var dataResult = JSON.parse(dataResult);
-        //                     if(dataResult.statusCode==200){
-                                
-        //                         $("#registerform")[0].reset();
-                                
-        //                         alert('Registration Success!');
-                                
-                                						
-        //                     }
-        //                     else if(dataResult.statusCode==201){
-        //                         alert('error email alr exist');
-        //                         $("#registerform")[0].reset();
-        //                     }
-                            
-        //                 }
-        //             });
-        //         }
-                
-        //         else{
-        //             alert('Please fill all the field !');
-        //         }
-        //     });
-        // });
-    // </script>
+        </script>
 </body>
 
 </html>
