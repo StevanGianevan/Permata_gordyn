@@ -30,10 +30,10 @@ try {
             $address = $data->address;
             $contact = $data->contact;
             $postcode = $data->postcode;
-            $currentpassword = md5($data->currentpassword);  
-            $newpassword = $data->newpassword;
-            $newcpassword = $data->newcpassword;
-            $newmd5password = md5($newpassword);
+            $currentpassword = (isset($data->currentpassword) ? $data->currentpassword : false);
+            $newpassword = (isset($data->newpassword) ? $data->newpassword : false);
+            $newcpassword = (isset($data->newcpassword) ? $data->newcpassword : false);
+
             $query_check = "SELECT * FROM users WHERE id='$id'";
             $get_user = $usersdb->conn->prepare($query_check);
             $get_user->execute();
@@ -45,7 +45,9 @@ try {
                 throw new Exception("ID not found!");
             }
             
-            if(!empty($currentpassword) && !empty($newpassword) && !empty($newcpassword)){
+            if(!empty($currentpassword) && !empty($newpassword)){
+                $currentpassword = md5($currentpassword);
+
                 $query_check2 = "SELECT * FROM users WHERE id='$id' and password='$currentpassword'";
                 $get_user_password = $usersdb->conn->prepare($query_check2);
                 $get_user_password->execute();
@@ -59,7 +61,7 @@ try {
                     http_response_code(400);
                     throw new Exception("Password does not match confirmation password!");
                 }
-                
+                $newmd5password = md5($newpassword);
                 $query = "UPDATE users SET  password='$newmd5password' WHERE id='$id'";
                 $update_user = $usersdb->conn->prepare($query);
             }
