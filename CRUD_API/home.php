@@ -28,8 +28,6 @@ session_start(); ?>
 <body>
     <!--Header-->
     <?php include 'header.php'; ?>
-
-
     <!-- landing page -->
     <div class="konten1 mt-0" style="background-image: url(../Image/background.jpg);">
         <div class="container fill_hight">

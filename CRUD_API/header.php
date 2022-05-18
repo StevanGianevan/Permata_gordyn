@@ -26,7 +26,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item cart">
-                    <a class="nav-link disabled" href="#"><i class="fa fa-shopping-bag"></i></a>
+                    <a class="nav-link <?php if ($page == "cart.php") {echo "active";} ?>" href="cart.php">Cart <i class="fa fa-shopping-bag"></i></a>
                 </li>
             </ul>
             <ul class="navbar-nav">
@@ -34,7 +34,8 @@
 
                 <?php 
                     if (isset($_SESSION['email'])){
-                        echo "<p1 style='color:white;'>Welcome " . $_SESSION['name'] . "</p1>";
+                        //echo "<p1 style='color:white;'>Welcome " .  $_SESSION['name'] . "</p1>";
+                        echo "<a style='color:white;' href='userProfile.php'>Welcome, "  . $_SESSION['name'] . "</a>";
                     }
                 ?>
                 </li>
