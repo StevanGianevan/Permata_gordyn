@@ -29,33 +29,38 @@ try {
         
         // get posted data
         $data = json_decode(file_get_contents("php://input"));
-        
+
         // make sure data is not empty
         if(!empty($data->product_ids) && !empty($data->user_id)){
-            $id = strtoupper(uniqid());
-            $user_id = $data->user_id;
             $product_ids = $data->product_ids;
+            // $query = "SELECT * FROM product WHERE id='$product_ids'";
+            // $get_product_data = $productdb->conn->prepare($query);
+            // $get_product_data->execute();
+
+            // while ($row = $get_product_data->fetch(PDO::FETCH_ASSOC)){
+            //     // extract row
+            //     // this will make $row['name'] to
+            //     // just $name only
+            //     extract($row);
+            //     $product_price = $price;
+            // }
+            
+            $cart_id = strtoupper(uniqid());
+            $user_id = $data->user_id;
             $create_date = (isset($data->create_date) ? $data->create_date : false);
             $modified_date = (isset($data->modified_date) ? $data->modified_date : false);
 
-            $query = "SELECT * FROM product WHERE id='$product_ids'";
-        
-            $get_product_data = $productdb->conn->prepare($query);
-            $get_product_data->execute();
-            
-            
-            while ($row = $get_product_data->fetch(PDO::FETCH_ASSOC)){
-                // extract row
-                // this will make $row['name'] to
-                // just $name only
-                extract($row);
+            // $query = "SELECT * FROM cart WHERE user_id='$user_id'";
+            // $get_cart_user = $usersdb->conn->prepare($query);
+            // $get_cart_user->execute();
+            // $query_result = $get_cart_user->rowCount();
+            // if($query_result = 1){
                 
-                $product_price = $price;
-            }
+            // }
+
             
-
-
-            $query = "INSERT INTO cart (id, user_id, product_ids, prices, quantity, total_prices)VALUE('$id', '$user_id', $product_ids, $product_price, $quantity, $product_price)";
+            echo $product_ids;
+            $query = "INSERT INTO cart (id, user_id, product_ids, prices, quantity, total_prices)VALUE('$cart_id', '$user_id', '$product_ids', $product_price, $quantity, $product_price)";
             $add_cart = $cartdb->conn->prepare($query);
             
             // register the user
