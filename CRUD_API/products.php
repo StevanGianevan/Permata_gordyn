@@ -27,6 +27,8 @@ $data = json_decode($konten, true);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Permata Gordyn | Products</title>
 
 </head>
@@ -117,8 +119,11 @@ $data = json_decode($konten, true);
                                                 <img class="card-img-top" src="<?php echo $row['image1']?>" alt="Dimout">
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?php echo $row['name']?></h5>
-                                                    <p class="card-text">Rp. <?php echo $row['price']?></p>
+                                                    <p class="card-text"><?php echo $row['price']?></p>
                                                     <p class="card-text"><?php echo $row['description']?></p>
+                                                    <!--   quantity sama setiap form jdi di pindahkan ke cart aja   -->
+                                                    <!-- <input type="text" style= "text-align: center" id="quantity" name="quantity" class="form-control" value="1" /> -->
+                                                    <input type="submit" style="margin-top: 20px;" id="<?php echo $row['id']?> "name="add_to_cart" class="btn btn-info add_to_cart" value="Add To Cart" />
                                                 </div>
                                             </div>
                                             <?php }?>
@@ -749,7 +754,38 @@ $data = json_decode($konten, true);
         </div>
     </footer>
 
-    <script src="../JQUERY/script.js"></script>
+<script>
+
+    jQuery(document).ready(function () {
+            
+            $('.add_to_cart').on('click', function() {
+                console.log("ready!");
+                var product_ids =  $(this).attr('id');
+                var user_id = '<?php echo $_SESSION['id'];?>';
+                var data = { 
+                            product_ids: product_ids,
+                            user_id: user_id
+                        };
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/PermataGordynMain/CRUD_API/post/post_cart_api.php",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    // cache: false,
+                    success: function(data){
+                        alert("success");
+                    },
+                    error: function(dataResult){
+                        console.log(dataResult);
+                        
+                    }
+                });
+            });
+
+    });
+
+</script>
 </body>
 
 </html>
