@@ -119,7 +119,7 @@ $data = json_decode($konten, true);
                                                 <img class="card-img-top" src="<?php echo $row['image1']?>" alt="Dimout">
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?php echo $row['name']?></h5>
-                                                    <p class="card-text"><?php echo $row['price']?></p>
+                                                    <p class="card-text">Rp. <?php echo $row['price']?></p>
                                                     <p class="card-text"><?php echo $row['description']?></p>
                                                     <!--   quantity sama setiap form jdi di pindahkan ke cart aja   -->
                                                     <!-- <input type="text" style= "text-align: center" id="quantity" name="quantity" class="form-control" value="1" /> -->
@@ -774,7 +774,7 @@ $data = json_decode($konten, true);
                     data: JSON.stringify(data),
                     // cache: false,
                     success: function(data){
-                        alert("success");
+                        alert(data.output);
                     },
                     error: function(dataResult){
                         console.log(dataResult);

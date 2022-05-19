@@ -9,6 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once "../connection.php";
 include_once "../cartdb.php";
 include_once "../productdb.php";
+include_once "../usersdb.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -20,19 +21,21 @@ $error_schema = array();
 
 $product_price = 0;
 $quantity = 1;
+$existing_cart_id = 0;
 
 try {
     if($_SERVER['REQUEST_METHOD']=="POST"){
         
         $cartdb= new CartDb($db);
         $productdb = new ProductDb($db);
+        $usersdb = new UsersDb($db);
         
         // get posted data
         $data = json_decode(file_get_contents("php://input"));
 
         // make sure data is not empty
         if(!empty($data->product_ids) && !empty($data->user_id)){
-            $product_ids = $data->product_ids;
+            
             // $query = "SELECT * FROM product WHERE id='$product_ids'";
             // $get_product_data = $productdb->conn->prepare($query);
             // $get_product_data->execute();
@@ -44,48 +47,69 @@ try {
             //     extract($row);
             //     $product_price = $price;
             // }
+
             
             $cart_id = strtoupper(uniqid());
             $user_id = $data->user_id;
             $create_date = (isset($data->create_date) ? $data->create_date : false);
             $modified_date = (isset($data->modified_date) ? $data->modified_date : false);
 
-            // $query = "SELECT * FROM cart WHERE user_id='$user_id'";
-            // $get_cart_user = $usersdb->conn->prepare($query);
-            // $get_cart_user->execute();
-            // $query_result = $get_cart_user->rowCount();
-            // if($query_result = 1){
-                
-            // }
+            $query = "SELECT * FROM cart WHERE user_id='$user_id'";
+            $get_cart_user = $usersdb->conn->prepare($query);
+            $get_cart_user->execute();
+            $query_result = $get_cart_user->rowCount();
 
             
-            echo $product_ids;
-            $query = "INSERT INTO cart (id, user_id, product_ids, prices, quantity, total_prices)VALUE('$cart_id', '$user_id', '$product_ids', $product_price, $quantity, $product_price)";
-            $add_cart = $cartdb->conn->prepare($query);
+            
+            
+
+            if($query_result == 1){
+                while ($row = $get_cart_user->fetch(PDO::FETCH_ASSOC)){
+                    // extract row
+                    // this will make $row['name'] to
+                    // just $name only
+                    extract($row);
+                    $existing_cart_id = $id;
+                }
+                $product_ids = $data->product_ids;
+                $query = "UPDATE cart SET product_ids2 = '$product_ids' WHERE id='$id'";
+                echo $product_ids;
+                $update_cart_user = $usersdb->conn->prepare($query);
+                $update_cart_user->execute();
+                $need_to_be_executed = $update_cart_user;            
+            }
+
+            else{
+                $product_ids = $data->product_ids;
+                $query = "INSERT INTO cart (id, user_id, product_ids, prices, quantity, total_prices)VALUE('$cart_id', '$user_id', '$product_ids', $product_price, $quantity, $product_price)";
+                $create_cart = $cartdb->conn->prepare($query);
+                $need_to_be_executed = $create_cart;
+            }
+            if($need_to_be_executed->execute()){
+                    // set error schema
+                    $error_schema["error_code"] = 0;
+                    $error_schema["message"] = "Success";
+                    
+                    $response["error_schema"] = $error_schema;
+                    $response["output"] = "Added to Cart";
+                    
+                    // set response code - 201 created
+                    http_response_code(201);
+                    
+                    // tell the user
+                    echo json_encode($response);
+                }
+                else{
+              
+                    // set response code - 503 service unavailable
+                    http_response_code(503);
+              
+                    // tell the user
+                    throw new Exception("Unable to add cart.");
+                }
             
             // register the user
-            if($add_cart->execute()){
-                // set error schema
-                $error_schema["error_code"] = 0;
-                $error_schema["message"] = "Success";
-                
-                $response["error_schema"] = $error_schema;
-                $response["output"] = "Cart successfully added";
-                
-                // set response code - 201 created
-                http_response_code(201);
-                
-                // tell the user
-                echo json_encode($response);
-            }
-            else{
-          
-                // set response code - 503 service unavailable
-                http_response_code(503);
-          
-                // tell the user
-                throw new Exception("Unable to add cart.");
-            }
+            
         } else {
             // set response code - 404 Not found
             http_response_code(404);
