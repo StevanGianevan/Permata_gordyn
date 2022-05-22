@@ -185,6 +185,7 @@
                     },
                     error: function(response){
                         document.getElementById('registerform').reset();
+                        console.log(response);
                         alert(response.responseJSON.output);
                         
                         // console.log(response);

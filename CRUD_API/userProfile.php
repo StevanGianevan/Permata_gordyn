@@ -306,8 +306,6 @@
                     $("#address").attr("value", dataResult.output.address);
                     $("#email").attr("value", dataResult.output.email);
                     $("#contact").attr("value", dataResult.output.contact);
-                    
-
                 },
                 error: function(xhr){
                     console.log(xhr.responseJSON.output);

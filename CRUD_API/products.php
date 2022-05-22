@@ -3,7 +3,9 @@ session_start();
 
 $sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php";
 $konten = file_get_contents($sumber);
+
 $data = json_decode($konten, true);
+
 ?>
 
 <!DOCTYPE html>
@@ -113,8 +115,7 @@ $data = json_decode($konten, true);
                                 <div class="carousel-inner">
                                     <div class="carousel-item active ">
                                         <div class="row">
-                                            <?php foreach ($data['output'] as $row) {
-                                            ?>
+                                            <?php foreach ($data['output'] as $row) { ?>
                                             <div class="card rounded" style="width: 18rem;">
                                                 <img class="card-img-top" src="<?php echo $row['image1']?>" alt="Dimout">
                                                 <div class="card-body">

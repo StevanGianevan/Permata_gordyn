@@ -24,14 +24,14 @@ try {
         
         //check header request
         if(array_key_exists("id", $headers)==false){
-            throw new Exception("Missing mandatory field");
+            throw new Exception("Missing user id");
         }
         
         // $userId = $_GET['userId'];
         $userId = $headers["id"];
         // input request validation
         if($userId == null){
-            throw new Exception("Missing mandatory field");
+            throw new Exception("Missing user id");
         }
         
         $query = "SELECT * FROM users WHERE id='$userId'";
