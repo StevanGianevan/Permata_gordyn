@@ -1,4 +1,5 @@
 <?php
+session_start();
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -35,20 +36,7 @@ try {
 
         // make sure data is not empty
         if(!empty($data->product_ids) && !empty($data->user_id)){
-            
-            // $query = "SELECT * FROM product WHERE id='$product_ids'";
-            // $get_product_data = $productdb->conn->prepare($query);
-            // $get_product_data->execute();
-
-            // while ($row = $get_product_data->fetch(PDO::FETCH_ASSOC)){
-            //     // extract row
-            //     // this will make $row['name'] to
-            //     // just $name only
-            //     extract($row);
-            //     $product_price = $price;
-            // }
-
-            
+            //end session uji coba
             $cart_id = strtoupper(uniqid());
             $user_id = $data->user_id;
             $create_date = (isset($data->create_date) ? $data->create_date : false);
@@ -58,22 +46,46 @@ try {
             $get_cart_user = $usersdb->conn->prepare($query);
             $get_cart_user->execute();
             $query_result = $get_cart_user->rowCount();
-
             
             
-            
-
             if($query_result == 1){
                 while ($row = $get_cart_user->fetch(PDO::FETCH_ASSOC)){
-                    // extract row
-                    // this will make $row['name'] to
-                    // just $name only
                     extract($row);
                     $existing_cart_id = $id;
+                    $product_ids = $product_ids;
+                    $product_ids2 = $product_ids2;
+                    $product_ids3 = $product_ids3;
                 }
-                $product_ids = $data->product_ids;
-                $query = "UPDATE cart SET product_ids2 = '$product_ids' WHERE id='$id'";
-                echo $product_ids;
+
+                $product_ids_to_be_inputed = $data->product_ids;
+                $product_array=array($product_ids, $product_ids2, $product_ids3);
+
+                if (in_array($product_ids_to_be_inputed,$product_array)){
+                    http_response_code(400);
+                    throw new Exception("Item already added, please choose another one!.");
+                }
+                else{
+                    if (empty($product_ids)){
+                        $product_row = 'product_ids';
+                    }
+                    else if (empty($product_ids2)){
+                        $product_row = 'product_ids2';
+                    }
+                    else if(empty($product_ids3)){
+                        $product_row = 'product_ids3';
+                    }
+                    else{
+                        http_response_code(400);
+                        throw new Exception("Maximum 3 item in cart reached, cannot add anymore item!.");
+                    }
+                }
+
+
+
+                
+
+
+                $query = "UPDATE cart SET $product_row = '$product_ids_to_be_inputed' WHERE id='$id'";
                 $update_cart_user = $usersdb->conn->prepare($query);
                 $update_cart_user->execute();
                 $need_to_be_executed = $update_cart_user;            

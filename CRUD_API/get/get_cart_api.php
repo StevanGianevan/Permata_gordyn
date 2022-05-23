@@ -39,23 +39,23 @@ try {
                     // just $name only
                     extract($row);
             
-                    $product_get_cart = $product_ids;
+                    $product_1_in_cart = $product_ids;
+                    $product_2_in_cart = $product_ids2;
+                    $product_3_in_cart = $product_ids3;
+
                     // $response["output"] = $product_get_cart;
                 }
 
-                $query = "SELECT * FROM product WHERE id =$product_get_cart";
+                $query = "SELECT * FROM product WHERE id ='$product_1_in_cart' or id ='$product_2_in_cart' or id='$product_3_in_cart'";
                 $get_product = $productdb->conn->prepare($query);
                 $get_product->execute();
-                
                 $query_result = $get_product->rowCount();
-
                 if($query_result > 0){
                     while ($row = $get_product->fetch(PDO::FETCH_ASSOC)){
                         // extract row
                         // this will make $row['name'] to
                         // just $name only
                         extract($row);
-                
                         $productdata=array(
                             "name" => $name,
                             "price" => $price,
@@ -65,18 +65,18 @@ try {
                         );
                         array_push($response["output"], $productdata);
                     }
-                        // set error schema
-                        $error_schema["error_code"] = 0;
-                        $error_schema["message"] = "Success";
-                        
-                        $response["error_schema"] = $error_schema;
-                        
+                    // set error schema
+                    $error_schema["error_code"] = 0;
+                    $error_schema["message"] = "Success";
                     
-                        // set response code - 200 OK
-                        http_response_code(200);
+                    $response["error_schema"] = $error_schema;
                     
-                        // show products data in json format
-                        echo json_encode($response);
+                
+                    // set response code - 200 OK
+                    http_response_code(200);
+                
+                    // show products data in json format
+                    echo json_encode($response);
                         
                    
                 } else{

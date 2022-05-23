@@ -1,10 +1,6 @@
 <?php 
 session_start();
-$sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php";
-$konten = file_get_contents($sumber);
-$data1 = json_decode($konten, true);
 
-// $user_id = $_SESSION['id']; 
 
 
 
@@ -33,43 +29,6 @@ $result = curl_exec($ch);
 curl_close($ch);
 
 $data = json_decode($result, true);
-
-
-
-
-
-// $postData = array(
-//     'user_id' => $user_id
-// );
-
-// $ch = curl_init("http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php");
-// curl_setopt_array($ch, array(
-//     CURLOPT_POST => TRUE,
-//     CURLOPT_RETURNTRANSFER => TRUE,
-//     CURLOPT_HTTPHEADER => array(
-//         'Authorization: ',
-//         'method: POST',
-//         'Content-Type: application/json'
-//     ),
-//     CURLOPT_POSTFIELDS => json_encode($postData)
-// ));
-
-// // Send the request
-// $response = curl_exec($ch);
-
-// // Check for errors
-// if($response === FALSE){
-//     die(curl_error($ch));
-// }
-
-// // Decode the response
-// $responseData = json_decode($response, TRUE);
-
-// // Close the cURL handler
-// curl_close($ch);
-
-// // Print the date from the response
-// echo $responseData['output'];
 ?>
 
 
@@ -109,7 +68,7 @@ $data = json_decode($result, true);
             <div class="col-md-8">
                 <div class="card mb-4">
                 <div class="card-header py-3">
-                    <h5 class="mb-0">Cart - 2 items</h5>
+                    <h5 class="mb-0">Cart</h5>
                 </div>
                 <div class="card-body">
                 <?php foreach ($data['output'] as $row) { ?>
@@ -237,32 +196,7 @@ $data = json_decode($result, true);
         </div>
     </section>
 
-    <!-- <script>
-
-    $(document).ready(function(){
-
-        var id = '';
-            $.ajax({
-                url: 'http://localhost/PermataGordynMain/CRUD_API/get/get_cart_api.php',
-                type: 'GET',
-                dataType: 'json',
-                cache: false,
-                beforeSend: function(xhr){xhr.setRequestHeader('id', id);},
-                success: function(dataResult){
-                    alert("success fetching result");
-                },
-                error: function(xhr){
-                    
-                }
-
-            });
-
-
-    });
-
-
-
-    </script> -->
+  
 
 
 </body>

@@ -778,7 +778,7 @@ $data = json_decode($konten, true);
                         alert(data.output);
                     },
                     error: function(dataResult){
-                        console.log(dataResult);
+                        alert(dataResult.responseJSON.output);
                         
                     }
                 });
