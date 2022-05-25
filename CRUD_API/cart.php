@@ -1,6 +1,6 @@
 <?php 
 session_start();
-
+include "Model/productModel.php";
 
 
 
@@ -27,8 +27,17 @@ $result = curl_exec($ch);
 
 // Close cURL resource
 curl_close($ch);
-
+$my_array = array();
 $data = json_decode($result, true);
+var_dump($data);
+// foreach ($data['output'] as $row) {
+
+//     array_push($my_array, new ProductModel($row['id'], $row['name'], $row['price'], $row['size'], $row['colour'], $row['image1'], '', '', ''));
+// }
+// var_dump($my_array);
+
+
+
 ?>
 
 
@@ -41,6 +50,7 @@ $data = json_decode($result, true);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cart.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -54,7 +64,7 @@ $data = json_decode($result, true);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="cart.css">
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Permata Gordyn | Login Page</title>
@@ -71,16 +81,16 @@ $data = json_decode($result, true);
                     <h5 class="mb-0">Cart</h5>
                 </div>
                 <div class="card-body">
-                <?php foreach ($data['output'] as $row) { ?>
+                <?php foreach ($data['output'] as $row) { ?> 
                         <!-- Single item -->
                         <div class="row">
                         <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
                             <!-- Image -->
                             <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                            <img src="<?php echo $row["image1"] ?>"
-                                class="w-100" alt="Blue Jeans Jacket" />
+                            <img src="<?php echo $row['image1']?>"
+                                class="w-100"/>
                             <a href="#!">
-                                <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                                <div class="mask" style="background-color: black"></div>
                             </a>
                             </div>
                             <!-- Image -->
@@ -89,9 +99,7 @@ $data = json_decode($result, true);
                         <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                             <!-- Data -->
                             <p><strong><?php echo $row['name']?></strong></p>
-                            <p>Color: <?php echo $row['colour'] ?></p>
-                            <p>Size: <?php echo $row['size'] ?></p>
-                            <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                            <button id="<?php echo $row['cart_id']?>" type="button" class="btn btn-primary btn-sm me-1 mb-2 removebutton" data-mdb-toggle="tooltip"
                             title="Remove item">
                             <i class="fas fa-trash"></i>
                             </button>
@@ -104,32 +112,35 @@ $data = json_decode($result, true);
 
                         <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                             <!-- Quantity -->
+                            <form id="<?php echo $row['cart_id'] ?>" action="" class="form" method="POST">
                             <div class="d-flex mb-4" style="max-width: 300px">
-                            <button class="btn btn-primary px-3 me-2" id="qty-button"
-                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                <i class="fas fa-minus"></i>
-                            </button>
+                                <label class="form-label" for="form1">Panjang</label>
+                                <input id="panjangform" min="0" name="panjang" type="number" class="form-control panjangform" />
+                                <label class="form-label" for="form1">Lebar</label>
+                                <input id="lebarform" min="0" name="lebar" type="number" class="form-control lebarform" />
+                                <input type="hidden" id= "productid" name="productid" value = "<?php echo $row['cart_id'] ?>"/>
+                            </div>
+                            <div class="d-flex mb-4" style="max-width: 300px">
+                            
 
                             <div class="form-outline">
-                                <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control" />
+                                <input id="quantity"  min="0" name="quantity" value="<?php echo $row['quantity'] ?>" type="number" class="form-control quantityform" />
                                 <label class="form-label" for="form1">Quantity</label>
                             </div>
-
-                            <button class="btn btn-primary px-2 ms-2" id="qty-button"
-                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                <i class="fas fa-plus"></i>
-                            </button>
+                            <button id="<?php echo $row['cart_id'] ?>" type="submit" class="btn btn-primary calculatebtn">Calculate</button>
                             </div>
+                            </form>
                             <!-- Quantity -->
 
                             <!-- Price -->
                             <p class="text-start text-md-center">
-                            <strong>Rp. <?php echo $row['price'] ?></strong>
+                            <p id= "calcprice"></p>
                             </p>
                             <!-- Price -->
-                        </div>
+                            </div>
                         </div>
                     <?php }?>
+                
                     <!-- Single item -->
                     <!-- Single item -->
                 </div>
@@ -195,7 +206,82 @@ $data = json_decode($result, true);
             </div>
         </div>
     </section>
+    
+    <script>
 
+        jQuery(document).ready(function () {
+                   
+            $('.removebutton').on('click', function() {
+                console.log("ready!");
+                var product_ids =  $(this).attr('id');
+                var user_id = '<?php echo $_SESSION['id'];?>';
+                var data = { 
+                            product_ids: product_ids,
+                            user_id: user_id
+                        };
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_cart_api.php",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    // cache: false,
+                    success: function(data){
+                        alert(data.output);
+                        location.reload(true);
+                    },
+                    error: function(dataResult){
+                        alert(dataResult.responseJSON.output);
+                        
+                    }
+                });
+            });
+            
+            var calc_price = 0;
+            $('.form').submit(function(event) {
+                event.preventDefault();
+                console.log("ready!");
+                var product_id =  $(this).attr('id');
+                var user_id = '<?php echo $_SESSION['id'];?>';
+                var lp = $('#panjangform').val();
+                var wp= $('#lebarform').val();
+                var quantity = $('#quantity').val();
+                var data = { 
+                            product_id: product_id,
+                            user_id: user_id,
+                            lp: lp,
+                            wp: wp,
+                            quantity: quantity
+                        };
+                $.ajax({
+                    type: "PATCH",
+                    url: "http://localhost/PermataGordynMain/CRUD_API/update/update_cart_api.php",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    // cache: false,
+                    success: function(data){
+                        console.log("SUCCESS");
+                        alert("Success Calculating Price!");
+                        console.log(data.output.caltulated_price);
+                        $("#calcprice").text(data.output.caltulated_price);
+                        console.log(product_ids);
+                        
+                    },
+                    error: function(dataResult){
+                        console.log(dataResult);
+                        alert(dataResult.responseJSON.output);
+                        
+                        
+                    }
+                });
+            });
+
+            
+
+        });
+
+    </script>
   
 
 

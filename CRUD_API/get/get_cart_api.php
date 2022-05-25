@@ -26,11 +26,12 @@ try {
         //check request empty or not
         if(!empty($data->user_id)){
             $user_id = $data->user_id;
-            $query = "SELECT * FROM cart WHERE user_id ='$user_id'";
+            $query = "SELECT cart3.id AS cart_id, cart3.product_id, product.name, product.price, product.image1, cart3.quantity FROM cart3 JOIN product ON product.id = cart3.product_id WHERE cart3.user_id ='$user_id'";
             $get_product_cart = $cartdb->conn->prepare($query);
             $get_product_cart->execute();
             
             $query_result = $get_product_cart->rowCount();
+            
             
             if($query_result > 0){
                 while ($row = $get_product_cart->fetch(PDO::FETCH_ASSOC)){
@@ -38,58 +39,34 @@ try {
                     // this will make $row['name'] to
                     // just $name only
                     extract($row);
-            
-                    $product_1_in_cart = $product_ids;
-                    $product_2_in_cart = $product_ids2;
-                    $product_3_in_cart = $product_ids3;
-
-                    // $response["output"] = $product_get_cart;
+                    $productdata=array(
+                        "cart_id" => $cart_id,
+                        "product_id" => $product_id,
+                        "price" => $price,
+                        "name" => $name,
+                        "image1" => $image1,
+                        "quantity" => $quantity
+                    );
+              
+                    array_push($response["output"], $productdata);
                 }
-
-                $query = "SELECT * FROM product WHERE id ='$product_1_in_cart' or id ='$product_2_in_cart' or id='$product_3_in_cart'";
-                $get_product = $productdb->conn->prepare($query);
-                $get_product->execute();
-                $query_result = $get_product->rowCount();
-                if($query_result > 0){
-                    while ($row = $get_product->fetch(PDO::FETCH_ASSOC)){
-                        // extract row
-                        // this will make $row['name'] to
-                        // just $name only
-                        extract($row);
-                        $productdata=array(
-                            "name" => $name,
-                            "price" => $price,
-                            "size" => $size,
-                            "colour" => $colour,
-                            "image1" => $image1
-                        );
-                        array_push($response["output"], $productdata);
-                    }
-                    // set error schema
-                    $error_schema["error_code"] = 0;
-                    $error_schema["message"] = "Success";
-                    
-                    $response["error_schema"] = $error_schema;
-                    
                 
-                    // set response code - 200 OK
-                    http_response_code(200);
+                // set error schema
+                $error_schema["error_code"] = 0;
+                $error_schema["message"] = "Success";
                 
-                    // show products data in json format
-                    echo json_encode($response);
-                        
-                   
-                } else{
-                    http_response_code(400);
-                    throw new Exception("Product not found");
-                }
-
+                $response["error_schema"] = $error_schema;
+              
+                // set response code - 200 OK
+                http_response_code(200);
+              
+                // show products data in json format
+                echo json_encode($response);
                 
             } else {
-                http_response_code(200);
                 throw new Exception("Data not found");
             }
-
+        
         } else {
             http_response_code(400);
             throw new Exception("Missing UserID Field");

@@ -125,6 +125,60 @@ $data = json_decode($konten, true);
                                                     <!--   quantity sama setiap form jdi di pindahkan ke cart aja   -->
                                                     <!-- <input type="text" style= "text-align: center" id="quantity" name="quantity" class="form-control" value="1" /> -->
                                                     <input type="submit" style="margin-top: 20px;" id="<?php echo $row['id']?> "name="add_to_cart" class="btn btn-info add_to_cart" value="Add To Cart" />
+                                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                                                    Estimasi Harga
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel"><?php echo $row ['name']?></h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <p>Panjang :</p>
+                                                                        <input type="text" class="form-control panjang" placeholder="Panjang">
+                                                                    </div>
+                                                                    <p class="x">x</p>
+                                                                    <div class="col">
+                                                                        <p>Lebar :</p>
+                                                                        <input type="text" class="form-control lebar" placeholder="Lebar">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <p>Luas :</p>
+                                                                        <input type="text" class="form-control" placeholder="Panjang x Lebar function">
+                                                                    </div>
+                                                                    <p class="x">/m<sup>2</sup></p>
+                                                                    <div class="col">
+                                                                        <p class="pricegrd">x Rp. 50.000</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <p>Total :</p>
+                                                                        <input type="text" class="form-control" placeholder="Total Harga">
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="button" class="addcartbtn btn btn-primary">Add cart</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <?php }?>
@@ -388,7 +442,7 @@ $data = json_decode($konten, true);
                 </div>
             </div>
             <!-- end Blinds -->
-
+            
             <!-- Gordyn -->
             <div class="box sliderbx" style="background-color: white;">
                 <p>Blinds Type</p>
@@ -761,15 +815,15 @@ $data = json_decode($konten, true);
             
             $('.add_to_cart').on('click', function() {
                 console.log("ready!");
-                var product_ids =  $(this).attr('id');
+                var product_id =  $(this).attr('id');
                 var user_id = '<?php echo $_SESSION['id'];?>';
                 var data = { 
-                            product_ids: product_ids,
+                            product_id: product_id,
                             user_id: user_id
                         };
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/PermataGordynMain/CRUD_API/post/post_cart_api.php",
+                    url: "http://localhost/PermataGordynMain/CRUD_API/post/post_cart_api2.php",
                     contentType: "application/json",
                     dataType: "json",
                     data: JSON.stringify(data),
