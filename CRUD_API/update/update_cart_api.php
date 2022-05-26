@@ -8,7 +8,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once "../connection.php";
-include_once "../cartdb.php";
+include_once "../cart3db.php";
 include_once "../productdb.php";
 include_once "../usersdb.php";
 
@@ -20,14 +20,12 @@ $response["error_schema"]=array();
 $response["output"] = array();
 $error_schema = array();
 
-$product_price = 0;
-$quantity = 1;
-$existing_cart_id = 0;
+
 
 try {
     if($_SERVER['REQUEST_METHOD']=="PATCH"){
         
-        $cartdb= new CartDb($db);
+        $cartdb= new Cart3Db($db);
         $productdb = new ProductDb($db);
         $usersdb = new UsersDb($db);
         
@@ -35,98 +33,52 @@ try {
         $data = json_decode(file_get_contents("php://input"));
 
         // make sure data is not empty
-        if(!empty($data->product_ids) && !empty($data->user_id)){
+        if(!empty($data->product_id) && !empty($data->user_id)){
             //end session uji coba
             $user_id = $data->user_id;
-            $product_ids = $data->product_ids;
+            $product_id = $data->product_id;
 
-            $cart_product_id_row = "cart.product_ids";
-            $cart_product_id_row = "cart.product_ids2";
-            $cart_product_id_row = "cart.product_ids3";
-
-
-            // $query = "SELECT cart.id, cart.user_id, cart.product_ids, cart.lp1, cart.lp2, cart.lp3, cart.wp1, cart.wp2, cart.wp3, cart.product_ids,  cart.product_ids2, cart.product_ids3, cart.prices, cart.prices2, cart.prices3, cart.quantity, cart.quantity2, cart.quantity3, cart.create_date, cart.modified_date, cart.total_prices, product.price 
-            // FROM cart INNER JOIN product ON $cart_product_id_row = product.id WHERE cart.user_id='$user_id' and $cart_product_id_row = product.id";
-            $query = "SELECT * FROM cart where user_id = '$user_id'";
-            $get_cart_user = $usersdb->conn->prepare($query);
-            $get_cart_user->execute();
-            $query_result = $get_cart_user->rowCount();
             
+            // if($query_result == 1){
+            $query = "SELECT cart3.id AS cart_id, cart3.product_id, product.name, product.price as product_price, product.image1, cart3.quantity
+            FROM cart3 JOIN product ON product.id = cart3.product_id WHERE cart3.user_id ='$user_id' AND product.id = '$product_id'";
+            $update_cart_user = $usersdb->conn->prepare($query);
+            $update_cart_user->execute();  
+            $query_result = $update_cart_user->rowCount();
+        
             if($query_result == 1){
-                while ($row = $get_cart_user->fetch(PDO::FETCH_ASSOC)){
-                    extract($row);
-                    $existing_cart_id = $id;
-                    $product_ids = $product_ids;
-                    $product_ids2 = $product_ids2;
-                    $product_ids3 = $product_ids3;
-                    $prices = $prices;
-                    $prices2 = $prices2;
-                    $prices3 = $prices3;
-                }
-                $product_ids_to_be_updated = $data->product_ids;
-
-                $prod_query = "SELECT * FROM product WHERE id ='$product_ids_to_be_updated'";
-                $get_product_data = $productdb->conn->prepare($prod_query);
-                $get_product_data->execute();
-                $query_result = $get_product_data->rowCount();
-                if($query_result > 0){
-                    while ($row = $get_product_data->fetch(PDO::FETCH_ASSOC)){
-                        extract($row);
-                        $product_price = $price;
-                    }
-                }
-
-                
+                $pp = $data->pp;
                 $lp = $data->lp;
-                $wp = $data->wp;
                 $quantity = $data->quantity;
 
-                if ($product_ids == $product_ids_to_be_updated){
-                    $lp_row = "lp1";
-                    $wp_row = "wp1";
-                    $price_row = "prices";
-                    $quantity_row = "quantity";
-                    $price_to_be_updated = ($lp * $wp * $quantity) * $product_price;               
+                while ($row = $update_cart_user->fetch(PDO::FETCH_ASSOC)){
+                    // extract row
+                    // this will make $row['name'] to
+                    // just $name only
+                    extract($row);
                 }
-                else if ($product_ids2 == $product_ids_to_be_updated){
-                    $lp_row = "lp2";
-                    $wp_row = "wp2";
-                    $price_row = "prices2";
-                    $quantity_row = "quantity2";
-                    $price_to_be_updated = ($lp * $wp * $quantity) * $product_price;               
-                }
-                else if ($product_ids3 == $product_ids_to_be_updated){
-                    $lp_row = "lp3";
-                    $wp_row = "wp3";
-                    $price_row = "prices3";
-                    $quantity_row = "quantity3";
-                    $price_to_be_updated = ($lp * $wp * $quantity) * $product_price;               
+                $price_after_calculation = ($pp * $lp * $product_price) * $quantity;
+                $query = "UPDATE cart3 SET pp=$pp, lp=$lp, quantity = $quantity, price=$price_after_calculation WHERE user_id = '$user_id' AND product_id = '$product_id'";
+                $update_cart = $cartdb->conn->prepare($query);
+                $update_cart->execute();  
+                $query_result = $update_cart->rowCount();
+                
+                if($query_result = 0)
+                {
+                    http_response_code(400);
+                    throw new Exception("Failed to update cart!");
                 }
                 else{
-                    http_response_code(400);
-                    throw new Exception("Invalid ID.");
-                }
-
-                $query = "UPDATE cart SET $price_row = $price_to_be_updated, $quantity_row = $quantity, $lp_row = $lp, $wp_row = $wp WHERE id='$existing_cart_id'";
-                $update_cart_user = $usersdb->conn->prepare($query);
-                $update_cart_user->execute();
-                $need_to_be_executed = $update_cart_user;            
-            }
-
-            else{
-                http_response_code(400);
-                throw new Exception("Invalid cart!");
-            }
-            if($need_to_be_executed->execute()){
-                    // set error schema
                     $error_schema["error_code"] = 0;
                     $error_schema["message"] = "Success";
                     
-                    $response["error_schema"] = $error_schema;
-                    $productdata=array(
-                        "caltulated_price" => $price_to_be_updated,
+                    $cart_data=array(
+                        "cart_id" => "Success Calculating Price",
+                        "price_after_calculation" => $price_after_calculation
                     );
-                    $response["output"] = $productdata;
+
+                    $response["error_schema"] = $error_schema;
+                    $response["output"] = $cart_data;
                     
                     // set response code - 201 created
                     http_response_code(201);
@@ -134,14 +86,27 @@ try {
                     // tell the user
                     echo json_encode($response);
                 }
-                else{
-              
-                    // set response code - 503 service unavailable
-                    http_response_code(503);
-              
-                    // tell the user
-                    throw new Exception("Unable to add cart.");
-                }
+            }
+            else{
+                $error_schema["error_code"] = 0;
+                $error_schema["message"] = "Success";
+                
+                $response["error_schema"] = $error_schema;
+                $response["output"] = "Deleted product in cart";
+                
+                // set response code - 201 created
+                http_response_code(201);
+                
+                // tell the user
+                echo json_encode($response);
+            }
+
+            // }
+            // else{
+            //     http_response_code(400);
+            //     throw new Exception("User's cart not found!");
+            // }
+
             
             // register the user
             

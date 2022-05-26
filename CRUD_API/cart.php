@@ -29,7 +29,6 @@ $result = curl_exec($ch);
 curl_close($ch);
 $my_array = array();
 $data = json_decode($result, true);
-var_dump($data);
 // foreach ($data['output'] as $row) {
 
 //     array_push($my_array, new ProductModel($row['id'], $row['name'], $row['price'], $row['size'], $row['colour'], $row['image1'], '', '', ''));
@@ -99,26 +98,22 @@ var_dump($data);
                         <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                             <!-- Data -->
                             <p><strong><?php echo $row['name']?></strong></p>
-                            <button id="<?php echo $row['cart_id']?>" type="button" class="btn btn-primary btn-sm me-1 mb-2 removebutton" data-mdb-toggle="tooltip"
+                            <button id="<?php echo $row['product_id']?>" type="button" class="btn btn-primary btn-sm me-1 mb-2 removebutton" data-mdb-toggle="tooltip"
                             title="Remove item">
                             <i class="fas fa-trash"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
-                            title="Move to the wish list">
-                            <i class="fas fa-heart"></i>
-                            </button>
+                            
                             <!-- Data -->
                         </div>
 
                         <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                             <!-- Quantity -->
-                            <form id="<?php echo $row['cart_id'] ?>" action="" class="form" method="POST">
+                            <form id="<?php echo $row['product_id'] ?>" action="" name="formprd" class="form" method="POST">
                             <div class="d-flex mb-4" style="max-width: 300px">
                                 <label class="form-label" for="form1">Panjang</label>
                                 <input id="panjangform" min="0" name="panjang" type="number" class="form-control panjangform" />
                                 <label class="form-label" for="form1">Lebar</label>
                                 <input id="lebarform" min="0" name="lebar" type="number" class="form-control lebarform" />
-                                <input type="hidden" id= "productid" name="productid" value = "<?php echo $row['cart_id'] ?>"/>
                             </div>
                             <div class="d-flex mb-4" style="max-width: 300px">
                             
@@ -127,7 +122,7 @@ var_dump($data);
                                 <input id="quantity"  min="0" name="quantity" value="<?php echo $row['quantity'] ?>" type="number" class="form-control quantityform" />
                                 <label class="form-label" for="form1">Quantity</label>
                             </div>
-                            <button id="<?php echo $row['cart_id'] ?>" type="submit" class="btn btn-primary calculatebtn">Calculate</button>
+                            <button id="<?php echo $row['product_id'] ?>" type="submit" class="btn btn-primary calculatebtn">Calculate</button>
                             </div>
                             </form>
                             <!-- Quantity -->
@@ -213,10 +208,10 @@ var_dump($data);
                    
             $('.removebutton').on('click', function() {
                 console.log("ready!");
-                var product_ids =  $(this).attr('id');
+                var product_id =  $(this).attr('id');
                 var user_id = '<?php echo $_SESSION['id'];?>';
                 var data = { 
-                            product_ids: product_ids,
+                            product_id: product_id,
                             user_id: user_id
                         };
                 $.ajax({
@@ -237,20 +232,19 @@ var_dump($data);
                 });
             });
             
-            var calc_price = 0;
             $('.form').submit(function(event) {
                 event.preventDefault();
                 console.log("ready!");
                 var product_id =  $(this).attr('id');
                 var user_id = '<?php echo $_SESSION['id'];?>';
-                var lp = $('#panjangform').val();
-                var wp= $('#lebarform').val();
+                var pp = $('#panjangform').val();
+                var lp= $('#lebarform').val();
                 var quantity = $('#quantity').val();
                 var data = { 
                             product_id: product_id,
                             user_id: user_id,
+                            pp: pp,
                             lp: lp,
-                            wp: wp,
                             quantity: quantity
                         };
                 $.ajax({
@@ -263,9 +257,8 @@ var_dump($data);
                     success: function(data){
                         console.log("SUCCESS");
                         alert("Success Calculating Price!");
-                        console.log(data.output.caltulated_price);
-                        $("#calcprice").text(data.output.caltulated_price);
-                        console.log(product_ids);
+                        console.log(data);
+                        $("#calcprice").text(data.output.price_after_calculation);
                         
                     },
                     error: function(dataResult){

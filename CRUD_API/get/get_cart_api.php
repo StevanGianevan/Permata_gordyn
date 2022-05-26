@@ -26,7 +26,7 @@ try {
         //check request empty or not
         if(!empty($data->user_id)){
             $user_id = $data->user_id;
-            $query = "SELECT cart3.id AS cart_id, cart3.product_id, product.name, product.price, product.image1, cart3.quantity FROM cart3 JOIN product ON product.id = cart3.product_id WHERE cart3.user_id ='$user_id'";
+            $query = "SELECT cart3.id AS cart_id, cart3.product_id, product.name, product.price as product_price, product.image1, cart3.quantity FROM cart3 JOIN product ON product.id = cart3.product_id WHERE cart3.user_id ='$user_id'";
             $get_product_cart = $cartdb->conn->prepare($query);
             $get_product_cart->execute();
             
@@ -42,7 +42,7 @@ try {
                     $productdata=array(
                         "cart_id" => $cart_id,
                         "product_id" => $product_id,
-                        "price" => $price,
+                        "price" => $product_price,
                         "name" => $name,
                         "image1" => $image1,
                         "quantity" => $quantity
