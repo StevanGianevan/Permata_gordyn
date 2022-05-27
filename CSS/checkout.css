@@ -73,6 +73,10 @@ body{
 .checkout .card-body .pembelian ul li{
     list-style: none;
 }
+
+.checkout .card-footer button{
+    width: 100%;
+}
 /* footer */
 .sticky-footer{
     position: sticky;
