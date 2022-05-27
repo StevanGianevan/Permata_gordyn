@@ -59,7 +59,6 @@
         </nav>
     </div>
 
-
     <!-- Landing Page Product -->
     <div class="lproduct mx-2 my-2" style="background-color: grey;">
         <div class="container fill_hight">
@@ -114,7 +113,9 @@
                                                 <div class="card-body">
                                                     <h5 class="card-title">Dimout</h5>
                                                     <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
+                                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                                                        Estimasi Harga
+                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="card rounded" style="width: 18rem;">
@@ -135,6 +136,58 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Gordyn Bristol</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Panjang :</p>
+                                                                <input type="text" class="form-control panjang" placeholder="Panjang">
+                                                            </div>
+                                                            <p class="x">x</p>
+                                                            <div class="col">
+                                                                <p>Lebar :</p>
+                                                                <input type="text" class="form-control lebar" placeholder="Lebar">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Total Bahan :</p>
+                                                                <input type="text" class="form-control" placeholder="Panjang x Lebar">
+                                                            </div>
+                                                            <p class="x">/m<sup>2</sup></p>
+                                                            <div class="col">
+                                                                <p class="pricegrd">x Rp. 50.000</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p>Total Harga :</p>
+                                                                <input type="text" class="form-control" placeholder="Total Harga">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-dark"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="button" class="addcartbtn btn btn-dark">Add cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="card rounded" style="width: 18rem;">

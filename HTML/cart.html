@@ -6,11 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/cart.css">
-    <!-- <link rel="stylesheet" href="../CSS/style.css"> -->
+    <link rel="stylesheet" href="../CSS/jquery.nice-number.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -20,139 +21,293 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script src="../JAVASCRIPT/jquery.nice-number.js"></script>
     <title>Permata Gordyn | Cart Page</title>
 </head>
 
 <body>
-        <!--Header-->
-        <div class="header">
-            <nav class="navbar navbar-expand-lg navbar-dark py-3">
-                <a><img src="../Image/Logo.png" class="px-3" width="90px" height="auto"></a>
-                <a class="navbar-brand" href="#">Permata Gordyn</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item home">
-                            <a class="nav-link" href="home.html">Home</a>
-                        </li>
-                        <li class="nav-item products">
-                            <a class="nav-link" href="products.html">Products</a>
-                        </li>
-                        <li class="nav-item contact">
-                            <a class="nav-link" href="contacts.html">Visit Us</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item cart">
-                            <a class="nav-link active" href="cart.html"><i class="fa fa-shopping-bag"></i></a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item button ml-2">
-                            <button type="button" class="btn btn-secondary"><a href="signIn.html">Login</a></button>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+    <!--Header-->
+    <div class="header">
+        <nav class="navbar navbar-expand-lg navbar-dark py-3">
+            <a><img src="../Image/Logo.png" class="px-3" width="90px" height="auto"></a>
+            <a class="navbar-brand" href="#">Permata Gordyn</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item home">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item products">
+                        <a class="nav-link" href="products.html">Products</a>
+                    </li>
+                    <li class="nav-item contact">
+                        <a class="nav-link" href="contacts.html">Visit Us</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="cart.html"><i class="fa fa-shopping-bag"></i></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item button ml-2">
+                        <button type="button" class="btn btn-secondary"><a href="signIn.html">Login</a></button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
 
-        <!-- Cart -->
-        <div class="cart">
-            <table class="table">
-                <thead style="text-transform: uppercase;">
-                <tr>
-                    <th>id</th>
-                    <th>role</th>
-                    <th>nama</th>
-                    <th>address</th>
-                    <th>email</th>
-                    <th>password</th>
-                    <th>contact</th>
-                    <th>post code</th>
-                    <th></th>
-                </tr>
-                </thead>
-            </table>
-            <div class="box" style="background-color: black; ">
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th>1</th>
-                        <th>user</th>
-                        <th>stevan</th>
-                        <th>Permata Cimahi</th>
-                        <th>stevan@gmail.com</th>
-                        <th>stevan</th>
-                        <th>082240240122</th>
-                        <th>40552</th>
-                        <th class="col-1 text-center">
-                        <button class="btn" style="background-color: transparent;"><i class="bi bi-pencil"></i></button>
-                        <button class="btn" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
-                        </th>
-                    </tr>
-                    </tbody>
-                </table>
+    <!-- Cart -->
+    <div class="cart">
+        <div class="card">
+            <div class="card-header">
+                <p>kantung belanja - count item</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 text-center">
+                        <p><img src="../Image/Logo.png"></p>
+                    </div>
+                    <div class="col-lg-3">
+                        <ul>
+                            <li>
+                                <p style="font-weight: 600; text-transform: uppercase;">Bristol</p>
+                            </li>
+                            <li>
+                                <p>ukuran : 2 m x 3 m</p>
+                            </li>
+                            <li>
+                                <p>warna : biru</p>
+                            </li>
+                            <li>
+                                <button class="btn" style="background-color: transparent;"><i class="bi bi-pencil" data-toggle="modal" data-target="#exampleModal"></i></button>
+                                <button class="btn" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 quantity"> 
+                        <p class="text-center">quantity</p>
+                        <div class="quantity_spinner text-center">
+                            <input type="number" value="1" min="1">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 total">
+                        <p class="text-center total_header">total</p>
+                        <div class="total_rupiah text-center">
+                            <p>Rp. 200.000</p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-3 text-center">
+                        <p><img src="../Image/Logo.png"></p>
+                    </div>
+                    <div class="col-lg-3">
+                        <ul>
+                            <li>
+                                <p style="font-weight: 600; text-transform: uppercase;">Bristol</p>
+                            </li>
+                            <li>
+                                <p>ukuran : 2 m x 3 m</p>
+                            </li>
+                            <li>
+                                <p>warna : biru</p>
+                            </li>
+                            <li>
+                                <button class="btn" style="background-color: transparent;"><i class="bi bi-pencil" data-toggle="modal" data-target="#exampleModal"></i></button>
+                                <button class="btn" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 quantity"> 
+                        <p class="text-center">quantity</p>
+                        <div class="quantity_spinner text-center">
+                            <input type="number" value="1" min="1">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 total">
+                        <p class="text-center total_header">total</p>
+                        <div class="total_rupiah text-center">
+                            <p>Rp. 200.000</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-
-        <!-- Footer -->
-        <footer class="sticky-footer">
-            <div class="container">
-                <div class="row align-items-center 
-                justify-content-center justify-content-center text-center">
-                    <div class="col-lg-3">
-                        <p>OUR ADDRESS</p>
+        
+        <div class="card">
+            <div class="card-header">
+                <p>total belanja</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                         <ul style="font-weight: 600;">
+                             <li>
+                                 <p>Product</p>
+                             </li>
+                             <hr>
+                             <li>
+                                 <p>Ongkos kirim</p>
+                             </li>
+                         </ul>
                     </div>
-                    <div class="col-lg-3">
-                        <p>OUR PRODUCTS</p>
-                    </div>
-                    <div class="col-lg-3">
-                        <p>SOCMED</p>
-                    </div>
-                </div>
-                <div class="konten row align-items-center 
-                justify-content-center justify-content-center text-center">
-                    <div class="col-lg-3">
-                        <div class="footer_nav_container">
-                            <a href="#">Jl. Giok 2, Blok T2 No. 23 Permata Cimahi, Tanimulya, Kec. Ngamprah, Kabupaten Bandung
-                                Barat, Jawa Barat </br>40552</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="footer_nav_container ">
-                            <ul class="footer_nav">
-                                <li><a href="#">Gordyn</a></li>
-                                <li><a href="#">Vitrage</a></li>
-                                <li><a href="#">Blinds</a></li>
-                                <li><a href="#">Kasa Nyamuk</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="footer_nav_container">
-                            <ul class="footer_nav">
-                                <li><a href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
+                    <div class="col-lg-6 text-right">
+                        <ul>
+                            <li>
+                                Rp. 50.000
+                            </li>
+                            <hr>
+                            <li>
+                                Rp. 20.000
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="copyright row text-center">
-                    <div class="col">
-                        <div class="footer_nav_container">
-                            <div class="cr">Copyright © 2022 <a href="#">
-                                    PermataGordyn</a>. All Right Reserverd
+            </div>
+            <hr>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul style="font-weight: 600;">
+                            <li>
+                                <p>Total harga</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <p>Rp. 70.000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button  id="checkout" name="checkout" type="button" class="checkout-btn btn btn-dark" style="text-transform: uppercase; font-weight: 600;">checkout</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Gordyn Bristol</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="col">
+                                    <p>Panjang :</p>
+                                    <input type="text" class="form-control panjang" placeholder="Panjang">
+                                </div>
+                                <p class="x">x</p>
+                                <div class="col">
+                                    <p>Lebar :</p>
+                                    <input type="text" class="form-control lebar" placeholder="Lebar">
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p>Total Bahan :</p>
+                                    <input type="text" class="form-control" placeholder="Panjang x Lebar function">
+                                </div>
+                                <p class="x">/m<sup>2</sup></p>
+                                <div class="col">
+                                    <p class="pricegrd">x Rp. 50.000</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p>Total Harga :</p>
+                                    <input type="text" class="form-control" placeholder="Total Harga">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark"
+                            data-dismiss="modal">Close</button>
+                        <button id="update-cart" name="update-cart" type="button" class="updatecartbtn btn btn-dark">Update Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="sticky-footer">
+        <div class="container">
+            <div class="row align-items-center 
+            justify-content-center justify-content-center text-center">
+                <div class="col-lg-3">
+                    <p>OUR ADDRESS</p>
+                </div>
+                <div class="col-lg-3">
+                    <p>OUR PRODUCTS</p>
+                </div>
+                <div class="col-lg-3">
+                    <p>SOCMED</p>
+                </div>
+            </div>
+            <div class="konten row align-items-center 
+            justify-content-center justify-content-center text-center">
+                <div class="col-lg-3">
+                    <div class="footer_nav_container">
+                        <a href="#">Jl. Giok 2, Blok T2 No. 23 Permata Cimahi, Tanimulya, Kec. Ngamprah, Kabupaten Bandung
+                            Barat, Jawa Barat </br>40552</a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer_nav_container ">
+                        <ul class="footer_nav">
+                            <li><a href="#">Gordyn</a></li>
+                            <li><a href="#">Vitrage</a></li>
+                            <li><a href="#">Blinds</a></li>
+                            <li><a href="#">Kasa Nyamuk</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer_nav_container">
+                        <ul class="footer_nav">
+                            <li><a href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright row text-center">
+                <div class="col">
+                    <div class="footer_nav_container">
+                        <div class="cr">Copyright © 2022 <a href="#">
+                                PermataGordyn</a>. All Right Reserverd
                         </div>
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
+
+    <script type="text/javascript">
+        $(function(){
+            $('input[type="number"]').niceNumber();
+        });
+
+        jQuery(document).ready(function () {
+            console.log("ready!");
+            $('.checkout-btn').on('click', function (event) {
+                window.location.href = "checkout.html";
+            })
+        });
+    </script>
 </body>
 
 </html>

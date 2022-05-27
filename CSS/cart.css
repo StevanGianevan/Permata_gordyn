@@ -1,8 +1,6 @@
-/* #container{
-    position: relative;
-    min-height: 100%;
-} */
-
+*{
+    font-family: monospace;
+}
 
 body{
     display: flex;
@@ -41,13 +39,122 @@ body{
     color: rgb(182, 182, 182);
 }
 
+/* .cart-badge{
+    font-size: 10px;
+    width: 15px;
+    display: inline-block;
+    text-align: center;
+    background-color: red;
+    border-radius: 50%;
+    top: 20px;
+    right: 20%;
+} */
+/* .non-empty::after{
+    content: '2';
+    font-size: 15px;
+    width: 15px;
+    display: inline-block;
+    text-align: center;
+    background-color: red;
+    border-radius: 50%;
+    top: 20px;
+    right: 20%;
+} */
+
 /* cart */
 .cart{
     margin-top: 10px;
 }
-.box{
-    margin: 100px;
-    height: 100px;
+
+.cart .card{
+    background-color: white;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 30px;
+    border: none;
+    outline: none;
+}
+
+.card .card-header p{
+    margin-bottom: 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+}
+
+.card .card-body ul li{
+    list-style: none;
+}
+
+.card .card-body .quantity_spinner{
+    margin-top: 65px;
+}
+
+.card .card-body .quantity p{
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.card .card-body input{
+    border: none;
+    outline: none;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+    padding: 5px;
+    margin: 0 5px !important;
+    border-radius: 5px;
+}
+
+.card .card-body input:hover, input:focus{
+    background-color: lightgray;
+    /* color: white; */
+}
+
+.card .card-body .quantity_spinner button{
+    background-color: lightgray;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.card .card-body .quantity_spinner button:hover{
+    background-color: black;
+    color: white;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+}
+
+.card .card-body .total .total_header{
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.card .card-body .total_rupiah p{
+    margin-top: 65px;
+}
+
+.checkout-btn {
+    width: 1702px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+/* Pop up edit */
+.modal-body .x{
+    margin-top: 45px;
+}
+
+.modal-body .pricegrd{
+    margin-top: 45px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* checkout */
+
+.checkout {
+    margin-top: 10px;
+    color: black;
 }
 
 /* footer */
@@ -57,6 +164,7 @@ body{
     background-color: black;
     color: white;
     width: 100%;
+    margin-top: 20px;
 }
 
 .sticky-footer .row ul li{
