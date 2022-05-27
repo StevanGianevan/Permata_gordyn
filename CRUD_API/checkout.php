@@ -121,7 +121,7 @@ $invoice_data = json_decode($result, true);
                         <div class="card-body">
                             <div class="row align-content-center justify-content-center">
                                 <div class="col-lg-6 text-center">
-                                    <p>Product Id: <?php echo $row['product_id'] ?></p>
+                                    <p><img src="<?php echo $row['image1']?>" width="150" height="100"></p>
                                 </div>
                                 
                                 <div class="col-lg-6">
