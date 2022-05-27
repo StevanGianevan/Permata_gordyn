@@ -191,7 +191,7 @@ $invoice_data = json_decode($result, true);
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-primary" id="pembayaran" disabled="true"><i class="bi bi-shield-check"></i> bayar</button>
+                        <button type="button" class="btn btn-primary" id="pembayaran" disabled="true"><i class="bi bi-shield-check"></i> Selesai Membayar</button>
                     </div>
                 </div>
             </div>
@@ -255,24 +255,57 @@ $invoice_data = json_decode($result, true);
     </footer>
 </body>
 <script>
-    document.getElementById('pembayaran').onclick = function() {
-        window.location.href = "bayar.html";
-    }
-    function enable(){
-        var bca = document.getElementById("bca");
-        var ovo = document.getElementById("ovo");
-        var gopay = document.getElementById("gopay");
-        var pembayaran= document.getElementById("pembayaran");
+    // jQuery(document).ready(function () {
+        // document.getElementById('pembayaran').onclick = function() {
+        //     window.location.href = "bayar.php";
+        // }
+        var metode_pembayaran = "";
+        function enable(){
+            var bca = document.getElementById("bca");
+            var ovo = document.getElementById("ovo");
+            var gopay = document.getElementById("gopay");
+            var pembayaran= document.getElementById("pembayaran");
 
-        if (bca.checked){
-            pembayaran.removeAttribute("disabled");
+            if (bca.checked){
+                metode_pembayaran = "BCA";
+                pembayaran.removeAttribute("disabled");
+            }
+            else if(ovo.checked){
+                metode_pembayaran = "OVO";
+                pembayaran.removeAttribute("disabled");
+            }
+            else if(gopay.checked){
+                metode_pembayaran = "GOPAY";
+                pembayaran.removeAttribute("disabled");
+            }
         }
-        else if(ovo.checked){
-            pembayaran.removeAttribute("disabled");
-        }
-        else if(gopay.checked){
-            pembayaran.removeAttribute("disabled");
-        }
-    }
+        console.log(metode_pembayaran); 
+        $('#pembayaran').on('click', function() {
+            console.log("ready!");
+            var user_id =  '<?php echo $_SESSION['id'] ?>';
+            console.log(metode_pembayaran); 
+            var data = { 
+                        user_id: user_id,
+                        metode_pembayaran
+            };
+            $.ajax({
+            type: "POST",
+            url: "http://localhost/PermataGordynMain/CRUD_API/post/check_payment_api.php",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(data),
+            // cache: false,
+            success: function(data){
+                console.log("SUCCESS");
+                window.location.href = "bayar.php";
+            },
+            error: function(dataResult){
+                console.log("ERORR");
+                alert(dataResult.responseJSON.output);
+                
+            }
+            });
+        });
+    // });
 </script>
 </html>

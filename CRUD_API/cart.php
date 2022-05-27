@@ -209,7 +209,7 @@ $invoice_data = json_decode($result, true);
                     </li>
                     </ul>
                 <?php }  ?>
-                    <a href="checkout.php" class="btn btn-primary btn-lg btn-block">Go To Checkout</a>
+                <button id="checkout" type="submit" class="btn btn-primary">Checkout</button>
                 </div>
                 </div>
             </div>
@@ -221,12 +221,29 @@ $invoice_data = json_decode($result, true);
 
         jQuery(document).ready(function () {
             
-            $('checkout').on('click', function() {
+            $('#checkout').on('click', function() {
                 console.log("ready!");
-                var product_id =  $(this).attr('id');
-                if (product_id == "") {
-                    alert("Please add at least one product to the cart!");
+                var user_id =  '<?php echo $_SESSION['id'] ?>';
+                var data = { 
+                            user_id: user_id
+                        };
+                $.ajax({
+                type: "POST",
+                url: "http://localhost/PermataGordynMain/CRUD_API/get/get_checkout_api.php",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(data),
+                // cache: false,
+                success: function(data){
+                    console.log("SUCCESS");
+                    window.location.href = "checkout.php";
+                },
+                error: function(dataResult){
+                    console.log("ERORR");
+                    alert(dataResult.responseJSON.output);
+                    
                 }
+                });
             });
                    
             $('.removebutton').on('click', function() {
