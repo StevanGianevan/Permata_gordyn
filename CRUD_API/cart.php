@@ -10,8 +10,8 @@ $url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_cart_api.php';
 $ch = curl_init($url);
 
 // Setup request to send json via POST
-$data = $_SESSION['id'];
-$payload = json_encode(array("user_id" => $data));
+$user_id = $_SESSION['id'];
+$payload = json_encode(array("user_id" => $user_id));
 
 // Attach encoded JSON string to the POST fields
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -29,17 +29,33 @@ $result = curl_exec($ch);
 curl_close($ch);
 $my_array = array();
 $data = json_decode($result, true);
-// foreach ($data['output'] as $row) {
 
-//     array_push($my_array, new ProductModel($row['id'], $row['name'], $row['price'], $row['size'], $row['colour'], $row['image1'], '', '', ''));
-// }
-// var_dump($my_array);
+// Get Invoice data
+$url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api.php';
 
+// Create a new cURL resource
+$ch = curl_init($url);
 
+// Setup request to send json via POST
+$payload = json_encode(array("user_id" => $user_id));
 
+// Attach encoded JSON string to the POST fields
+curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+
+// Set the content type to application/json
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+
+// Return response instead of outputting
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+// Execute the POST request
+$result = curl_exec($ch);
+
+// Close cURL resource
+curl_close($ch);
+$my_array = array();
+$invoice_data = json_decode($result, true);
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -111,15 +127,15 @@ $data = json_decode($result, true);
                             <form id="<?php echo $row['product_id'] ?>" action="" name="formprd" class="form" method="POST">
                             <div class="d-flex mb-4" style="max-width: 300px">
                                 <label class="form-label" for="form1">Panjang</label>
-                                <input id="panjangform" min="0" name="panjang" type="number" class="form-control panjangform" />
+                                <input id="panjang_id_<?php echo trim($row['product_id'])?>" min="0" name="panjang" type="number" class="form-control" value="<?php echo $row['pp'] ?>" />
                                 <label class="form-label" for="form1">Lebar</label>
-                                <input id="lebarform" min="0" name="lebar" type="number" class="form-control lebarform" />
+                                <input id="lebar_id_<?php echo trim($row['product_id'])?>" min="0" name="lebar" type="number" class="form-control" value="<?php echo $row['lp'] ?>" />
                             </div>
                             <div class="d-flex mb-4" style="max-width: 300px">
                             
 
                             <div class="form-outline">
-                                <input id="quantity"  min="0" name="quantity" value="<?php echo $row['quantity'] ?>" type="number" class="form-control quantityform" />
+                                <input id="quantity_id_<?php echo trim($row['product_id'])?>"  min="0" name="quantity" value="<?php echo $row['quantity'] ?>" type="number" class="form-control" />
                                 <label class="form-label" for="form1">Quantity</label>
                             </div>
                             <button id="<?php echo $row['product_id'] ?>" type="submit" class="btn btn-primary calculatebtn">Calculate</button>
@@ -129,12 +145,12 @@ $data = json_decode($result, true);
 
                             <!-- Price -->
                             <p class="text-start text-md-center">
-                            <p id= "calcprice"></p>
+                            <p>Calculated Price: Rp. <?php echo $row['price']?></p>
                             </p>
                             <!-- Price -->
                             </div>
                         </div>
-                    <?php }?>
+            <?php }?>
                 
                     <!-- Single item -->
                     <!-- Single item -->
@@ -146,7 +162,7 @@ $data = json_decode($result, true);
                     <p class="mb-0">12.10.2020 - 14.10.2020</p>
                 </div>
                 </div>
-                <div class="card mb-4 mb-lg-0">
+                <!-- <div class="card mb-4 mb-lg-0">
                 <div class="card-body">
                     <p><strong>We accept</strong></p>
                     <img class="me-2" width="45px"
@@ -162,7 +178,7 @@ $data = json_decode($result, true);
                     src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
                     alt="PayPal acceptance mark" />
                 </div>
-                </div>
+                </div> -->
             </div>
             <div class="col-md-4">
                 <div class="card mb-4">
@@ -171,10 +187,12 @@ $data = json_decode($result, true);
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
+                    <?php foreach ($invoice_data['output'] as $row) { ?> 
+                      
                     <li
                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                         Products
-                        <span>$53.98</span>
+                        <span>Rp. <?php echo $row['total_price']?></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                         Shipping
@@ -188,9 +206,10 @@ $data = json_decode($result, true);
                             <p class="mb-0">(including VAT)</p>
                         </strong>
                         </div>
-                        <span><strong>$53.98</strong></span>
+                        <span><strong>Rp. <?php echo $row['total_price']?></strong></span>
                     </li>
                     </ul>
+                <?php }  ?>
 
                     <button type="button" class="btn btn-primary btn-lg btn-block">
                     Go to checkout
@@ -237,9 +256,13 @@ $data = json_decode($result, true);
                 console.log("ready!");
                 var product_id =  $(this).attr('id');
                 var user_id = '<?php echo $_SESSION['id'];?>';
-                var pp = $('#panjangform').val();
-                var lp= $('#lebarform').val();
-                var quantity = $('#quantity').val();
+                var pp = $('#panjang_id_'+product_id).val();
+                var lp= $('#lebar_id_'+product_id).val();
+                var quantity = $('#quantity_id_'+product_id).val();
+                console.log(product_id);
+                console.log(pp);
+                console.log(lp);
+                console.log(quantity);
                 var data = { 
                             product_id: product_id,
                             user_id: user_id,
@@ -259,6 +282,7 @@ $data = json_decode($result, true);
                         alert("Success Calculating Price!");
                         console.log(data);
                         $("#calcprice").text(data.output.price_after_calculation);
+                        location.reload(true);
                         
                     },
                     error: function(dataResult){

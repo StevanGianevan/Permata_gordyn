@@ -20,8 +20,6 @@ $response["error_schema"]=array();
 $response["output"] = array();
 $error_schema = array();
 
-
-
 try {
     if($_SERVER['REQUEST_METHOD']=="PATCH"){
         
@@ -49,7 +47,7 @@ try {
             if($query_result == 1){
                 $pp = $data->pp;
                 $lp = $data->lp;
-                $quantity = $data->quantity;
+                $newquantity = $data->quantity;
 
                 while ($row = $update_cart_user->fetch(PDO::FETCH_ASSOC)){
                     // extract row
@@ -57,8 +55,8 @@ try {
                     // just $name only
                     extract($row);
                 }
-                $price_after_calculation = ($pp * $lp * $product_price) * $quantity;
-                $query = "UPDATE cart3 SET pp=$pp, lp=$lp, quantity = $quantity, price=$price_after_calculation WHERE user_id = '$user_id' AND product_id = '$product_id'";
+                $price_after_calculation = ($pp * $lp * $product_price) * $newquantity;
+                $query = "UPDATE cart3 SET pp=$pp, lp=$lp, quantity = $newquantity, price=$price_after_calculation WHERE user_id = '$user_id' AND product_id = '$product_id'";
                 $update_cart = $cartdb->conn->prepare($query);
                 $update_cart->execute();  
                 $query_result = $update_cart->rowCount();
