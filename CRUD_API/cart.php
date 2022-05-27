@@ -102,8 +102,7 @@ $invoice_data = json_decode($result, true);
                         <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
                             <!-- Image -->
                             <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                            <img src="<?php echo $row['image1']?>"
-                                class="w-100"/>
+                            <img src="<?php echo $row['image1']?>" width="10" height="40">
                             <a href="#!">
                                 <div class="mask" style="background-color: black"></div>
                             </a>
@@ -210,10 +209,7 @@ $invoice_data = json_decode($result, true);
                     </li>
                     </ul>
                 <?php }  ?>
-
-                    <button type="button" class="btn btn-primary btn-lg btn-block">
-                    Go to checkout
-                    </button>
+                <a href="checkout.php" class="btn btn-primary btn-lg btn-block">Go To Checkout</a>
                 </div>
                 </div>
             </div>
