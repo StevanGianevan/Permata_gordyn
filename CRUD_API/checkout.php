@@ -130,7 +130,8 @@ $invoice_data = json_decode($result, true);
                                             <p style="font-weight: 600; text-transform: uppercase;"><?php echo $row['name']?></p>
                                         </li>
                                         <li>
-                                            <p>ukuran : <?php echo $row['pp'] ?> m x <?php echo $row['lp'] ?> m</p>
+                                            <p>Ukuran : <?php echo $row['pp'] ?> m x <?php echo $row['lp'] ?> m</p>
+                                            <p>Quantity : <?php echo $row['quantity'] ?> </p>
                                         </li>
                                         <!-- <li>
                                             <p>warna : biru</p>

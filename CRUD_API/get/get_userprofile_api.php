@@ -58,8 +58,15 @@ try {
                     "role" => $role,
                     "password" => $password
                 );
+
+
           
                 $response["output"] = $userdata;
+                session_start();
+                $_SESSION['address']=$address;
+                $_SESSION['contact']=$contact;
+                $_SESSION['postcode']=$postcode;
+            
             }
             
             // set error schema

@@ -238,6 +238,7 @@
                     cache: false,
                     success: function(dataResult){
                         alert("successfully update user data!");
+                        location.reload(true);
                     },
                     error: function(response){
                         console.log(response);

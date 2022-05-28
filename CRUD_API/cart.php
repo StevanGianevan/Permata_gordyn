@@ -1,56 +1,40 @@
 <?php 
 session_start();
-include "Model/productModel.php";
+// include "Model/productModel.php";
 
-
-
+// HTTP REQUEST TO API
 $url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_cart_api.php';
-
 // Create a new cURL resource
 $ch = curl_init($url);
-
 // Setup request to send json via POST
 $user_id = $_SESSION['id'];
 $payload = json_encode(array("user_id" => $user_id));
-
 // Attach encoded JSON string to the POST fields
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-
 // Set the content type to application/json
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-
 // Return response instead of outputting
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
 // Execute the POST request
 $result = curl_exec($ch);
-
 // Close cURL resource
 curl_close($ch);
 $my_array = array();
 $data = json_decode($result, true);
-
 // Get Invoice data
 $url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api.php';
-
 // Create a new cURL resource
 $ch = curl_init($url);
-
 // Setup request to send json via POST
 $payload = json_encode(array("user_id" => $user_id));
-
 // Attach encoded JSON string to the POST fields
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-
 // Set the content type to application/json
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-
 // Return response instead of outputting
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
 // Execute the POST request
 $result = curl_exec($ch);
-
 // Close cURL resource
 curl_close($ch);
 $my_array = array();
@@ -157,8 +141,11 @@ $invoice_data = json_decode($result, true);
                 </div>
                 <div class="card mb-4">
                 <div class="card-body">
-                    <p><strong>Expected shipping delivery</strong></p>
-                    <p class="mb-0">12.10.2020 - 14.10.2020</p>
+                    
+                    <p><strong>Shipping Address</strong> <a href="userProfile.php">Edit</a> </p> 
+                    <p><strong>Address :</strong> <?php echo $_SESSION['address']?></p>
+                    <p><strong>Post Code : </strong> <?php echo $_SESSION['postcode']?></p>
+                    <p><strong>Contact:  </strong> <?php echo $_SESSION['contact']?></p>
                 </div>
                 </div>
                 <!-- <div class="card mb-4 mb-lg-0">
