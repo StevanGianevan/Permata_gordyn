@@ -153,7 +153,7 @@ $data = json_decode($konten, true);
         </div>
       </div>
       <div class="text-right">
-        <button id="submitbtn" class="addproductbtn btn btn-danger ml-auto" value="false">+ Produk</button>
+        <button id="" class="btn btn-danger ml-auto addproductbtn" value="false">+ Produk</button>
       </div>
       <hr>
       <table class="table table-hover">
@@ -263,8 +263,9 @@ $data = json_decode($konten, true);
                   $("#prodcolour").attr("value", dataResult.output[0].colour);
                   $("#prodsize").attr("value", dataResult.output[0].size);
                   $("#proddesc").attr("value", dataResult.output[0].description);
-                  $("#submitbtn").attr("value", "true");
-                  $("#submitbtn").text("Update Product");
+                  $(".addproductbtn").attr("id", dataResult.output[0].product_id);
+                  $(".addproductbtn").attr("value", "true");
+                  $(".addproductbtn").text("Update Product");
 
                       
               },
@@ -279,9 +280,11 @@ $data = json_decode($konten, true);
           });
         });
 
-      $('#submitbtn').on('click',function(event){
+      $('.addproductbtn').on('click',function(event){
+        console.log("ready");
         var buttonupdate = $(this).val();
-      
+        console.log(buttonupdate);
+        var prodid =$(this).attr("id")
         if(buttonupdate == "true"){
           var update =  "true";
           console.log("true");
@@ -296,6 +299,7 @@ $data = json_decode($konten, true);
           var data = {
                       update: update,
                       prodid: prodid,
+                      prodidnew: prodidnew,
                       catid: catid,
                       prodname: prodname,
                       prodprice: prodprice,

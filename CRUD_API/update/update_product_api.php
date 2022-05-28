@@ -75,7 +75,7 @@ try {
                 $prodcolour = $data->prodcolour;
                 $proddesc = $data->proddesc;
                 //update query
-                $query = "UPDATE product SET id='$prodid', category_id=$catid, name='$prodname', price=$prodprice, size='$prodsize', colour='$prodcolour', description='$proddesc' WHERE id='$id'";
+                $query = "UPDATE product SET id='$prodidnew', category_id=$catid, name='$prodname', price=$prodprice, size='$prodsize', colour='$prodcolour', description='$proddesc' WHERE id='$prodid'";
                 $update_product = $productdb->conn->prepare($query);
                 $product_result = $update_product->rowCount();
                 if($product_result == 0){
