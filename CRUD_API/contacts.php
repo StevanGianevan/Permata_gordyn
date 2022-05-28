@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,50 +20,34 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <title>Permata Gordyn | Cart Page</title>
+    <title>Permata Gordyn | Visit Us</title>
 </head>
 
 <body>
     <!--Header-->
-    <div class="header">
-        <nav class="navbar navbar-expand-lg navbar-dark py-3">
-            <a><img src="../Image/Logo.png" class="px-3" width="90px" height="auto"></a>
-            <a class="navbar-brand" href="#">Permata Gordyn</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item home">
-                        <a class="nav-link" href="home.html">Home</a>
-                    </li>
-                    <li class="nav-item products">
-                        <a class="nav-link" href="products.html">Products</a>
-                    </li>
-                    <li class="nav-item contact">
-                        <a class="nav-link" href="contacts.html">Visit Us</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item cart">
-                        <a class="nav-link active" href="cart.html"><i class="fa fa-shopping-bag"></i></a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item button ml-2">
-                        <button type="button" class="btn btn-secondary"><a href="signIn.html">Login</a></button>
-                    </li>
-                </ul>
+    <?php include 'header.php'; ?>
+
+    <!-- Landing Page Product -->
+    <div class="container-sm">
+        <div class="box" style="background-color: white;">
+            <div class="row">
+                <div class="col-md-3 contact-us">
+                    <h2>Contact Us</h2>
+                    <p><img src="../Image/iphone.png" width="30px">No HP</p>
+                    <p><img src="../Image/email.png" width="30px">Email@gmail.com</p>
+                    <p><img src="../Image/instagram.png" width="30px">@instagram</p>
+                    <p><img src="../Image/facebook.png" width="30px">Facebook</p>
+                </div>
+                <div class="col maps-view">
+                    <p><iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.24595017998!2d107.51892671535671!3d-6.861099569034997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e48ee9df4d0b%3A0x4990f1514711debd!2sPermata%20Gordyn!5e0!3m2!1sen!2sid!4v1651817855501!5m2!1sen!2sid"
+                            width="800" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </p>
+                </div>
             </div>
-        </nav>
+        </div>
     </div>
-
-    <!-- Cart -->
-    <div class cart>
-
-    </div>
-
 
     <!-- Footer -->
     <footer class="footer">
@@ -70,7 +55,7 @@
             <div class="info row">
                 <div class="footer_address col-lg-3 mr-auto">
                     <div class="footer_nav_container d-flex flex-sm-row flex-colomn align-items-center 
-                        justify-content-lg-start justify-content-center text-center">
+                    justify-content-lg-start justify-content-center text-center">
                         <ul class="footer_nav">
                             <li>OUR ADDRESS</li>
                             <li>Jl. Giok 2, Blok T2 No. 23 Permata Cimahi, Tanimulya, Kec. Ngamprah, Kabupaten Bandung
@@ -80,7 +65,7 @@
                 </div>
                 <div class="footer_products col-lg-3">
                     <div class="footer_nav_container d-flex flex-sm-row flex-colomn align-items-center 
-                        justify-content-lg-start justify-content-center text-center">
+                    justify-content-lg-start justify-content-center text-center">
                         <ul class="footer_nav">
                             <li>OUR PRODUCTS</li>
                             <li><a href="#">Gordyn</a></li>
@@ -92,7 +77,7 @@
                 </div>
                 <div class="footer_sosmed col-lg-3 mr-auto">
                     <div class="footer_nav_container footer_social d-flex flex-row align-items-center 
-                        justify-content-lg-end justify-content-center">
+                    justify-content-lg-end justify-content-center">
                         <ul>
                             <li>SOCMED</li>
                             <li><a href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
@@ -113,6 +98,8 @@
             </div>
         </div>
     </footer>
+
+    <script src="../JQUERY/script.js"></script>
 </body>
 
 </html>
