@@ -39,45 +39,34 @@ body{
     color: rgb(182, 182, 182);
 }
 
+/* Verify */
 
-/* checkout */
-.checkout{
+.verify {
     margin-top: 10px;
 }
 
-.checkout .card{
-    border: none;
-    outline: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.checkout .row{
+.verify .row{
     margin-left: 0;
     margin-right: 0;
 }
 
-.card-header{
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-.card-header p{
-    margin-bottom: 0;
-    text-align: center;
-}
-
-.checkout .card-body .pembelian{
-    margin-bottom: 40px;
-}
-
-.checkout .card-body .pembelian ul li{
+.verify ul li{
     list-style: none;
 }
 
-.checkout .card-footer button{
-    width: 100%;
+.verify .tahapan ul li{
+    list-style: decimal;
 }
 
+.verify .row .card{
+    margin-bottom: 10px;
+}
+
+.verify .card .card-header p{
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+}
 
 /* footer */
 .sticky-footer{
