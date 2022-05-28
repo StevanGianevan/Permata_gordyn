@@ -45,6 +45,10 @@ body{
     margin-top: 10px;
 }
 
+.verify .card-header p{
+    margin-bottom: 0;
+}
+
 .verify .row{
     margin-left: 0;
     margin-right: 0;
@@ -66,6 +70,11 @@ body{
     text-transform: uppercase;
     text-align: center;
     font-weight: 600;
+}
+
+.verify .input-bukti-trf{
+    border: none;
+    outline: none;
 }
 
 /* footer */
