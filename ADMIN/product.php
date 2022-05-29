@@ -71,6 +71,9 @@ $data = json_decode($konten, true);
         <li>
           <a href="order.php"><i class="bi bi-journal"></i> Order</a>
         </li>
+        <li>
+          <a href="category.php"><i class="bi bi-box2-fill"></i> Category</a>
+        </li>
         <li class="active">
           <a href="product.php"><i class="bi bi-boxes"></i> Product</a>
         </li>
@@ -87,70 +90,57 @@ $data = json_decode($konten, true);
       <div class="box">
         <p>Product</p>
       </div>
-      <div class="form-row">
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip01">Produk id</label>
-          <input type="text" class="form-control ID"  name = "prodid" id="prodid" placeholder="Produk id" />
-        </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip01">Kategori id</label>
-          <input type="number" class="form-control kategori_id"  name = "prodid" id="catid" placeholder="Kategori id" />
-        </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip01">Nama Produk</label>
-          <input type="text" class="form-control nama_produk"  id="prodname" placeholder="Nama Produk" />
-        </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Harga Produk</label>
-          <input type="number" class="form-control harga_produk"  id="prodprice" placeholder="Harga Produk" />
-        </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Warna Produk</label>
-          <input type="text" class="form-control warna_produk"  id="prodcolour" placeholder="Warna Produk"/>
-        </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Size Produk</label>
-          <input type="text" class="form-control size_produk"  id="prodsize" placeholder="Size Produk"/>
-        </div>
-      </div>
-      <div class="form-row mb-3">
-        <div class="col">
-          <label for="validationTooltip02">Product Description</label>
-          <div class="custom-file">
-            <input type="text" class="form-control size_produk" id="proddesc">
+      <form action="" id="" class="formadmin" method="post" enctype="multipart/form-data">
+        <div class="form-row">
+          <div class="col-md-2 mb-3 mr-auto">
+            <label for="validationTooltip01">Produk id</label>
+            <input type="text" class="form-control ID"  name = "prodid" id="prodid" placeholder="Produk id" />
+          </div>
+          <div class="col-md-2 mb-3 mr-auto">
+            <label for="validationTooltip01">Kategori id</label>
+            <input type="number" class="form-control kategori_id"  name = "prodid" id="catid" placeholder="Kategori id" />
+          </div>
+          <div class="col-md-2 mb-3 mr-auto">
+            <label for="validationTooltip01">Nama Produk</label>
+            <input type="text" class="form-control nama_produk"  id="prodname" placeholder="Nama Produk" />
+          </div>
+          <div class="col-md-2 mb-3 mr-auto">
+            <label for="validationTooltip02">Harga Produk</label>
+            <input type="number" class="form-control harga_produk"  id="prodprice" placeholder="Harga Produk" />
+          </div>
+          <div class="col-md-2 mb-3 mr-auto">
+            <label for="validationTooltip02">Warna Produk</label>
+            <input type="text" class="form-control warna_produk"  id="prodcolour" placeholder="Warna Produk"/>
+          </div>
+          <div class="col-md-2 mb-3 mr-auto">
+            <label for="validationTooltip02">Size Produk</label>
+            <input type="text" class="form-control size_produk"  id="prodsize" placeholder="Size Produk"/>
           </div>
         </div>
-      </div>
-      <div class="form-row mb-3">
-        <div class="col">
-          <label for="validationTooltip02">Gambar Produk 1</label>
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" id="prodimage1">
-            <label class="custom-file-label" for="customFile">Upload Image</label>
+        <div class="form-row mb-3">
+          <div class="col">
+            <label for="validationTooltip02">Product Description</label>
+            <div class="custom-file">
+              <input type="text" class="form-control size_produk" id="proddesc">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-row mb-3">
-        <div class="col">
-          <label for="validationTooltip02">Gambar Produk 2</label>
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Upload Image</label>
+        <div class="form-row mb-3">
+          <div class="col">
+            <label for="validationTooltip02">Gambar Produk 1</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="prodimage1" name="prodimage1">
+              <label class="custom-file-label" for="customFile">Upload Image</label>
+              <img src ="" id="image1" height="40" width="40">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-row mb-3">
-        <div class="col">
-          <label for="validationTooltip02">Gambar Produk 3</label>
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">Upload Image</label>
-          </div>
+        <div class="text-right">
+        <button id="" class="btn btn-danger ml-auto addproductbtn" type="submit" value="false">+ Produk</button>
         </div>
-      </div>
-      <div class="text-right">
-        <button id="" class="btn btn-danger ml-auto addproductbtn" value="false">+ Produk</button>
-      </div>
+      </form>
+      
+      
       <hr>
       <table class="table table-hover">
         <p class="text-center h3">List Product</p>
@@ -163,6 +153,7 @@ $data = json_decode($konten, true);
             <th>Warna Produk</th>
             <th>Size Produk</th>
             <th>Description</th>
+            <th>Image1</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -176,6 +167,7 @@ $data = json_decode($konten, true);
               <th><?php echo $row['colour'] ?></th>
               <th><?php echo $row['size'] ?></th>
               <th><?php echo $row['description'] ?></th>
+              <th><img src ="<?php echo $row['image1'] ?>" height="40" width="40"></th>
               <th class="col-1 text-center">
                 <button id="<?php echo $row['id'] ?>" class="btn edit" style="background-color: transparent;"><i class="bi bi-pencil"></i></button>
                 <button id="<?php echo $row['id'] ?>" class="btn delete" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
@@ -190,61 +182,14 @@ $data = json_decode($konten, true);
   <script type="text/javascript">
     jQuery(document).ready(function () {
 
-      // $('.delete').on('click',function(event){
-      //   var prodid =  $(this).attr('id');
-      //   var catid = $('#catid').val();
-      //   var update =  "true";
-      //   var prodname =  $('#prodname').val();
-      //   var prodprice = $('#prodprice').val();
-      //   var prodcolour = $('#prodcolour').val();
-      //   var prodsize =  $('#prodsize').val();
-      //   var proddesc =  $('#proddesc').val();
-      //   var data = {
-      //               update: update,
-      //               prodid: prodid,
-      //               catid: catid,
-      //               prodname: prodname,
-      //               prodprice: prodprice,
-      //               prodcolour: prodcolour,
-      //               prodsize: prodsize,
-      //               proddesc: proddesc
-      //           };
-      //   $.ajax({
-      //       type: "POST",
-      //       url: "http://localhost/PermataGordynMain/CRUD_API/post/post_product_api.php",
-      //       contentType: "application/json",
-      //       dataType: 'json',
-      //       data: JSON.stringify(data),
-      //       cache: false,
-      //       success: function(dataResult){
-      //           console.log(dataResult);
-      //           alert(dataResult.output);
-
-                    
-      //       },
-      //       error: function(response){
-                
-      //         console.log(response);
-      //         alert(dataResult.response.responeJSON.output);
-                
-      //       }
-                
-    
-      //   });
-      // });
-
       $('.edit').on('click',function(event){
-          var prodid =  $(this).attr('id');
-          var update =  "false";
-          
-          
-          var data = { 
-                    prodid: prodid,
-                    update: update
-                  };
+          var prodid = $(this).attr('id');
+          var data = {
+            prodid: prodid,
+          };
           $.ajax({
-              type: "PATCH",
-              url: "http://localhost/PermataGordynMain/CRUD_API/update/update_product_api.php",
+              type: "POST",
+              url: "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api2.php",
               contentType: "application/json",
               dataType: 'json',
               data: JSON.stringify(data),
@@ -259,7 +204,8 @@ $data = json_decode($konten, true);
                   $("#prodcolour").attr("value", dataResult.output[0].colour);
                   $("#prodsize").attr("value", dataResult.output[0].size);
                   $("#proddesc").attr("value", dataResult.output[0].description);
-                  $(".addproductbtn").attr("id", dataResult.output[0].product_id);
+                  $("#image1").attr('src', dataResult.output[0].image1);
+                  $(".formadmin").attr("id", dataResult.output[0].product_id);
                   $(".addproductbtn").attr("value", "true");
                   $(".addproductbtn").text("Update Product");
 
@@ -276,25 +222,27 @@ $data = json_decode($konten, true);
           });
         });
 
-      $('.addproductbtn').on('click',function(event){
+      $('.formadmin').submit(function (event){
+        event.preventDefault();
         console.log("ready");
-        var buttonupdate = $(this).val();
+        var prodidbefore = $(this).attr('id');
+        var buttonupdate = $('.addproductbtn').val();
         console.log(buttonupdate);
-        var prodid =$(this).attr("id")
+        
         if(buttonupdate == "true"){
-          var update =  "true";
-          console.log("true");
-          var prodidnew =  $('#prodid').val();
-          var catid = $('#catid').val();
           
-          var prodname =  $('#prodname').val();
+
+          console.log("true");
+          var prodidnew = $('#prodid').val();
+          var catid = $('#catid').val();
+          var prodname = $('#prodname').val();
           var prodprice = $('#prodprice').val();
           var prodcolour = $('#prodcolour').val();
-          var prodsize =  $('#prodsize').val();
-          var proddesc =  $('#proddesc').val();
-          var data = {
-                      update: update,
-                      prodid: prodid,
+          var prodsize = $('#prodsize').val();
+          var proddesc = $('#proddesc').val();
+          // var prodimage1 = $('#prodimage1')[0].files;
+          var data = { 
+                      prodidbefore: prodidbefore,
                       prodidnew: prodidnew,
                       catid: catid,
                       prodname: prodname,
@@ -302,7 +250,27 @@ $data = json_decode($konten, true);
                       prodcolour: prodcolour,
                       prodsize: prodsize,
                       proddesc: proddesc
-                  };
+          };
+          // let form_data = new FormData();
+          // let prodid = $('#prodid').val();
+          // let catid = $('#catid').val();
+          // let prodname = $('#prodname').val();
+          // let prodprice = $('#prodprice').val();
+          // let prodcolour = $('#prodcolour').val();
+          // let prodsize = $('#prodsize').val();
+          // let proddesc = $('#proddesc').val();
+          // let prodimage1 = $('#prodimage1')[0].files;
+
+          // form_data.append('prodid', prodid);
+          // form_data.append('catid', catid);
+          // form_data.append('prodname', prodname);
+          // form_data.append('prodprice', prodprice);
+          // form_data.append('prodcolour', prodcolour);
+          // form_data.append('prodsize', prodsize);
+          // form_data.append('proddesc', proddesc);
+          // form_data.append('prodimage1', prodimage1[0]);
+          
+
           $.ajax({
               type: "PATCH",
               url: "http://localhost/PermataGordynMain/CRUD_API/update/update_product_api.php",
@@ -310,52 +278,56 @@ $data = json_decode($konten, true);
               dataType: 'json',
               data: JSON.stringify(data),
               cache: false,
+              processData: false,
               success: function(dataResult){
                   console.log(dataResult);
                   alert(dataResult.output);
-                  location.reload(true);
+                  location.reload(true);  
               },
               error: function(response){
                 console.log(response);
                 alert(dataResult.response.responeJSON.output);
-                  
               }
-                  
-      
           });
 
         }
 
         else if (buttonupdate == "false"){
           console.log("false");
-          var prodid =  $('#prodid').val();
-          var catid = $('#catid').val();
-          var prodname =  $('#prodname').val();
-          var prodprice = $('#prodprice').val();
-          var prodcolour = $('#prodcolour').val();
-          var prodsize =  $('#prodsize').val();
-          var proddesc =  $('#proddesc').val();
-          var data = { 
-                      prodid: prodid,
-                      catid: catid,
-                      prodname: prodname,
-                      prodprice: prodprice,
-                      prodcolour: prodcolour,
-                      prodsize: prodsize,
-                      proddesc: proddesc
-                  
-                  };
+          
+
+          let form_data = new FormData();
+          let prodid = $('#prodid').val();
+          let catid = $('#catid').val();
+          let prodname = $('#prodname').val();
+          let prodprice = $('#prodprice').val();
+          let prodcolour = $('#prodcolour').val();
+          let prodsize = $('#prodsize').val();
+          let proddesc = $('#proddesc').val();
+          let prodimage1 = $('#prodimage1')[0].files;
+
+          form_data.append('prodid', prodid);
+          form_data.append('catid', catid);
+          form_data.append('prodname', prodname);
+          form_data.append('prodprice', prodprice);
+          form_data.append('prodcolour', prodcolour);
+          form_data.append('prodsize', prodsize);
+          form_data.append('proddesc', proddesc);
+          form_data.append('prodimage1', prodimage1[0]);
+
+          console.log(form_data);
+
           $.ajax({
               type: "POST",
               url: "http://localhost/PermataGordynMain/CRUD_API/post/post_product_api.php",
-              contentType: "application/json",
-              dataType: 'json',
-              data: JSON.stringify(data),
+              contentType: false,
+              data: form_data,
               cache: false,
+              processData: false,
               success: function(dataResult){
                   console.log(dataResult);
                   alert(dataResult.output);
-                  location.reload(true);  
+                   
               },
               error: function(response){
                 console.log(response);

@@ -73,6 +73,9 @@ try {
                 $sessionEmail = $email;
                 $sessionName = $name;
                 $sessionId = $id;
+                $address = $address;
+                $contact = $contact;
+                $postcode = $postcode;
                 $response["output"] = $userdata;
             }
             
@@ -85,6 +88,9 @@ try {
             $_SESSION['email']=$sessionEmail;
 			$_SESSION['name']=$sessionName;
             $_SESSION['id']=$sessionId;
+            $_SESSION['address']=$address;
+            $_SESSION['contact']=$contact;
+            $_SESSION['postcode']=$postcode;
             
             // set response code - 200 OK
             http_response_code(200);

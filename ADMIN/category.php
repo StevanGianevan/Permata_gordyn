@@ -73,13 +73,13 @@ $data = json_decode($konten, true);
         <li>
           <a href="order.php"><i class="bi bi-journal"></i> Order</a>
         </li>
-        <li>
+        <li class="active">
           <a href="category.php"><i class="bi bi-box2-fill"></i> Category</a>
         </li>
         <li>
           <a href="product.php"><i class="bi bi-boxes"></i> Product</a>
         </li>
-        <li class="active">
+        <li>
           <a href="user.php"><i class="bi bi-person"></i> User</a>
         </li>
         <li>
@@ -130,7 +130,7 @@ $data = json_decode($konten, true);
           <input type="text" class="form-control" id="cpassword" placeholder="Confirmation Password" required>
         </div>
         <div class="text-right">
-          <button id="" class="btn btn-danger ml-auto adduserbtn" value="false">Add User</button>
+          <button id="" class="btn btn-danger ml-auto adduserbtn" value="false">Add Category</button>
         </div>
       </div>
       <hr>

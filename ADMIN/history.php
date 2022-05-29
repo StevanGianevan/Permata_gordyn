@@ -63,8 +63,12 @@
           <a href="order.php"><i class="bi bi-journal"></i> Order</a>
         </li>
         <li>
+          <a href="category.php"><i class="bi bi-box2-fill"></i> Category</a>
+        </li>
+        <li>
           <a href="product.php"><i class="bi bi-boxes"></i> Product</a>
         </li>
+        
         <li>
           <a href="user.php"><i class="bi bi-person"></i> User</a>
         </li>

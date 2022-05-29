@@ -23,17 +23,52 @@ try {
         $productdb = new ProductDb($db);
 
         // get posted data
-        $data = json_decode(file_get_contents("php://input"));
+        // $data = json_decode(file_get_contents("php://input"));
         
+        $prodid = $_POST['prodid'];
+        $catid = $_POST['catid'];
+        $prodname = $_POST['prodname'];
+        $prodprice = $_POST['prodprice'];
+        $prodcolour = $_POST['prodcolour'];
+        $prodsize = $_POST['prodsize'];
+        $proddesc = $_POST['proddesc'];
+
+        $fileName= $_FILES['prodimage1']['name'];
+        $fileTmpName= $_FILES['prodimage1']['tmp_name'];
+        $fileSize= $_FILES['prodimage1']['size'];
+        $fileError= $_FILES['prodimage1']['error'];
+        $fileType= $_FILES['prodimage1']['type'];
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+        $allowed = array('jpg', 'jpeg', 'png', 'pdf');
+
+        if(in_array($fileActualExt, $allowed))
+        {
+            if($fileError === 0)
+            {
+                if($fileSize <1000000)
+                {
+                    $fileNameNew = uniqid('', true).".".$fileActualExt;
+                    $fileDestination = "../media/".$fileNameNew;
+                    move_uploaded_file($fileTmpName, $fileDestination);
+                    
+                }else{
+                    http_response_code(405);
+                    throw new Exception("Your file is too large!");
+                }
+
+            }else{
+                http_response_code(405);
+                throw new Exception("there was an error uploading your file");
+            }
+        }else{
+            http_response_code(405);
+            throw new Exception("You cannot upload files of this type!");
+        }
+
         // make sure data is not empty
-        if(!empty($data->prodid) && !empty($data->catid) && !empty($data->prodname)){
-            $prodid = $data->prodid;
-            $catid = $data->catid;
-            $prodname = $data->prodname;
-            $prodprice = $data->prodprice;
-            $prodcolour = $data->prodcolour;
-            $prodsize = $data->prodsize;
-            $proddesc = $data->proddesc;
+        if(!empty($prodid) && !empty($catid) && !empty($prodname)){
+            
 
             //check if email exists
             $duplicate = "SELECT * FROM product WHERE id= '$prodid'";
@@ -46,25 +81,39 @@ try {
                 throw new Exception("Product with that id already Existed!");
             }
             else{
-                $query = "INSERT INTO product (id, category_id, name, price, size, colour, description)VALUE('$prodid', $catid, '$prodname', $prodprice, '$prodsize', '$prodcolour', '$proddesc')";
-                $add_product= $productdb->conn->prepare($query);
-                $add_product->execute();
-                $product_result = $add_product->rowCount();
+                
+                $duplicate = "SELECT * FROM product WHERE id= '$prodid'";
+                $get_product = $productdb->conn->prepare($duplicate);
+                $get_product->execute();
+                $query_result = $get_product->rowCount();
 
-                if($product_result == 0){
+                if($query_result > 0){
                     http_response_code(405);
-                    throw new Exception("Something went wrong inserting new product!");
+                    throw new Exception("Product with that id already Existed!");
                 }
                 else{
-                    $error_schema["error_code"] = 0;
-                    $error_schema["message"] = "Success";
+                    $productUrl="http://localhost/PermataGordynMain/CRUD_API/media/".$fileNameNew;
+                    $query = "INSERT INTO product (id, category_id, name, price, size, colour, description, image1)VALUE('$prodid', $catid, '$prodname', $prodprice, '$prodsize', '$prodcolour', '$proddesc', '$productUrl')";
+                    // $query = "INSERT INTO product (id, category_id, name, price, size, colour, description)VALUE('$prodid', $catid, '$prodname', $prodprice, '$prodsize', '$prodcolour', '$proddesc')";
+                    $add_product= $productdb->conn->prepare($query);
+                    $add_product->execute();
+                    $product_result = $add_product->rowCount();
+
+                    if($product_result == 0){
+                        http_response_code(405);
+                        throw new Exception("Something went wrong inserting new product!");
+                    }
+                    else{
+                        $error_schema["error_code"] = 0;
+                        $error_schema["message"] = "Success";
+                        
+                        $response["error_schema"] = $error_schema;
+                        $response["output"] = "Successfully added new product!";
                     
-                    $response["error_schema"] = $error_schema;
-                    $response["output"] = "Successfully added new product!";
-                   
-                    http_response_code(201);
-                    
-                    echo json_encode($response);
+                        http_response_code(201);
+                        
+                        echo json_encode($response);
+                    }
                 }
             }
         
