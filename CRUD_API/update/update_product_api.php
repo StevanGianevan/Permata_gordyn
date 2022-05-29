@@ -21,8 +21,6 @@ try {
     if($_SERVER['REQUEST_METHOD']=="PATCH"){
         
         $productdb = new ProductDb($db);
-        
-        
         // get posted data
         $data = json_decode(file_get_contents("php://input"));
         // make sure data is not empty
@@ -75,8 +73,10 @@ try {
                 $prodcolour = $data->prodcolour;
                 $proddesc = $data->proddesc;
                 //update query
-                $query = "UPDATE product SET id='$prodidnew', category_id=$catid, name='$prodname', price=$prodprice, size='$prodsize', colour='$prodcolour', description='$proddesc' WHERE id='$prodid'";
-                $update_product = $productdb->conn->prepare($query);
+                $query = "UPDATE product SET id='$prodidnew', category_id=$catid, name='$prodname', price=$prodprice, size='$prodsize', colour='$prodcolour', description='$proddesc' 
+                WHERE id='$prodid'";
+                $update_product = $productdb->conn->prepare($query);            
+                $update_product->execute();  
                 $product_result = $update_product->rowCount();
                 if($product_result == 0){
                     http_response_code(405);
@@ -95,41 +95,6 @@ try {
                 }
             }
 
-            
-            
-            // register the user
-            // if($update_product->execute()){
-            //     // set error schema
-            //     $error_schema["error_code"] = 0;
-            //     $error_schema["message"] = "Success";
-                
-            //     $response["error_schema"] = $error_schema;
-            //     $response["output"] = "Product updated.";
-                
-            //     // $walletId = strtoupper(uniqid());
-            //     // init Main Wallet
-            //     // $query2 = "INSERT INTO wallets(id, user_id, name, is_main, is_favorite) VALUES('$walletId', '$id', 'Main Wallet', 1, 1)";
-            //     // $init_wallet = $walletDto->conn->prepare($query2);
-                
-            //     // if(!$init_wallet->execute()){
-            //     //     http_response_code(404);
-            //     //     throw new Exception("Unable to init wallet.");
-            //     // }
-                
-            //     // set response code - 201 created
-            //     http_response_code(201);
-          
-            //     // tell the user
-            //     echo json_encode($response);
-            // }
-            // else{
-          
-            //     // set response code - 503 service unavailable
-            //     http_response_code(503);
-          
-            //     // tell the user
-            //     throw new Exception("Unable to update product.");
-            // }
         } else {
             // set response code - 404 Not found
             http_response_code(404);

@@ -3,13 +3,9 @@ session_start();
 
 $sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php";
 $konten = file_get_contents($sumber);
-
 $data = json_decode($konten, true);
 
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -81,9 +77,9 @@ $data = json_decode($konten, true);
         <li>
           <a href="user.php"><i class="bi bi-person"></i> User</a>
         </li>
-        <!-- <li>
-          <a href="history.html"><i class="bi bi-clock-history"></i> History</a>
-        </li> -->
+        <li>
+          <a href="history.php"><i class="bi bi-clock-history"></i> History</a>
+        </li>
       </ul>
     </div>
 
@@ -187,7 +183,7 @@ $data = json_decode($konten, true);
             </tr>
           <?php }?>
         </tbody>
-      </table>
+        </table>
     </div>
   </div>
 
@@ -317,12 +313,9 @@ $data = json_decode($konten, true);
               success: function(dataResult){
                   console.log(dataResult);
                   alert(dataResult.output);
-                  
-
-                      
+                  location.reload(true);
               },
               error: function(response){
-                  
                 console.log(response);
                 alert(dataResult.response.responeJSON.output);
                   
@@ -362,23 +355,40 @@ $data = json_decode($konten, true);
               success: function(dataResult){
                   console.log(dataResult);
                   alert(dataResult.output);
-
-                      
+                  location.reload(true);  
               },
               error: function(response){
-                  
                 console.log(response);
                 alert(dataResult.response.responeJSON.output);
-                  
               }
-                  
-      
           });
         
 
         }
       });
 
+      $('.delete').on('click',function(event){
+          console.log("THROUGH THIS");
+          var product_id =  $(this).attr('id');
+          console.log(prodid);
+          var data = {product_id: product_id,};
+          $.ajax({
+              type: "DELETE",
+              url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_product_api.php",
+              contentType: "application/json",
+              dataType: 'json',
+              data: JSON.stringify(data),
+              cache: false,
+              success: function(dataResult){
+                console.log(dataResult);
+                alert(dataResult.output);
+                location.reload(true);  
+              },
+              error: function(response){
+                alert(dataResult.response.responeJSON.output);
+              }
+        });
+      });
         
   });
 </script>

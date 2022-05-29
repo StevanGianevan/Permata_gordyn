@@ -25,7 +25,11 @@ try {
         
         // get posted data
         $data = json_decode(file_get_contents("php://input"));
-        
+        $role = "Member";
+        $postcode = "";
+        $contact = "";
+        $address = "";
+
         // make sure data is not empty
         if(!empty($data->name) && !empty($data->email) && !empty($data->password) && !empty($data->cpassword)){
             $id = strtoupper(uniqid());
@@ -33,7 +37,7 @@ try {
             $email = $data->email;
             $password = md5($data->password);
             $cpassword = md5($data->cpassword);
-
+            
             //check if email exists
             $duplicate = "SELECT * FROM users WHERE email = '$email'";
             $get_user = $usersdb->conn->prepare($duplicate);
@@ -59,7 +63,19 @@ try {
                 throw new Exception("Email already exist!");
             }
             else{
-                $query = "INSERT INTO users (id, email, name, password)VALUE('$id', '$email', '$name', '$password')";
+                if (!empty($data->role)){
+                    $role = $data->role;
+                }
+                if (!empty($data->postcode)){
+                    $postcode = $data->postcode;
+                }
+                if (!empty($data->contact)){
+                    $contact = $data->contact;
+                }
+                if (!empty($data->address)){
+                    $address = $data->address;
+                }
+                $query = "INSERT INTO users (id, email, name, password, contact, postcode, role, address)VALUE('$id', '$email', '$name', '$password', '$contact', '$postcode', '$role', '$address')";
                 $register_user = $usersdb->conn->prepare($query);
                 
                 // register the user

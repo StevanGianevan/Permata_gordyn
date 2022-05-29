@@ -57,19 +57,19 @@
     <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
       <ul class="list-group">
         <li >
-          <a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+          <a href="dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
         </li>
         <li>
-          <a href="order.html"><i class="bi bi-journal"></i> Order</a>
+          <a href="order.php"><i class="bi bi-journal"></i> Order</a>
         </li>
         <li>
-          <a href="product.html"><i class="bi bi-boxes"></i> Product</a>
+          <a href="product.php"><i class="bi bi-boxes"></i> Product</a>
         </li>
         <li>
-          <a href="user.html"><i class="bi bi-person"></i> User</a>
+          <a href="user.php"><i class="bi bi-person"></i> User</a>
         </li>
         <li class= "active">
-          <a href="history.html"><i class="bi bi-clock-history"></i> History</a>
+          <a href="history.php"><i class="bi bi-clock-history"></i> History</a>
         </li>
       </ul>
     </div>

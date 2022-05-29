@@ -8,7 +8,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once "../connection.php";
-include_once "../productdb.php";
+include_once "../usersdb.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -20,30 +20,29 @@ $error_schema = array();
 
 try {
     if($_SERVER['REQUEST_METHOD']=="DELETE"){
-        
-        $productdb = new ProductDb($db);
+        $usersdb = new UsersDb($db);
         // get posted data
         $data = json_decode(file_get_contents("php://input"));
 
         // make sure data is not empty
-        if(!empty($data->product_id)){
+        if(!empty($data->user_id)){
             //end session uji coba
-            $product_id = $data->product_id;
-            $query = "DELETE FROM product WHERE id='$product_id'";
-            $delete_prodcut = $productdb->conn->prepare($query);
-            $delete_prodcut->execute();  
-            $query_result = $delete_prodcut->rowCount();
+            $user_id = $data->user_id;
+            $query = "DELETE FROM users WHERE id='$user_id'";
+            $delete_user = $usersdb->conn->prepare($query);
+            $delete_user->execute();  
+            $query_result = $delete_user->rowCount();
 
             if($query_result == 0){
                 http_response_code(404);
-                throw new Exception("Failed to delete product.");
+                throw new Exception("Failed to delete user.");
             }
             else{
                 $error_schema["error_code"] = 0;
                 $error_schema["message"] = "Success";
                 
                 $response["error_schema"] = $error_schema;
-                $response["output"] = "Product succesfully Deleted.";
+                $response["output"] = "User succesfully Deleted.";
                 // set response code - 201 created
                 http_response_code(201);
                 // tell the user
