@@ -94,7 +94,7 @@ $data = json_decode($konten, true);
         <div class="form-row">
           <div class="col-md-2 mb-3 mr-auto">
             <label for="validationTooltip01">Produk id</label>
-            <input type="text" class="form-control ID"  name = "prodid" id="prodid" placeholder="Produk id" />
+            <input type="text" class="form-control ID"  name = "prodid" id="prodid" placeholder="Produk id" disabled/>
           </div>
           <div class="col-md-2 mb-3 mr-auto">
             <label for="validationTooltip01">Kategori id</label>
@@ -225,58 +225,42 @@ $data = json_decode($konten, true);
       $('.formadmin').submit(function (event){
         event.preventDefault();
         console.log("ready");
-        var prodidbefore = $(this).attr('id');
+        // var prodidbefore = $(this).attr('id');
         var buttonupdate = $('.addproductbtn').val();
         console.log(buttonupdate);
         
         if(buttonupdate == "true"){
-          
-
-          console.log("true");
-          var prodidnew = $('#prodid').val();
-          var catid = $('#catid').val();
-          var prodname = $('#prodname').val();
-          var prodprice = $('#prodprice').val();
-          var prodcolour = $('#prodcolour').val();
-          var prodsize = $('#prodsize').val();
-          var proddesc = $('#proddesc').val();
-          // var prodimage1 = $('#prodimage1')[0].files;
-          var data = { 
-                      prodidbefore: prodidbefore,
-                      prodidnew: prodidnew,
-                      catid: catid,
-                      prodname: prodname,
-                      prodprice: prodprice,
-                      prodcolour: prodcolour,
-                      prodsize: prodsize,
-                      proddesc: proddesc
-          };
-          // let form_data = new FormData();
-          // let prodid = $('#prodid').val();
-          // let catid = $('#catid').val();
-          // let prodname = $('#prodname').val();
-          // let prodprice = $('#prodprice').val();
-          // let prodcolour = $('#prodcolour').val();
-          // let prodsize = $('#prodsize').val();
-          // let proddesc = $('#proddesc').val();
-          // let prodimage1 = $('#prodimage1')[0].files;
-
-          // form_data.append('prodid', prodid);
-          // form_data.append('catid', catid);
-          // form_data.append('prodname', prodname);
-          // form_data.append('prodprice', prodprice);
-          // form_data.append('prodcolour', prodcolour);
-          // form_data.append('prodsize', prodsize);
-          // form_data.append('proddesc', proddesc);
-          // form_data.append('prodimage1', prodimage1[0]);
-          
-
+          let form_data = new FormData();
+          let prodidbefore = $(this).attr('id');
+          let prodidnew = $('#prodid').val();
+          let catid = $('#catid').val();
+          let prodname = $('#prodname').val();
+          let prodprice = $('#prodprice').val();
+          let prodcolour = $('#prodcolour').val();
+          let prodsize = $('#prodsize').val();
+          let proddesc = $('#proddesc').val();
+          let prodimage1 = $('#prodimage1')[0].files;
+          let bool_image = false;
+          console.log(prodimage1);
+          if( document.getElementById("prodimage1").files.length != 0 ){
+            bool_image = true;
+            form_data.append('prodimage1', prodimage1[0]);
+          }
+          form_data.append('prodidbefore', prodidbefore);
+          form_data.append('prodidnew', prodidnew);
+          form_data.append('catid', catid);
+          form_data.append('prodname', prodname);
+          form_data.append('prodprice', prodprice);
+          form_data.append('prodcolour', prodcolour);
+          form_data.append('prodsize', prodsize);
+          form_data.append('proddesc', proddesc);
+          form_data.append('bool_image', bool_image);
+          console.log(bool_image);
           $.ajax({
-              type: "PATCH",
+              type: "POST",
               url: "http://localhost/PermataGordynMain/CRUD_API/update/update_product_api.php",
-              contentType: "application/json",
-              dataType: 'json',
-              data: JSON.stringify(data),
+              contentType: false,
+              data: form_data,
               cache: false,
               processData: false,
               success: function(dataResult){
@@ -293,11 +277,7 @@ $data = json_decode($konten, true);
         }
 
         else if (buttonupdate == "false"){
-          console.log("false");
-          
-
           let form_data = new FormData();
-          let prodid = $('#prodid').val();
           let catid = $('#catid').val();
           let prodname = $('#prodname').val();
           let prodprice = $('#prodprice').val();
@@ -306,7 +286,6 @@ $data = json_decode($konten, true);
           let proddesc = $('#proddesc').val();
           let prodimage1 = $('#prodimage1')[0].files;
 
-          form_data.append('prodid', prodid);
           form_data.append('catid', catid);
           form_data.append('prodname', prodname);
           form_data.append('prodprice', prodprice);
@@ -314,7 +293,6 @@ $data = json_decode($konten, true);
           form_data.append('prodsize', prodsize);
           form_data.append('proddesc', proddesc);
           form_data.append('prodimage1', prodimage1[0]);
-
           console.log(form_data);
 
           $.ajax({
@@ -340,7 +318,6 @@ $data = json_decode($konten, true);
       });
 
       $('.delete').on('click',function(event){
-          console.log("THROUGH THIS");
           var product_id =  $(this).attr('id');
           console.log(prodid);
           var data = {product_id: product_id,};
