@@ -39,7 +39,7 @@ try {
             
             // if($query_result == 1){
             $query = "SELECT cart3.id AS cart_id, cart3.product_id, product.name, product.price as product_price, product.image1, cart3.quantity
-            FROM cart3 JOIN product ON product.id = cart3.product_id WHERE cart3.user_id ='$user_id' AND product.id = '$product_id'";
+            FROM cart3 JOIN product ON product.id = cart3.product_id WHERE cart3.user_id ='$user_id' AND product.id = '$product_id' AND status='AVAILABLE'";
             $update_cart_user = $usersdb->conn->prepare($query);
             $update_cart_user->execute();  
             $query_result = $update_cart_user->rowCount();
