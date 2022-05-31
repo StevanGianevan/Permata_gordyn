@@ -18,38 +18,54 @@ $response = array();
 $response["error_schema"]=array();
 $response["output"]=array();
 $error_schema = array();
-$price_array = array();
 
 try {
     if($_SERVER['REQUEST_METHOD']=="POST"){
         $cartdb = new CartDb($db);
         $productdb = new ProductDb($db);
-        $invoicedb = new InvoiceDB($db);
+        $invoicedb = new InvoiceDb($db);
         $data = json_decode(file_get_contents("php://input"));
         //check request empty or not
         if(!empty($data->user_id)){
             $user_id = $data->user_id;
-            $query = "SELECT * FROM cart3 WHERE user_id ='$user_id' and status='AVAILABLE'";
-            $get_cart = $cartdb->conn->prepare($query);
-            $get_cart->execute();
-            $query_result = $get_cart->rowCount();
+            $query_invoice_id = "SELECT id FROM invoices WHERE user_id = '$user_id' AND status='IN_PROCESS'";
+            $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
+            $query_invoice_id->execute();
+            while ($row = $query_invoice_id->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+                $invoice_id = $id;
+            }
+            $query = "SELECT cart3.id AS cart_id, cart3.product_id, cart3.pp, cart3.lp, product.name, cart3.price as cart_price, product.image1, cart3.quantity FROM cart3 JOIN product ON product.id = cart3.product_id WHERE invoice_id = '$invoice_id'";
+            $get_product_cart = $cartdb->conn->prepare($query);
+            $get_product_cart->execute();
+            
+            $query_result = $get_product_cart->rowCount();
+            $get_product_cart = $cartdb->conn->prepare($query);
+            $get_product_cart->execute();
+            
+            $query_result = $get_product_cart->rowCount();
+            
+            
             if($query_result > 0){
-                while ($row = $get_cart->fetch(PDO::FETCH_ASSOC)){
+                while ($row = $get_product_cart->fetch(PDO::FETCH_ASSOC)){
+                    // extract row
+                    // this will make $row['name'] to
+                    // just $name only
                     extract($row);
-                    $cart_data=array(
-                        "price" => $price,
+                    $cartprice = number_format($cart_price, 2);
+                    $productdata=array(
+                        "cart_id" => $cart_id,
+                        "product_id" => $product_id,
+                        "price" => $cartprice,
+                        "name" => $name,
+                        "image1" => $image1,
+                        "pp" => $pp,
+                        "lp" => $lp,
+                        "quantity" => $quantity
                     );
-                    array_push($price_array, $cart_data);
+                    array_push($response["output"], $productdata);
                 }
-                $total_price = 0;
-                foreach($price_array as $array){
-                    foreach($array as $key=>$value){
-                        $total_price += $value;
-                        
-                    }
-                }
-                $total_price = number_format($total_price, 2);
-
+                
                 // set error schema
                 $error_schema["error_code"] = 0;
                 $error_schema["message"] = "Success";
@@ -60,10 +76,6 @@ try {
                 http_response_code(200);
               
                 // show products data in json format
-                $invoice_data=array(
-                    "total_price" => $total_price
-                );
-                array_push($response['output'], $invoice_data);
                 echo json_encode($response);
                 
             } else {
@@ -74,6 +86,9 @@ try {
             http_response_code(400);
             throw new Exception("Missing UserID Field");
         }
+    
+        
+
         
     } else {
         http_response_code(405);

@@ -174,7 +174,7 @@
                         // else if(dataResult.statusCode==201){
                         //     alert("Password does not match confirmation password");				
                         // }
-                        alert("successfully registered new user");
+                        alert(dataResult.output);
                         document.getElementById('registerform').reset();		
                         // }
                         // else if(dataResult.statusCode==203){

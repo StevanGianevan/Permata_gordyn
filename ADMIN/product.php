@@ -141,7 +141,7 @@ $data = json_decode($konten, true);
       </form>
       
       
-      <hr>
+      
       <table class="table table-hover">
         <p class="text-center h3">List Product</p>
         <thead class="thead-dark" style="text-transform: uppercase;">
@@ -285,6 +285,11 @@ $data = json_decode($konten, true);
           let prodsize = $('#prodsize').val();
           let proddesc = $('#proddesc').val();
           let prodimage1 = $('#prodimage1')[0].files;
+          let bool_image = false;
+          if(document.getElementById("prodimage1").files.length != 0 ){
+            bool_image = true;
+            form_data.append('prodimage1', prodimage1[0]);
+          }
 
           form_data.append('catid', catid);
           form_data.append('prodname', prodname);
@@ -293,6 +298,7 @@ $data = json_decode($konten, true);
           form_data.append('prodsize', prodsize);
           form_data.append('proddesc', proddesc);
           form_data.append('prodimage1', prodimage1[0]);
+          form_data.append('bool_image', bool_image);
           console.log(form_data);
 
           $.ajax({
@@ -305,11 +311,11 @@ $data = json_decode($konten, true);
               success: function(dataResult){
                   console.log(dataResult);
                   alert(dataResult.output);
-                   
+                  location.reload(true)
               },
               error: function(response){
                 console.log(response);
-                alert(dataResult.response.responeJSON.output);
+                alert(response.responseJSON.output);
               }
           });
         

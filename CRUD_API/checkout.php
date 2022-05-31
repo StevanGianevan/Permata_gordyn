@@ -178,17 +178,24 @@ $invoice_data = json_decode($result, true);
                                 <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo $row['total_price'] ?></p>
                             <?php }  ?>
                         </div>
+                        
                         <div class="metode">
                             <p style="text-transform: uppercase;">Metode Pembayaran</p>
                             <hr>
                             <input type="radio" name="metode" value="1" id="bca" onclick="enable()">
                             <label for="bca"><img src="../Image/logo-bcapng-32694.png" width="40" height="auto"> Bank Central Asia</label>
+                            <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                            <label style="color: grey;">*Wajib beri keterangan transfer atas nama pembeli sesuai username account</label>
                             <br>
                             <input type="radio" name="metode" value="1" id="ovo" onclick="enable()">
                             <label for="ovo"><img src="../Image/Logo OVO (PNG-240p) - FileVector69.png" width="20" height="auto"> OVO</label>
+                            <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                            <label style="color: grey;">*Wajib beri keterangan transfer atas nama pembeli sesuai username account</label>
                             <br>
                             <input type="radio" name="metode" value="1" id="gopay" onclick="enable()">
                             <label for="gopay"><img src="../Image/Logo GoPay (PNG-240p) - FileVector69.png" width="40" height="auto"> GOPAY</label>
+                            <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                            <label style="color: grey;">*Wajib beri keterangan transfer atas nama pembeli sesuai username account</label>
                         </div>
                     </div>
                     <div class="card-footer">

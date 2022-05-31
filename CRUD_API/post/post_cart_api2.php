@@ -42,39 +42,25 @@ try {
             $create_date = (isset($data->create_date) ? $data->create_date : false);
             $modified_date = (isset($data->modified_date) ? $data->modified_date : false);
 
-            $query = "SELECT * FROM cart3 WHERE user_id = '$user_id' AND product_id = '$product_id'";
+            $query = "SELECT * FROM cart3 WHERE user_id = '$user_id' AND product_id = '$product_id' AND status='AVAILABLE'";
             $cart_product = $cartdb->conn->prepare($query);
             $cart_product->execute();
             $query_result = $cart_product->rowCount();
             if($query_result > 0){
                 while ($row = $cart_product->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
-                    $query = "UPDATE cart3 SET quantity = quantity+1 WHERE user_id = '$user_id' AND product_id = '$product_id'";
+                    $query = "UPDATE cart3 SET quantity = quantity+1 WHERE user_id = '$user_id' AND product_id = '$product_id' AND status='AVAILABLE'";
                     $update_cart_quantity = $usersdb->conn->prepare($query);
                     $need_to_be_executed = $update_cart_quantity;
                 }
             }
             else{
-                $query_product = "SELECT price FROM product WHERE id = '$product_id'";
-                $get_product = $cartdb->conn->prepare($query_product);
-                $get_product->execute();
-                $query_result = $get_product->rowCount();
-                if($query_result > 0){
-                    while ($row = $get_product->fetch(PDO::FETCH_ASSOC)){
-                        extract($row);
-                        $product_price = $price;
-                    }
-                    $query = "INSERT INTO cart3 (id, user_id, product_id, quantity, pp, lp, price)VALUE('$cart_id', '$user_id', '$product_id', '$quantity', 1, 1, $product_price)";
-                    $create_cart = $cartdb->conn->prepare($query);
-                    $need_to_be_executed = $create_cart;
-                }
-
-                $invoice_check_query = "SELECT * FROM invoices WHERE user_id = '$user_id'";
+                $invoice_id = "INV-".strtoupper(uniqid());
+                $invoice_check_query = "SELECT * FROM invoices WHERE user_id = '$user_id' and status = 'UNPAID'";
                 $check_invoice = $invoicedb->conn->prepare($invoice_check_query);
                 $check_invoice->execute();
                 $query_invoice_result = $check_invoice->rowCount();
                 if($query_invoice_result == 0){
-                    $invoice_id = "INV-".strtoupper(uniqid());
                     $create_query_invoices = "INSERT INTO invoices (id, user_id, status) VALUE('$invoice_id', '$user_id', 'UNPAID')";
                     $create_invoice = $invoicedb->conn->prepare($create_query_invoices);
                     $create_invoice->execute();
@@ -85,6 +71,28 @@ try {
                         throw new Exception("Create Invoice Failed.");
                     }
                 }
+                else{
+                    while ($inv_row = $check_invoice->fetch(PDO::FETCH_ASSOC)){
+                        extract($inv_row);
+                        $invoice_id = $id;
+                    }
+                }
+
+                $query_product = "SELECT price FROM product WHERE id = '$product_id'";
+                $get_product = $cartdb->conn->prepare($query_product);
+                $get_product->execute();
+                $query_result = $get_product->rowCount();
+                if($query_result > 0){
+                    while ($row = $get_product->fetch(PDO::FETCH_ASSOC)){
+                        extract($row);
+                        $product_price = $price;
+                    }
+                    $query = "INSERT INTO cart3 (id, user_id, product_id, quantity, pp, lp, price, invoice_id, status)VALUE('$cart_id', '$user_id', '$product_id', '$quantity', 1, 1, $product_price, '$invoice_id', 'AVAILABLE')";
+                    $create_cart = $cartdb->conn->prepare($query);
+                    $need_to_be_executed = $create_cart;
+                }
+
+                
             }    
 
             

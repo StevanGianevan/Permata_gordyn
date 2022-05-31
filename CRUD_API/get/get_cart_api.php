@@ -26,7 +26,7 @@ try {
         //check request empty or not
         if(!empty($data->user_id)){
             $user_id = $data->user_id;
-            $query = "SELECT cart3.id AS cart_id, cart3.product_id, cart3.pp, cart3.lp, product.name, cart3.price as cart_price, product.image1, cart3.quantity FROM cart3 JOIN product ON product.id = cart3.product_id WHERE cart3.user_id ='$user_id'";
+            $query = "SELECT cart3.id AS cart_id, cart3.product_id, cart3.pp, cart3.lp, product.name, cart3.price as cart_price, product.image1, cart3.quantity FROM cart3 JOIN product ON product.id = cart3.product_id WHERE cart3.user_id ='$user_id' AND cart3.status='AVAILABLE'";
             $get_product_cart = $cartdb->conn->prepare($query);
             $get_product_cart->execute();
             
@@ -39,10 +39,11 @@ try {
                     // this will make $row['name'] to
                     // just $name only
                     extract($row);
+                    $cartprice = number_format($cart_price, 2);
                     $productdata=array(
                         "cart_id" => $cart_id,
                         "product_id" => $product_id,
-                        "price" => $cart_price,
+                        "price" => $cartprice,
                         "name" => $name,
                         "image1" => $image1,
                         "pp" => $pp,

@@ -27,69 +27,77 @@ try {
         $prodcolour = $_POST['prodcolour'];
         $prodsize = $_POST['prodsize'];
         $proddesc = $_POST['proddesc'];
+        $bool_image = $_POST['bool_image'];
 
-        $fileName= $_FILES['prodimage1']['name'];
-        $fileTmpName= $_FILES['prodimage1']['tmp_name'];
-        $fileSize= $_FILES['prodimage1']['size'];
-        $fileError= $_FILES['prodimage1']['error'];
-        $fileType= $_FILES['prodimage1']['type'];
-        $fileExt = explode('.', $fileName);
-        $fileActualExt = strtolower(end($fileExt));
-        $allowed = array('jpg', 'jpeg', 'png', 'pdf');
-
-        if(in_array($fileActualExt, $allowed))
-        {
-            if($fileError === 0)
-            {
-                if($fileSize <1000000)
-                {
-                    $fileNameNew = uniqid('', true).".".$fileActualExt;
-                    $fileDestination = "../media/".$fileNameNew;
-                    move_uploaded_file($fileTmpName, $fileDestination);
-                    
-                }else{
-                    http_response_code(405);
-                    throw new Exception("Your file is too large!");
-                }
-
-            }else{
-                http_response_code(405);
-                throw new Exception("there was an error uploading your file");
-            }
-        }else{
-            http_response_code(405);
-            throw new Exception("You cannot upload files of this type!");
-        }
+        
 
         // make sure data is not empty
         if(!empty($catid) && !empty($prodname) && !empty($prodprice)){
-            $prodidnew = "PROD-".strtoupper(uniqid());
-            $productUrl="http://localhost/PermataGordynMain/CRUD_API/media/".$fileNameNew;
-            $query = "INSERT INTO product (id, category_id, name, price, size, colour, description, image1)VALUE('$prodidnew', $catid, '$prodname', $prodprice, '$prodsize', '$prodcolour', '$proddesc', '$productUrl')";
-            $add_product= $productdb->conn->prepare($query);
-            $add_product->execute();
-            $product_result = $add_product->rowCount();
+            if ($bool_image == 'true') { 
+                $fileName= $_FILES['prodimage1']['name'];
+                $fileTmpName= $_FILES['prodimage1']['tmp_name'];
+                $fileSize= $_FILES['prodimage1']['size'];
+                $fileError= $_FILES['prodimage1']['error'];
+                $fileType= $_FILES['prodimage1']['type'];
+                $fileExt = explode('.', $fileName);
+                $fileActualExt = strtolower(end($fileExt));
+                $allowed = array('jpg', 'jpeg', 'png', 'pdf');
 
-            if($product_result == 0){
-                http_response_code(405);
-                throw new Exception("Something went wrong inserting new product!");
+                if(in_array($fileActualExt, $allowed))
+                {
+                    if($fileError === 0)
+                    {
+                        if($fileSize <1000000)
+                        {
+                            $fileNameNew = uniqid('', true).".".$fileActualExt;
+                            $fileDestination = "../media/".$fileNameNew;
+                            move_uploaded_file($fileTmpName, $fileDestination);
+                            
+                        }else{
+                            http_response_code(405);
+                            throw new Exception("Your file is too large!");
+                        }
+
+                    }else{
+                        http_response_code(405);
+                        throw new Exception("there was an error uploading your file");
+                    }
+                }else{
+                    http_response_code(405);
+                    throw new Exception("You cannot upload files of this type!");
+                }
+                $prodidnew = "PROD-".strtoupper(uniqid());
+                $productUrl="http://localhost/PermataGordynMain/CRUD_API/media/".$fileNameNew;
+                $query = "INSERT INTO product (id, category_id, name, price, size, colour, description, image1)VALUE('$prodidnew', $catid, '$prodname', $prodprice, '$prodsize', '$prodcolour', '$proddesc', '$productUrl')";
+                $add_product= $productdb->conn->prepare($query);
+                $add_product->execute();
+                $product_result = $add_product->rowCount();
+
+                if($product_result == 0){
+                    http_response_code(405);
+                    throw new Exception("Something went wrong inserting new product!");
+                }
+                else{
+                    $error_schema["error_code"] = 0;
+                    $error_schema["message"] = "Success";
+                    
+                    $response["error_schema"] = $error_schema;
+                    $response["output"] = "Successfully added new product!";
+                
+                    http_response_code(201);
+                    
+                    echo json_encode($response);
+                }
+            
+            
             }
             else{
-                $error_schema["error_code"] = 0;
-                $error_schema["message"] = "Success";
-                
-                $response["error_schema"] = $error_schema;
-                $response["output"] = "Successfully added new product!";
-            
-                http_response_code(201);
-                
-                echo json_encode($response);
+                http_response_code(405);
+                throw new Exception("Product picture is required to add new product!");
             }
-            
-            
-        
         } else {
             // send error missing some requirement fields
+            http_response_code(405);
             throw new Exception("Missing some requirement fields");
             
         }

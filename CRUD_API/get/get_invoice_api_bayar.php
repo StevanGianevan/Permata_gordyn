@@ -29,7 +29,15 @@ try {
         //check request empty or not
         if(!empty($data->user_id)){
             $user_id = $data->user_id;
-            $query = "SELECT * FROM cart3 WHERE user_id ='$user_id' and status='AVAILABLE'";
+
+            $query_invoice_id = "SELECT id FROM invoices WHERE user_id = '$user_id' AND status='IN_PROCESS'";
+            $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
+            $query_invoice_id->execute();
+            while ($row = $query_invoice_id->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+                $invoice_id = $id;
+            }
+            $query = "SELECT * FROM cart3 WHERE invoice_id='$invoice_id'";
             $get_cart = $cartdb->conn->prepare($query);
             $get_cart->execute();
             $query_result = $get_cart->rowCount();
@@ -45,11 +53,9 @@ try {
                 foreach($price_array as $array){
                     foreach($array as $key=>$value){
                         $total_price += $value;
-                        
                     }
                 }
                 $total_price = number_format($total_price, 2);
-
                 // set error schema
                 $error_schema["error_code"] = 0;
                 $error_schema["message"] = "Success";
@@ -63,6 +69,8 @@ try {
                 $invoice_data=array(
                     "total_price" => $total_price
                 );
+                session_start();
+                $_SESSION['total_price'] = $total_price;
                 array_push($response['output'], $invoice_data);
                 echo json_encode($response);
                 

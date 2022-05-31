@@ -7,7 +7,9 @@ header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
 include_once "../connection.php";
+include_once "../cartdb.php";
 include_once "../productdb.php";
+include_once "../invoicedb.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -16,50 +18,35 @@ $response = array();
 $response["error_schema"]=array();
 $response["output"]=array();
 $error_schema = array();
+$price_array = array();
 
 try {
     if($_SERVER['REQUEST_METHOD']=="GET"){
-        $productDb = new ProductDb($db);
-        $headers = apache_request_headers();
-        
-        // // check header request
-        // if(array_key_exists("id", $headers)==false){
-        //     throw new Exception("Missing mandatory field");
-        // }
-        
-        // // $userId = $_GET['userId'];
-        // $productId = $headers["id"];
-        // // input request validation
-        // if($productId == null){
-        //     throw new Exception("Missing mandatory field");
-        // }
-        
-        $query = "SELECT * FROM product";
-        
-        $get_product = $productDb->conn->prepare($query);
-        $get_product->execute();
+        $invoicedb = new InvoiceDB($db);
+        $data = json_decode(file_get_contents("php://input"));
+        //check request empty or no
+
+        $query_invoice_id = "SELECT * FROM invoices";
+        $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
+        $query_invoice_id->execute();
         // $query_result = $get_product->rowCount();
-        $query_result = $get_product->rowCount();
+        $query_result = $query_invoice_id->rowCount();
         
         if($query_result > 0){
-            while ($row = $get_product->fetch(PDO::FETCH_ASSOC)){
+            while ($row = $query_invoice_id->fetch(PDO::FETCH_ASSOC)){
                 // extract row
                 // this will make $row['name'] to
                 // just $name only
                 extract($row);
-                $prodprice = number_format($price, 2);
-                $productdata=array(
+          
+                $invoicedata=array(
                     "id" => $id,
-                    "name" => $name,
-                    "price" => $prodprice,
-                    "category_id" => $category_id,
-                    "size" => $size,
-                    "colour" => $colour,
-                    "image1" => $image1,
-                    "description" =>$description
+                    "user_id" => $user_id,
+                    "metode_pembayaran" => $metode_pembayaran,
+                    "status" => $status
                 );
           
-                array_push($response["output"], $productdata);
+                array_push($response["output"], $invoicedata);
             }
             
             // set error schema
@@ -77,7 +64,9 @@ try {
         } else {
             throw new Exception("Data not found");
         }
+        
     } else {
+        http_response_code(405);
         throw new Exception("Not authorized access");
     }
 } catch(Exception $e) {

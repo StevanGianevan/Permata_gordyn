@@ -95,39 +95,39 @@ $data = json_decode($konten, true);
       <div class="form-row">
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">ID</label>
-          <input type="text" class="form-control" id="userid" placeholder="ID" required>
+          <input type="text" class="form-control" id="userid" placeholder="ID" disabled>
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">Role</label>
-          <input type="text" class="form-control" id="role" placeholder="Role" required>
+          <input type="text" class="form-control" id="role" placeholder="Role">
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">Name</label>
-          <input type="text" class="form-control" id="name" placeholder="Name" required>
+          <input type="text" class="form-control" id="name" placeholder="Name">
         </div> 
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip02">Address</label>
-          <input type="text" class="form-control" id="address" placeholder="Address" required>
+          <input type="text" class="form-control" id="address" placeholder="Address">
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip02">Contact</label>
-          <input type="text" class="form-control" id="contact" placeholder="Contact" required>
+          <input type="text" class="form-control" id="contact" placeholder="Contact">
         </div> 
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip02">Postcode</label>
-          <input type="text" class="form-control" id="postcode" placeholder="Postcode" required>
+          <input type="text" class="form-control" id="postcode" placeholder="Postcode">
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip02">Email</label>
-          <input type="text" class="form-control" id="email" placeholder="Email" required>
+          <input type="text" class="form-control" id="email" placeholder="Email">
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip02">Password</label>
-          <input type="text" class="form-control" id="password" placeholder="Password" required>
+          <input type="text" class="form-control" id="password" placeholder="Password">
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip02">Confirmation Password</label>
-          <input type="text" class="form-control" id="cpassword" placeholder="Confirmation Password" required>
+          <input type="text" class="form-control" id="cpassword" placeholder="Confirmation Password">
         </div>
         <div class="text-right">
           <button id="" class="btn btn-danger ml-auto adduserbtn" value="false">Add User</button>

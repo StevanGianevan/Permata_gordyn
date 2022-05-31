@@ -1,7 +1,9 @@
 <?php 
 session_start();
 // include "Model/productModel.php";
-
+if (!isset($_SESSION['email'])){
+    header("location: signIn.php");
+}
 // HTTP REQUEST TO API
 $url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_cart_api.php';
 // Create a new cURL resource

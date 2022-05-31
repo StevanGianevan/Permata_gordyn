@@ -30,6 +30,7 @@ try {
             $address = $data->address;
             $contact = $data->contact;
             $postcode = $data->postcode;
+            $role = $data->role;
             $currentpassword = (isset($data->currentpassword) ? $data->currentpassword : false);
             $newpassword = (isset($data->newpassword) ? $data->newpassword : false);
             $newcpassword = (isset($data->newcpassword) ? $data->newcpassword : false);
@@ -67,7 +68,7 @@ try {
             }
 
             else {
-                $query = "UPDATE users SET  name='$name', address='$address', email='$email', postcode=$postcode, contact=$contact WHERE id='$id'";
+                $query = "UPDATE users SET  name='$name', address='$address', email='$email', postcode=$postcode, contact=$contact, role='$role' WHERE id='$id'";
                 $update_user = $usersdb->conn->prepare($query);
             }
             
