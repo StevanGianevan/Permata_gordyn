@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="userProfile.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -41,21 +41,8 @@
 
 <body>
 <?php include "header.php" ?>
-<div class="container">
-    <div class="row flex-lg-nowrap">
-    <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
-        <div class="card p-3">
-        <div class="e-navlist e-navlist--active-bg">
-            <ul class="nav">
-            <li class="nav-item"><a class="nav-link px-2 active" href="#"><i class="fa fa-fw fa-bar-chart mr-1"></i><span>Overview</span></a></li>
-            <li class="nav-item"><a class="nav-link px-2" href="https://www.bootdey.com/snippets/view/bs4-crud-users" target="__blank"><i class="fa fa-fw fa-th mr-1"></i><span>CRUD</span></a></li>
-            <li class="nav-item"><a class="nav-link px-2" href="https://www.bootdey.com/snippets/view/bs4-edit-profile-page" target="__blank"><i class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a></li>
-            </ul>
-        </div>
-        </div>
-    </div>
-
-    <div class="col">
+<div class="d-flex justify-content-center" style="margin-top: 30px;">
+    <div class="col" style="max-width: 1000px;">
         <div class="row">
         <div class="col mb-3">
             <div class="card">
@@ -81,9 +68,7 @@
                         </button>
                         </div>
                     </div>
-                    <div class="text-center text-sm-right">
-                        <span class="badge badge-secondary">administrator</span>
-                    </div>
+                    
                     </div>
                 </div>
                 <ul class="nav nav-tabs">
@@ -137,16 +122,12 @@
                                 </div>
                             </div>
                             </div>
-
-                            </div>
-                            <div class="row">
-                            <div class="col d-flex justify-content-end">
-                                <button id="submitdata" name="submitdata" class="btn btn-primary" type="submit">Save Changes</button>
-                            </div>
-                            </div>
-
+                        </div>
 
                         </div>
+
+                        <button id="submitdata" name="submitdata" class="btn btn-primary" type="submit">Save Changes</button>
+                        <p> </br> </p>
                         </div>
                         <div class="row">
                         <div class="col-12 col-sm-6 mb-3">
@@ -177,11 +158,9 @@
                         </div>
                         
                         </div>
-                        <div class="row">
-                        <div class="col d-flex justify-content-end">
-                            <button id="submit" name="submit" class="btn btn-primary" type="submit">Save Changes</button>
-                        </div>
-                        </div>
+                    
+                        <button id="submit" name="submit" class="btn btn-primary submitpass" type="submit">Save Changes</button>
+                        
                     </form>
 
                     </div>
@@ -190,19 +169,6 @@
             </div>
             </div>
         </div>
-
-        <!-- <div class="col-12 col-md-3 mb-3">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="px-xl-3">
-                    <button class="btn btn-block btn-secondary">
-                        <i class="fa fa-sign-out"></i>
-                        <span>Back To Home</span>
-                    </button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 
 </div>

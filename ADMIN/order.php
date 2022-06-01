@@ -129,13 +129,15 @@ $data = json_decode($konten, true);
 
       $('.accept').on('click',function(event){
           var invoice_id = $(this).attr('id');
+          var status = 'PAID';
           var data = {
             invoice_id: invoice_id,
+            status: status
           };
           console.log(invoice_id);
           $.ajax({
               type: "PATCH",
-              url: "http://localhost/PermataGordynMain/CRUD_API/update/update_order_invoice_api.php",
+              url: "http://localhost/PermataGordynMain/CRUD_API/update/update_invoice_api.php",
               contentType: "application/json",
               dataType: 'json',
               data: JSON.stringify(data),
@@ -160,13 +162,15 @@ $data = json_decode($konten, true);
 
       $('.reject').on('click',function(event){
           var invoice_id = $(this).attr('id');
+          var status = 'DECLINED';
           var data = {
             invoice_id: invoice_id,
+            status: status
           };
           console.log(invoice_id);
           $.ajax({
               type: "PATCH",
-              url: "http://localhost/PermataGordynMain/CRUD_API/delete/reject_order_invoice_api.php",
+              url: "http://localhost/PermataGordynMain/CRUD_API/update/update_invoice_api.php",
               contentType: "application/json",
               dataType: 'json',
               data: JSON.stringify(data),

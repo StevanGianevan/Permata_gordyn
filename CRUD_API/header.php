@@ -24,11 +24,20 @@
                     <a class="nav-link <?php if ($page == "contacts.php") {echo "active";} ?>" href="contacts.php">Visit Us</a>
                 </li>
             </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item cart">
-                    <a class="nav-link <?php if ($page == "cart.php") {echo "active";} ?>" href="cart.php">Cart <i class="fa fa-shopping-bag"></i></a>
-                </li>
-            </ul>
+            <?php if (isset($_SESSION['email'])){ ?>
+                <ul class="navbar-nav">
+                    <li class="nav-item cart">
+                        <a class="nav-link <?php if ($page == "cart.php") {echo "active";} ?>" href="cart.php">Cart <i class="fa fa-shopping-bag"></i></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item cart">
+                        <a class="nav-link <?php if ($page == "invoices.php") {echo "active";} ?>" href="invoices.php">My Orders</a>
+                    </li>
+                </ul>
+            <?php }?>
+                
+            
             <ul class="navbar-nav">
                 <li class="nav-item contact">
 

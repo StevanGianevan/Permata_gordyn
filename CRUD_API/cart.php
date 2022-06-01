@@ -23,6 +23,8 @@ $result = curl_exec($ch);
 curl_close($ch);
 $my_array = array();
 $data = json_decode($result, true);
+
+
 // Get Invoice data
 $url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api.php';
 // Create a new cURL resource
@@ -82,62 +84,67 @@ $invoice_data = json_decode($result, true);
                     <h5 class="mb-0">Cart</h5>
                 </div>
                 <div class="card-body">
-                <?php foreach ($data['output'] as $row) { ?> 
+                <?php if ($data['output'] != 'Data not found') { ?>
+                    <?php foreach ($data['output'] as $row) { ?> 
                         <!-- Single item -->
+                    <form id="<?php echo $row['product_id'] ?>" action="" name="formprd" class="form" method="POST">
                         <div class="row">
-                        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                            <!-- Image -->
-                            <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                            <img src="<?php echo $row['image1']?>" width="150" height="100">
-                            <a href="#!">
-                                <div class="mask" style="background-color: black"></div>
-                            </a>
+                            <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                <!-- Image -->
+                                <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                                <img src="<?php echo $row['image1']?>" width="150" height="100">
+                                <a href="#!">
+                                    <div class="mask" style="background-color: black"></div>
+                                </a>
+                                </div>
+                                <!-- Image -->
                             </div>
-                            <!-- Image -->
-                        </div>
 
-                        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                            <!-- Data -->
-                            <p><strong><?php echo $row['name']?></strong></p>
-                            <button id="<?php echo $row['product_id']?>" type="button" class="btn btn-primary btn-sm me-1 mb-2 removebutton" data-mdb-toggle="tooltip"
-                            title="Remove item">
-                            <i class="fas fa-trash"></i>
-                            </button>
-                            
-                            <!-- Data -->
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                            <!-- Quantity -->
-                            <form id="<?php echo $row['product_id'] ?>" action="" name="formprd" class="form" method="POST">
-                            <div class="d-flex mb-4" style="max-width: 300px">
-                                <label class="form-label" for="form1">Panjang</label>
-                                <input id="panjang_id_<?php echo trim($row['product_id'])?>" min="0" name="panjang" type="number" class="form-control" value="<?php echo $row['pp'] ?>" />
-                                <label class="form-label" for="form1">Lebar</label>
-                                <input id="lebar_id_<?php echo trim($row['product_id'])?>" min="0" name="lebar" type="number" class="form-control" value="<?php echo $row['lp'] ?>" />
+                            <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                <!-- Data -->
+                                <p><strong><?php echo $row['name']?></strong></p>
+                                <button id="<?php echo $row['product_id']?>" type="button" class="btn btn-primary btn-sm me-1 mb-2 removebutton" data-mdb-toggle="tooltip"
+                                title="Remove item">
+                                <i class="fas fa-trash"></i>
+                                </button>
+                            <div class="d-flex mb-4">
+                                    <label class="form-label" for="quantity">Quantity : </label>
+                                    <input id="quantity_id_<?php echo trim($row['product_id'])?>"  min="0" name="quantity" type="number" value="<?php echo $row['quantity'] ?>" type="number" class="form-control quantity" />
                             </div>
-                            <div class="d-flex mb-4" style="max-width: 300px">
-                            
-
-                            <div class="form-outline">
-                                <input id="quantity_id_<?php echo trim($row['product_id'])?>"  min="0" name="quantity" value="<?php echo $row['quantity'] ?>" type="number" class="form-control" />
-                                <label class="form-label" for="form1">Quantity</label>
-                            </div>
-                            <button id="<?php echo $row['product_id'] ?>" type="submit" class="btn btn-primary calculatebtn">Calculate</button>
-                            </div>
-                            </form>
-                            <!-- Quantity -->
-
-                            <!-- Price -->
                             <p class="text-start text-md-center">
-                            <p>Calculated Price: Rp. <?php echo $row['price']?></p>
+                                <p><strong>Calculated Price:</strong> Rp. <?php echo $row['price']?></p>
+                                <p>  </br>  </p>
                             </p>
-                            <!-- Price -->
+
+                                <!-- Data -->
                             </div>
+
+                            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                <!-- Quantity -->
+                                
+                                    <div class="d-flex mb-4">
+                                        <label class="form-label" for="form1">Panjang : </label>
+                                        <input id="panjang_id_<?php echo trim($row['product_id'])?>" min="0" name="panjang" type="number" class="form-control pp" value="<?php echo $row['pp'] ?>" />
+                                    </div>
+                                    <div class="d-flex mb-4">
+                                        <label class="form-label" for="form1">Lebar   : </label>
+                                        <input id="lebar_id_<?php echo trim($row['product_id'])?>" min="0" name="lebar" type="number" class="form-control lp" value="<?php echo $row['lp'] ?>" />
+                                    </div>
+                                    
+                                    
+                                    
+                                    <button id="<?php echo $row['product_id'] ?>" type="submit" class="btn btn-primary calculatebtn">Calculate</button>
+                                </form>
+                            </div>
+                            <div class="d-flex mb-4" style="max-width: 500px">
+                        <!-- Quantity -->
+
+                        <!-- Price -->
+                            
                         </div>
-            <?php }?>
+                </div>
+            <?php }}?>
                 
-                    <!-- Single item -->
                     <!-- Single item -->
                 </div>
                 </div>
@@ -150,23 +157,7 @@ $invoice_data = json_decode($result, true);
                     <p><strong>Contact:  </strong> <?php echo $_SESSION['contact']?></p>
                 </div>
                 </div>
-                <!-- <div class="card mb-4 mb-lg-0">
-                <div class="card-body">
-                    <p><strong>We accept</strong></p>
-                    <img class="me-2" width="45px"
-                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
-                    alt="Visa" />
-                    <img class="me-2" width="45px"
-                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
-                    alt="American Express" />
-                    <img class="me-2" width="45px"
-                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
-                    alt="Mastercard" />
-                    <img class="me-2" width="45px"
-                    src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
-                    alt="PayPal acceptance mark" />
-                </div>
-                </div> -->
+               
             </div>
             <div class="col-md-4">
                 <div class="card mb-4">
@@ -175,30 +166,33 @@ $invoice_data = json_decode($result, true);
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
+                <?php if ($data['output'] != 'Data not found') { ?>
                     <?php foreach ($invoice_data['output'] as $row) { ?> 
                       
                     <li
                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                        Products
+                        Products Total: 
                         <span>Rp. <?php echo $row['total_price']?></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                         Shipping
-                        <span>Gratis</span>
+                        <span>Free</span>
                     </li>
                     <li
                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                         <div>
                         <strong>Total amount</strong>
-                        <strong>
-                            <p class="mb-0">(including VAT)</p>
-                        </strong>
+                       
                         </div>
                         <span><strong>Rp. <?php echo $row['total_price']?></strong></span>
                     </li>
                     </ul>
-                <?php }  ?>
+                <?php }}  ?>
+                <?php if ($data['output'] != 'Data not found') { ?>
                 <button id="checkout" type="submit" class="btn btn-primary">Checkout</button>
+                <?php } else{?>
+                    <button disabled id="checkout" type="submit" class="btn btn-primary">Checkout</button>
+                <?php }?>
                 </div>
                 </div>
             </div>

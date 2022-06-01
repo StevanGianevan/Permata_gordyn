@@ -35,7 +35,7 @@ try {
             
             if($query_result > 0){
                 
-                $update_invoice_id = "UPDATE invoices SET status='Payment Declined' WHERE id='$invoice_id'";
+                $update_invoice_id = "UPDATE invoices SET status='DECLINED' WHERE id='$invoice_id'";
                 $update_invoice_id = $invoicedb->conn->prepare($update_invoice_id);
                 $update_invoice_id->execute();
                 $update_query_result = $query_invoice_id->rowCount();

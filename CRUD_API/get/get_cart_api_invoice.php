@@ -28,13 +28,20 @@ try {
         //check request empty or not
         if(!empty($data->user_id)){
             $user_id = $data->user_id;
-            $query_invoice_id = "SELECT id FROM invoices WHERE user_id = '$user_id' AND status='IN_PROCESS'";
-            $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
-            $query_invoice_id->execute();
-            while ($row = $query_invoice_id->fetch(PDO::FETCH_ASSOC)){
-                extract($row);
-                $invoice_id = $id;
+
+            if(!empty($data->invoice_id)){
+                $invoice_id = $data->invoice_id;
             }
+            else{
+                $query_invoice_id = "SELECT id FROM invoices WHERE user_id = '$user_id' AND status='IN_PROCESS'";
+                $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
+                $query_invoice_id->execute();
+                while ($row = $query_invoice_id->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    $invoice_id = $id;
+                }
+            }
+            
             $query = "SELECT cart3.id AS cart_id, cart3.product_id, cart3.pp, cart3.lp, product.name, cart3.price as cart_price, product.image1, cart3.quantity FROM cart3 JOIN product ON product.id = cart3.product_id WHERE invoice_id = '$invoice_id'";
             $get_product_cart = $cartdb->conn->prepare($query);
             $get_product_cart->execute();

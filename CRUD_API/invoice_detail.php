@@ -1,13 +1,15 @@
-<?php
+<?php 
 session_start();
+$invoice_id = $_GET['invoice_id'];
+$user_id = $_SESSION['id'];
+
 $url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_cart_api_invoice.php';
 
 // Create a new cURL resource
 $ch = curl_init($url);
 
 // Setup request to send json via POST
-$user_id = $_SESSION['id'];
-$payload = json_encode(array("user_id" => $user_id));
+$payload = json_encode(array("invoice_id" => $invoice_id, "user_id" => $user_id));
 
 // Attach encoded JSON string to the POST fields
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -25,14 +27,15 @@ $result = curl_exec($ch);
 curl_close($ch);
 $my_array = array();
 $data = json_decode($result, true);
-// Get Invoice data
+
+// // Get Invoice data
 $url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api_bayar.php';
 
 // Create a new cURL resource
 $ch = curl_init($url);
 
 // Setup request to send json via POST
-$payload = json_encode(array("user_id" => $user_id));
+// $payload = json_encode(array("user_id" => $user_id));
 
 // Attach encoded JSON string to the POST fields
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -129,9 +132,34 @@ $invoice_data = json_decode($result, true);
                                 <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
                                 
                             </div>
+                            <!-- <div class="col-sm-2 text-right">
+                                <button type="button" class="btn btn-outline-dark">Salin</button>
+                            </div> -->
                         </div>
                     </div>
                 </div>
+                <!-- <div class="card tahapan">
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                Gunakan M-Banking / ATM terdekat untuk menyelesaikan pembayaran
+                            </li>
+                            <li>
+                                Upload bukti transfer pada form dibawah yang sudah disediakan
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="form-row mb-3">
+                            <div class="col">
+                              <label for="validationTooltip02">Bukti Transfer</label>
+                              <div class="custom-file">
+                                <input type="file" class="input-bukti-trf" id="customFile">
+                              </div>
+                              <label style="color: lightgrey;">*upload maks 5MB</label>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
             </div>
             <div class="col-md-3">
                 <div class="card">
@@ -170,9 +198,7 @@ $invoice_data = json_decode($result, true);
                         </div>
                         <?php }?>
                     </div>
-                    <div class="card-footer">
-                        <button type="button" class="btn btn-primary" id="pembayaran" disabled="true"><i class="bi bi-shield-check"></i> Menunggu konfirmasi pembayaran</button>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -234,24 +260,6 @@ $invoice_data = json_decode($result, true);
     </footer>
 
     <script type="text/javascript">
-        // jQuery(document).ready(function (){
-        //     $('input[type = "file"]').change(function(){
-        //         $(pembayaran).next().removeAttr('disabled');
-        //     }).next().attr('disabled','disabled');
-        // });
-        // jQuery(document).ready(
-        //     function(){
-        //         $('id:pembayaran').attr('disabled',true);
-        //         $('input:file').change(
-        //             function(){
-        //                 if ($(this).val()){
-        //                     $('id:pembayaran').removeAttr('disabled'); 
-        //                 }
-        //                 else {
-        //                     $('id:pembayaran').attr('disabled',true);
-        //                 }
-        //     });
-        // });
     </script>
 </body>
 </html>

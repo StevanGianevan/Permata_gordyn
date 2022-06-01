@@ -26,7 +26,7 @@ curl_close($ch);
 $my_array = array();
 $data = json_decode($result, true);
 // Get Invoice data
-$url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api_bayar.php';
+$url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api3.php';
 
 // Create a new cURL resource
 $ch = curl_init($url);
@@ -51,7 +51,6 @@ curl_close($ch);
 $my_array = array();
 $invoice_data = json_decode($result, true);
 
-
 ?>
 
 
@@ -61,7 +60,7 @@ $invoice_data = json_decode($result, true);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/bayar.css">
+    <link rel="stylesheet" href="invoices.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -90,89 +89,37 @@ $invoice_data = json_decode($result, true);
                     <div class="card-header">
                         <p>INVOICE</p>
                     </div>
-                    <?php foreach ($data['output'] as $row) { ?> 
-                    <div class="card-body">
-                        <div class="row align-content-center justify-content-center">
-                            <div class="col-lg-6 text-center">
-                                <p><img src="<?php echo $row['image1']?>" width="150" height="100"></p>
-                            </div>
-                            <div class="col-lg-6">
-                                <ul>
-                                    <li>
-                                        <p style="font-weight: 600; text-transform: uppercase;"><?php echo $row['name']?></p>
-                                    </li>
-                                    <li>
-                                        <p>ukuran : <?php echo $row['pp'] ?>m x <?php echo $row['lp'] ?>m</p>
-                                    </li>
-                                    <li>
-                                        <p>Quantity: <?php echo $row['quantity']?></p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <?php }?>
-                <h4 style ="text-align: center;" >Pesanan akan di proses dalam jangka waktu 2x24 jam.</h4>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row align-content-center justify-content-center">
-                            <div class="col-sm-2 text-center">
-                                <img src="../Image/logo-bcapng-32694.png" width="100px" height="auto">
-                            </div>
-                            <div class="col-lg-8">
-                                
-                                <h4 style= "text-align: center;">
-                                    METODE PEMBAYARAN DIPILIH
-                                </h4>
-                                <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        Chart Penjualan
-                    </div>
-                    <div class="card-body">
-                        <div class="pembelian">
-                            <p style="text-transform: uppercase;">List Pembelian</p>
-                            <hr>
-                            <div class="row">
-                                <div>
-                                <?php $i=1 ?>
-                                <?php foreach ($data['output'] as $row) { ?>
+                    <?php if ($invoice_data['output'] != 'Data not found') { ?>
+                        <?php $i=1 ?>
+                        <?php foreach ($invoice_data['output'] as $row) { ?> 
+                        <div class="card-body">
+                            <div class="row align-content-center justify-content-center">
+                            <img src="../Image/invoice.png" width="100px" height="100px">
+                                <div class="col-lg-6">
                                     <ul>
                                         <li>
-                                            <a><?php echo $i. ". "?><?php echo $row['name']?> </a>
+                                            <p style="font-weight: 600; text-transform: uppercase;">Invoice Id: <?php echo $row['id']?></p>
                                         </li>
-                                    </ul>
-                                <?php $i+=1 ?>
-                                <?php }?>
-                                </div>
-                                <div class="col-sm text-right">
-                                <?php foreach ($data['output'] as $row) { ?>
-                                    <ul style="list-style-type: circle;">
                                         <li>
-                                            <a>Rp. <?php echo $row['price']?></a>
+                                            <p>Metode Pembayaran: <?php echo $row['metode_pembayaran'] ?></p>
                                         </li>
+                                        <li>
+                                            <button class="btn primary-button" id="<?php echo $row['status']?>" disabled>Status: <?php echo $row['status']?></button>
+                                        </li>
+                                       
+                                        <button class="btn primary-button details" id="<?php echo $row['id']?>">See Details</button>
                                     </ul>
-                                <?php }?>
+                                
+                                    <hr>
                                 </div>
                             </div>
-                            <hr>
-                        <?php foreach ($invoice_data['output'] as $row) { ?>   
-                            <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo $row['total_price']?></p>
+                            
                         </div>
-                        <?php }?>
-                    </div>
-                    <div class="card-footer">
-                        <button type="button" class="btn btn-primary" id="pembayaran" disabled="true"><i class="bi bi-shield-check"></i> Menunggu konfirmasi pembayaran</button>
-                    </div>
+                        <?php $i +=1 ?>
+                    <?php }}?>
+                </div>
+                
+            
                 </div>
             </div>
         </div>
@@ -234,24 +181,13 @@ $invoice_data = json_decode($result, true);
     </footer>
 
     <script type="text/javascript">
-        // jQuery(document).ready(function (){
-        //     $('input[type = "file"]').change(function(){
-        //         $(pembayaran).next().removeAttr('disabled');
-        //     }).next().attr('disabled','disabled');
-        // });
-        // jQuery(document).ready(
-        //     function(){
-        //         $('id:pembayaran').attr('disabled',true);
-        //         $('input:file').change(
-        //             function(){
-        //                 if ($(this).val()){
-        //                     $('id:pembayaran').removeAttr('disabled'); 
-        //                 }
-        //                 else {
-        //                     $('id:pembayaran').attr('disabled',true);
-        //                 }
-        //     });
-        // });
+        jQuery(document).ready(function (){
+            $('.details').on('click', function(e) {
+                console.log("ready!");
+                var invoice_id = $(this).attr('id');
+                window.location.href = "invoice_detail.php"+'?invoice_id='+invoice_id;
+            });
+        });
     </script>
 </body>
 </html>

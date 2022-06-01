@@ -25,7 +25,7 @@ try {
         $invoicedb = new InvoiceDB($db);
         $data = json_decode(file_get_contents("php://input"));
         //check request empty or no
-        if(!empty($data->invoice_id)){
+        if(!empty($data->invoice_id) && (!empty($data->status))){
             $invoice_id = $data->invoice_id;
             $query_invoice_id = "SELECT * FROM invoices WHERE id='$invoice_id'";
             $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
@@ -34,8 +34,8 @@ try {
             $query_result = $query_invoice_id->rowCount();
             
             if($query_result > 0){
-                
-                $update_invoice_id = "UPDATE invoices SET status='PAID' WHERE id='$invoice_id'";
+                $status = $data->status;
+                $update_invoice_id = "UPDATE invoices SET status='$status' WHERE id='$invoice_id'";
                 $update_invoice_id = $invoicedb->conn->prepare($update_invoice_id);
                 $update_invoice_id->execute();
                 $update_query_result = $query_invoice_id->rowCount();

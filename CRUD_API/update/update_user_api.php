@@ -30,7 +30,8 @@ try {
             $address = $data->address;
             $contact = $data->contact;
             $postcode = $data->postcode;
-            $role = $data->role;
+            
+            
             $currentpassword = (isset($data->currentpassword) ? $data->currentpassword : false);
             $newpassword = (isset($data->newpassword) ? $data->newpassword : false);
             $newcpassword = (isset($data->newcpassword) ? $data->newcpassword : false);
@@ -66,10 +67,14 @@ try {
                 $query = "UPDATE users SET  password='$newmd5password' WHERE id='$id'";
                 $update_user = $usersdb->conn->prepare($query);
             }
-
             else {
+                $role = 'member';
+                if (!empty($data->role)){
+                $role = $data->role;
+                }
                 $query = "UPDATE users SET  name='$name', address='$address', email='$email', postcode=$postcode, contact=$contact, role='$role' WHERE id='$id'";
                 $update_user = $usersdb->conn->prepare($query);
+                $update_user->execute();
             }
             
             // register the user
