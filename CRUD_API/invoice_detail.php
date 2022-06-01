@@ -91,7 +91,7 @@ $invoice_data = json_decode($result, true);
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <p>INVOICE</p>
+                        <p>INVOICE ID : <?php echo $invoice_id?></p>
                     </div>
                     <?php foreach ($data['output'] as $row) { ?> 
                     <div class="card-body">

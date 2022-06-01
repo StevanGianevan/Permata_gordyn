@@ -195,8 +195,6 @@ $data = json_decode($konten, true);
               data: JSON.stringify(data),
               cache: false,
               success: function(dataResult){
-                  console.log(dataResult.output[0]);
-
                   $("#prodid").attr("value", dataResult.output[0].product_id);
                   $("#catid").attr("value", dataResult.output[0].category_id);
                   $("#prodname").attr("value", dataResult.output[0].name);

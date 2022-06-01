@@ -166,20 +166,9 @@
                     data: JSON.stringify(data),
                     cache: false,
                     success: function(dataResult){
-                        // console.log(dataResult)
-                        
-                        // if(dataResult.statusCode==200){
-                        //     alert("Successfully created new user!");				
-                        // }
-                        // else if(dataResult.statusCode==201){
-                        //     alert("Password does not match confirmation password");				
-                        // }
                         alert(dataResult.output);
                         document.getElementById('registerform').reset();		
-                        // }
-                        // else if(dataResult.statusCode==203){
-                        //     alert("password does not match confirmation password");				
-                        // }
+                      
 
                             
                     },
@@ -187,13 +176,6 @@
                         document.getElementById('registerform').reset();
                         console.log(response);
                         alert(response.responseJSON.output);
-                        
-                        // console.log(response);
-                        // var result = JSON.stringify(response.responseText);
-                        // var done = JSON.parse(result);
-                        // console.log(done.output);
-                        
-                        
                     }
                         
             

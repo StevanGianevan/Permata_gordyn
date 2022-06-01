@@ -37,12 +37,12 @@ try {
                 // this will make $row['name'] to
                 // just $name only
                 extract($row);
-                $prodprice = number_format($price, 2);
+                // $prodprice = number_format($price, 2);
                 $productdata=array(
                     "product_id" => $id,
                     "category_id" => $category_id,
                     "name" => $name,
-                    "price" => $prodprice,
+                    "price" => $price,
                     "size" => $size,
                     "colour" => $colour,
                     "description" => $description,
