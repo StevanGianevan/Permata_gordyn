@@ -55,7 +55,10 @@ try {
                     // just $name only
                     extract($row);
                 }
-                $price_after_calculation = ($pp * $lp * $product_price) * $newquantity;
+                $lebar = $lp / 0.5;
+                $panjang = $pp + 0.4;
+                $total_kain = $lebar * $panjang * $product_price;
+                $price_after_calculation = $total_kain * $newquantity;
                 $query = "UPDATE cart3 SET pp=$pp, lp=$lp, quantity = $newquantity, price=$price_after_calculation WHERE user_id = '$user_id' AND product_id = '$product_id'";
                 $update_cart = $cartdb->conn->prepare($query);
                 $update_cart->execute();  

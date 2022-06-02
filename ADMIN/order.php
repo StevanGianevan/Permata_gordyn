@@ -97,6 +97,7 @@ $data = json_decode($konten, true);
           <tr>
             <th>Invoice ID</th>
             <th>user_id</th>
+            <th>name</th>
             <th>metode_pembayaran</th>
             <th>status</th>
             <th>Action</th>
@@ -108,6 +109,7 @@ $data = json_decode($konten, true);
             <tr>
               <th scope="row"><?php echo $row['id']?></th>
               <th><?php echo $row['user_id']?></th>
+              <th><?php echo $row['name']?></th>
               <th><?php echo $row['metode_pembayaran']?></th>
               <th><?php echo $row['status']?></th>
             

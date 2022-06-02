@@ -121,9 +121,8 @@ $invoice_data = json_decode($result, true);
 
                             <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                                 <!-- Quantity -->
-                                
                                     <div class="d-flex mb-4">
-                                        <label class="form-label" for="form1">Panjang : </label>
+                                        <label class="form-label" for="form1">Tinggi : </label>
                                         <input id="panjang_id_<?php echo trim($row['product_id'])?>" min="0" name="panjang" type="number" class="form-control pp" value="<?php echo $row['pp'] ?>" />
                                     </div>
                                     <div class="d-flex mb-4">

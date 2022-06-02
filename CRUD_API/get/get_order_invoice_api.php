@@ -26,7 +26,8 @@ try {
         $data = json_decode(file_get_contents("php://input"));
         //check request empty or no
 
-        $query_invoice_id = "SELECT * FROM invoices";
+        $query_invoice_id = "SELECT invoices.id, invoices.user_id, users.name, invoices.metode_pembayaran, invoices.status FROM invoices
+        JOIN users on invoices.user_id = users.id";
         $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
         $query_invoice_id->execute();
         // $query_result = $get_product->rowCount();
@@ -42,6 +43,7 @@ try {
                 $invoicedata=array(
                     "id" => $id,
                     "user_id" => $user_id,
+                    "name" => $name,
                     "metode_pembayaran" => $metode_pembayaran,
                     "status" => $status
                 );

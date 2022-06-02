@@ -100,13 +100,12 @@ $catdata = json_decode($catkonten, true);
             <input type="text" class="form-control ID"  name = "prodid" id="prodid" placeholder="Produk id" disabled/>
           </div>
           <div class="form-group">
-            <label for="category_dropdown">Kategori id</label>
+            <label for="category_dropdown">Category</label>
             <select class="form-control category_id" id="" name="">
-              <option value=""> Select Category </option>
-                <?php foreach($catdata['output'] as $row) {?>
-                  <option value="<?php echo $row['id'] ?>"> <?php echo $row['id'] ?></option>
-                <?php } ?>
-                </select>
+            <?php foreach($catdata['output'] as $row) {?>
+              <option value="<?php echo $row['id']?>"> <?php echo $row['name'] ?></option>
+            <?php } ?>
+            </select>
           </div>
           <div class="col-md-2 mb-3 mr-auto">
             <label for="validationTooltip01">Nama Produk</label>
@@ -155,7 +154,7 @@ $catdata = json_decode($catkonten, true);
         <thead class="thead-dark" style="text-transform: uppercase;">
           <tr>
             <th>ID</th>
-            <th>Kategori ID</th>
+            <th>Category</th>
             <th>Nama Produk</th>
             <th>Harga Produk</th>
             <th>Warna Produk</th>
@@ -169,7 +168,7 @@ $catdata = json_decode($catkonten, true);
           <?php foreach ($data['output'] as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
-              <th><?php echo $row['category_id'] ?></th>
+              <th><?php echo $row['category_name'] ?></th>
               <th><?php echo $row['name'] ?></th>
               <th>Rp. <?php echo $row['price'] ?></th>
               <th><?php echo $row['colour'] ?></th>
@@ -220,8 +219,6 @@ $catdata = json_decode($catkonten, true);
                   $(".formadmin").attr("id", dataResult.output[0].product_id);
                   $(".addproductbtn").attr("value", "true");
                   $(".addproductbtn").text("Update Product");
-
-                      
               },
               error: function(response){
                   

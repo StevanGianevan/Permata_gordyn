@@ -22,7 +22,8 @@ try {
         $productDb = new ProductDb($db);
         $headers = apache_request_headers();
         
-        $query = "SELECT * FROM product";
+        $query = "SELECT product.id, product.name, product.price, product.category_id, product.size, product.colour, product.image1, product.description, category.id as real_category_id, category.name as category_name
+        FROM product JOIN category ON category.id = product.category_id";
         
         $get_product = $productDb->conn->prepare($query);
         $get_product->execute();
@@ -41,6 +42,7 @@ try {
                     "name" => $name,
                     "price" => $prodprice,
                     "category_id" => $category_id,
+                    "category_name" => $category_name,
                     "size" => $size,
                     "colour" => $colour,
                     "image1" => $image1,
