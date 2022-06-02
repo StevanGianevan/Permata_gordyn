@@ -68,7 +68,7 @@ try {
                 }
                 $prodidnew = "PROD-".strtoupper(uniqid());
                 $productUrl="http://localhost/PermataGordynMain/CRUD_API/media/".$fileNameNew;
-                $query = "INSERT INTO product (id, category_id, name, price, size, colour, description, image1)VALUE('$prodidnew', $catid, '$prodname', $prodprice, '$prodsize', '$prodcolour', '$proddesc', '$productUrl')";
+                $query = "INSERT INTO product (id, category_id, name, price, size, colour, description, image1)VALUE('$prodidnew', '$catid', '$prodname', $prodprice, '$prodsize', '$prodcolour', '$proddesc', '$productUrl')";
                 $add_product= $productdb->conn->prepare($query);
                 $add_product->execute();
                 $product_result = $add_product->rowCount();

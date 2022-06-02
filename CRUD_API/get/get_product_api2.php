@@ -25,10 +25,10 @@ try {
     
 
         // make sure data is not empty
-        if(!empty($data->prodid)){
-            $prodid = $data->prodid;
+        if(!empty($data->product_id)){
+            $product_id = $data->product_id;
 
-            $query = "SELECT * FROM product WHERE id='$prodid'";
+            $query = "SELECT * FROM product WHERE id='$product_id'";
             $get_product = $productdb->conn->prepare($query);
             $get_product->execute();
 

@@ -87,9 +87,8 @@ $data = json_decode($konten, true);
                                                 <img class="card-img-top" src="<?php echo $row['image1']?>" alt="Dimout">
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?php echo $row['name']?></h5>
-                                                    <p class="card-text">Rp. <?php echo $row['price']?></p>
-                                                    <p class="card-text"><?php echo $row['description']?></p>
                                                     <input type="submit" style="margin-top: 20px;" id="<?php echo $row['id']?> "name="add_to_cart" class="btn btn-info add_to_cart" value="Add To Cart" />
+                                                    <button style="margin-top: 20px;" id="<?php echo $row['id']?> "name="add_to_cart" class="btn btn-info product_details">See Details</button>
                                                 </div>
                                             </div>
                                             <?php }?>
@@ -723,6 +722,11 @@ $data = json_decode($konten, true);
 <script>
 
     jQuery(document).ready(function () {
+            $('.product_details').on('click', function(e) {
+                console.log("ready!");
+                var product_id = $(this).attr('id');
+                window.location.href = "productdetail.php"+'?product_id='+product_id;
+            });
             
             $('.add_to_cart').on('click', function() {
                 console.log("ready!");

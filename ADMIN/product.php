@@ -5,6 +5,9 @@ $sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php";
 $konten = file_get_contents($sumber);
 $data = json_decode($konten, true);
 
+$catsumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api.php";
+$catkonten = file_get_contents($catsumber);
+$catdata = json_decode($catkonten, true);
 ?>
 
 <!DOCTYPE html>
@@ -90,15 +93,20 @@ $data = json_decode($konten, true);
       <div class="box">
         <p>Product</p>
       </div>
-      <form action="" id="" class="formadmin" method="post" enctype="multipart/form-data">
+      <form action="" id="" class="formadmin" method="post" enctype="multipart/form-data" value="">
         <div class="form-row">
           <div class="col-md-2 mb-3 mr-auto">
             <label for="validationTooltip01">Produk id</label>
             <input type="text" class="form-control ID"  name = "prodid" id="prodid" placeholder="Produk id" disabled/>
           </div>
-          <div class="col-md-2 mb-3 mr-auto">
-            <label for="validationTooltip01">Kategori id</label>
-            <input type="number" class="form-control kategori_id"  name = "prodid" id="catid" placeholder="Kategori id" />
+          <div class="form-group">
+            <label for="category_dropdown">Kategori id</label>
+            <select class="form-control category_id" id="" name="">
+              <option value=""> Select Category </option>
+                <?php foreach($catdata['output'] as $row) {?>
+                  <option value="<?php echo $row['id'] ?>"> <?php echo $row['id'] ?></option>
+                <?php } ?>
+                </select>
           </div>
           <div class="col-md-2 mb-3 mr-auto">
             <label for="validationTooltip01">Nama Produk</label>
@@ -182,10 +190,16 @@ $data = json_decode($konten, true);
   <script type="text/javascript">
     jQuery(document).ready(function () {
 
+      $('.category_id').change(function(){
+        catidm = $(this).val();
+        $(this).attr("id", catidm);
+        $('.formadmin').attr("value", catidm);
+      });
+
       $('.edit').on('click',function(event){
-          var prodid = $(this).attr('id');
+          var product_id = $(this).attr('id');
           var data = {
-            prodid: prodid,
+            product_id: product_id,
           };
           $.ajax({
               type: "POST",
@@ -226,12 +240,12 @@ $data = json_decode($konten, true);
         // var prodidbefore = $(this).attr('id');
         var buttonupdate = $('.addproductbtn').val();
         console.log(buttonupdate);
-        
+
         if(buttonupdate == "true"){
           let form_data = new FormData();
           let prodidbefore = $(this).attr('id');
+          let catid = $(this).attr('value');
           let prodidnew = $('#prodid').val();
-          let catid = $('#catid').val();
           let prodname = $('#prodname').val();
           let prodprice = $('#prodprice').val();
           let prodcolour = $('#prodcolour').val();
@@ -276,9 +290,9 @@ $data = json_decode($konten, true);
 
         else if (buttonupdate == "false"){
           let form_data = new FormData();
-          let catid = $('#catid').val();
           let prodname = $('#prodname').val();
           let prodprice = $('#prodprice').val();
+          let catid = $(this).attr('value');
           let prodcolour = $('#prodcolour').val();
           let prodsize = $('#prodsize').val();
           let proddesc = $('#proddesc').val();
@@ -323,7 +337,6 @@ $data = json_decode($konten, true);
 
       $('.delete').on('click',function(event){
           var product_id =  $(this).attr('id');
-          console.log(prodid);
           var data = {product_id: product_id,};
           $.ajax({
               type: "DELETE",

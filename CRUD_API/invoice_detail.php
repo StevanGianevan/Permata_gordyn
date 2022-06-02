@@ -120,46 +120,46 @@ $invoice_data = json_decode($result, true);
                 </div>
                 <div class="card">
                     <div class="card-body">
+                        <?php foreach ($invoice_data['output'] as $row) { ?>
                         <div class="row align-content-center justify-content-center">
-                            <div class="col-sm-2 text-center">
-                                <img src="../Image/logo-bcapng-32694.png" width="100px" height="auto">
-                            </div>
-                            <div class="col-lg-8">
-                                
-                                <h4 style= "text-align: center;">
-                                    METODE PEMBAYARAN DIPILIH
-                                </h4>
-                                <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
-                                
-                            </div>
-                            <!-- <div class="col-sm-2 text-right">
-                                <button type="button" class="btn btn-outline-dark">Salin</button>
-                            </div> -->
+                            <?php if ($row['metode_pembayaran'] == "BCA"){ ?>
+                                <div class="col-sm-2 text-center">
+                                    <img src="../Image/bca.png" width="100px" height="auto">
+                                </div>
+                                <div class="col-lg-8">
+                                    <h4 style= "text-align: center;">
+                                        METODE PEMBAYARAN DIPILIH 
+                                    </h4>
+                                    <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                                </div>
+                            <?php } ?>
+                            <?php if ($row['metode_pembayaran'] == "OVO"){ ?>
+                                <div class="col-sm-2 text-center">
+                                    <img src="../Image/ovo.png" width="100px" height="auto">
+                                </div>
+                                <div class="col-lg-8">
+                                    <h4 style= "text-align: center;">
+                                        METODE PEMBAYARAN DIPILIH
+                                    </h4>
+                                    <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                                </div>
+                            <?php } ?>
+                            <?php if ($row['metode_pembayaran'] == "GOPAY"){ ?>
+                                <div class="col-sm-2 text-center">
+                                    <img src="../Image/gopay.png" width="100px" height="auto">
+                                </div>
+                                <div class="col-lg-8">
+                                    <h4 style= "text-align: center;">
+                                        METODE PEMBAYARAN DIPILIH
+                                    </h4>
+                                    <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                                </div>
+                            <?php } ?>
                         </div>
+                        <?php }?>
                     </div>
                 </div>
-                <!-- <div class="card tahapan">
-                    <div class="card-body">
-                        <ul>
-                            <li>
-                                Gunakan M-Banking / ATM terdekat untuk menyelesaikan pembayaran
-                            </li>
-                            <li>
-                                Upload bukti transfer pada form dibawah yang sudah disediakan
-                            </li>
-                        </ul>
-                        <hr>
-                        <div class="form-row mb-3">
-                            <div class="col">
-                              <label for="validationTooltip02">Bukti Transfer</label>
-                              <div class="custom-file">
-                                <input type="file" class="input-bukti-trf" id="customFile">
-                              </div>
-                              <label style="color: lightgrey;">*upload maks 5MB</label>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                
             </div>
             <div class="col-md-3">
                 <div class="card">

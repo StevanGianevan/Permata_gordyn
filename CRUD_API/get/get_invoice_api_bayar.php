@@ -32,14 +32,22 @@ try {
 
             if(!empty($data->invoice_id)){
                 $invoice_id = $data->invoice_id;
+                $query_invoice_data = "SELECT metode_pembayaran FROM invoices WHERE id = '$invoice_id'";
+                $query_invoice_data = $invoicedb->conn->prepare($query_invoice_data);
+                $query_invoice_data->execute();
+                while ($row = $query_invoice_data->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    $metode_pembayaran = $metode_pembayaran;
+                }
             }
             else {
-                $query_invoice_id = "SELECT id FROM invoices WHERE user_id = '$user_id' AND status='IN_PROCESS'";
+                $query_invoice_id = "SELECT id, metode_pembayaran FROM invoices WHERE user_id = '$user_id' AND status='IN_PROCESS'";
                 $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
                 $query_invoice_id->execute();
                 while ($row = $query_invoice_id->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $invoice_id = $id;
+                    $metode_pembayaran = $metode_pembayaran;
                 }
             }
 
@@ -73,7 +81,8 @@ try {
               
                 // show products data in json format
                 $invoice_data=array(
-                    "total_price" => $total_price
+                    "total_price" => $total_price,
+                    "metode_pembayaran" => $metode_pembayaran
                 );
                 session_start();
                 $_SESSION['total_price'] = $total_price;

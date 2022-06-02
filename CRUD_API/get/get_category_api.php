@@ -7,7 +7,7 @@ header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
 include_once "../connection.php";
-include_once "../productdb.php";
+include_once "../categorydb.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -19,35 +19,29 @@ $error_schema = array();
 
 try {
     if($_SERVER['REQUEST_METHOD']=="GET"){
-        $productDb = new ProductDb($db);
+        $productDb = new CategoryDb($db);
         $headers = apache_request_headers();
         
-        $query = "SELECT * FROM product";
+        $query = "SELECT * FROM category";
         
-        $get_product = $productDb->conn->prepare($query);
-        $get_product->execute();
+        $get_category = $productDb->conn->prepare($query);
+        $get_category->execute();
         // $query_result = $get_product->rowCount();
-        $query_result = $get_product->rowCount();
+        $query_result = $get_category->rowCount();
         
         if($query_result > 0){
-            while ($row = $get_product->fetch(PDO::FETCH_ASSOC)){
+            while ($row = $get_category->fetch(PDO::FETCH_ASSOC)){
                 // extract row
                 // this will make $row['name'] to
                 // just $name only
                 extract($row);
-                $prodprice = number_format($price, 2);
-                $productdata=array(
+                $categorydata=array(
                     "id" => $id,
                     "name" => $name,
-                    "price" => $prodprice,
-                    "category_id" => $category_id,
-                    "size" => $size,
-                    "colour" => $colour,
-                    "image1" => $image1,
                     "description" =>$description
                 );
           
-                array_push($response["output"], $productdata);
+                array_push($response["output"], $categorydata);
             }
             
             // set error schema
