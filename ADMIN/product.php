@@ -83,9 +83,6 @@ $catdata = json_decode($catkonten, true);
         <li>
           <a href="user.php"><i class="bi bi-person"></i> User</a>
         </li>
-        <li>
-          <a href="history.php"><i class="bi bi-clock-history"></i> History</a>
-        </li>
       </ul>
     </div>
 

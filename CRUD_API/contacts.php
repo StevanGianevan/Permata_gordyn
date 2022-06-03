@@ -29,7 +29,7 @@
 
     <!-- Landing Page Product -->
     <div class="container-sm">
-        <div class="box" style="background-color: white;">
+        <div class="box contactbx" style="background-color: white;">
             <div class="row">
                 <div class="col-md-3 contact-us">
                     <h2>Contact Us</h2>

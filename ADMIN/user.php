@@ -82,9 +82,6 @@ $data = json_decode($konten, true);
         <li class="active">
           <a href="user.php"><i class="bi bi-person"></i> User</a>
         </li>
-        <li>
-          <a href="history.php"><i class="bi bi-clock-history"></i> History</a>
-        </li>
       </ul>
     </div>
 
@@ -117,27 +114,27 @@ $data = json_decode($konten, true);
           <label for="validationTooltip02">Postcode</label>
           <input type="text" class="form-control" id="postcode" placeholder="Postcode">
         </div>
-        <div class="col-md-2 mb-3 mr-auto">
+        <div class="col-md-4 mb-3">
           <label for="validationTooltip02">Email</label>
           <input type="text" class="form-control" id="email" placeholder="Email">
         </div>
-        <div class="col-md-2 mb-3 mr-auto">
+        <div class="col-md-4 mb-3">
           <label for="validationTooltip02">Password</label>
           <input type="text" class="form-control" id="password" placeholder="Password">
         </div>
-        <div class="col-md-2 mb-3 mr-auto">
+        <div class="col-md-4 mb-3">
           <label for="validationTooltip02">Confirmation Password</label>
           <input type="text" class="form-control" id="cpassword" placeholder="Confirmation Password">
         </div>
-        <div class="text-right">
-          <button id="" class="btn btn-danger ml-auto adduserbtn" value="false">Add User</button>
+        <div class="text-right ml-auto">
+          <button id="" class="btn btn-danger adduserbtn" value="false">Add User</button>
         </div>
       </div>
       <hr>
       <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">Search by name</label>
-          <input type="text" class="form-control" id="user_name" placeholder="Name">
-          <button id="" class="btn btn-danger ml-auto search_user_btn" value="false">Search User</button>
+          <input type="text" class="form-control mb-3" id="user_name" placeholder="Name">
+          <button id="" class="btn btn-danger search_user_btn" value="false">Search User</button>
       </div>
       
       <h4>Searched User</h4>
