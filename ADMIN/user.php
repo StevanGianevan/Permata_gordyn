@@ -134,9 +134,37 @@ $data = json_decode($konten, true);
         </div>
       </div>
       <hr>
+      <div class="col-md-2 mb-3 mr-auto">
+          <label for="validationTooltip01">Search by name</label>
+          <input type="text" class="form-control" id="user_name" placeholder="Name">
+          <button id="" class="btn btn-danger ml-auto search_user_btn" value="false">Search User</button>
+      </div>
+      
+      <h4>Searched User</h4>
+      <div id="search_result" class="table table-hover">
+        <table id="searchedUsers">
+          <thead class="thead-dark" style="text-transform: uppercase;">
+            <tr>
+              <th>ID</th>
+              <th>Role</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Contact</th>
+              <th>Postcode</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="search_body"> </tbody>
+        </table>
+      </div>
+      <hr>
       <table class="table table-hover">
         <p class="text-center h3">List Users</p>
-        <thead class="thead-dark" style="text-transform: uppercase;">
+        
+        
+        <thead id="test_search_head"class="thead-dark" style="text-transform: uppercase;">
           <tr>
             <th>ID</th>
             <th>Role</th>
@@ -149,7 +177,7 @@ $data = json_decode($konten, true);
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="test_search_body">
           <?php foreach ($data['output'] as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
@@ -172,6 +200,44 @@ $data = json_decode($konten, true);
       </div>
 
   <script>
+
+    $('.search_user_btn').on('click',function(event){
+          var user_name = $('#user_name').val();
+          var data = { 
+            user_name: user_name
+          };
+          $.ajax({
+              type: "POST",
+              url: "http://localhost/PermataGordynMain/CRUD_API/get/get_user_api2.php",
+              contentType: "application/json",
+              dataType: 'json',
+              data: JSON.stringify(data),
+              cache: false,
+              success: function(dataResult){
+                $(dataResult.output[0]).each(function(i, result){
+                  var id = dataResult.output[0].id;
+                  $('#search_body').append($("<tr>")
+                    .append($("<td>").append(result.id))
+                    .append($("<td>").append(result.role))
+                    .append($("<td>").append(result.name))
+                    .append($("<td>").append(result.address))
+                    .append($("<td>").append(result.email))
+                    .append($("<td>").append(result.password))
+                    .append($("<td>").append(result.contact))
+                    .append($("<td>").append(result.postcode))
+                    .append($("<td>").append('<button id="'+result.id+'" class="btn testedit" style="background-color: transparent;"><i class="bi bi-pencil"></i></button>')));
+                });
+              },
+              error: function(response){
+                console.log(response.responseJSON.output);
+                
+              }
+          });
+        });       
+
+    $('.testedit').on('click', function(event){
+
+    });
     $('.adduserbtn').on('click',function(event){
       var buttonupdate = $(this).val();
       var user_id =  $(this).attr('id');
