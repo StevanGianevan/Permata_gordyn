@@ -19,21 +19,18 @@ $error_schema = array();
 
 try {
     if($_SERVER['REQUEST_METHOD']=="GET"){
-        $productDb = new CategoryDb($db);
-        $headers = apache_request_headers();
-        
-        $query = "SELECT * FROM category";
-        
-        $get_category = $productDb->conn->prepare($query);
+        $categorydb = new CategoryDb($db);
+        if(!empty($data->category_id)){
+            $query = "SELECT * FROM category WHERE id=$category_id";
+        }
+        else{
+            $query = "SELECT * FROM category";
+        }
+        $get_category = $categorydb->conn->prepare($query);
         $get_category->execute();
-        // $query_result = $get_product->rowCount();
         $query_result = $get_category->rowCount();
-        
         if($query_result > 0){
             while ($row = $get_category->fetch(PDO::FETCH_ASSOC)){
-                // extract row
-                // this will make $row['name'] to
-                // just $name only
                 extract($row);
                 $categorydata=array(
                     "id" => $id,

@@ -1,7 +1,7 @@
 <?php 
 session_start();
 
-$sumber = "http://localhost/PermataGordynMain/CRUD_API/get/list_user_api.php";
+$sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api.php";
 $konten = file_get_contents($sumber);
 $data = json_decode($konten, true);
 
@@ -87,62 +87,33 @@ $data = json_decode($konten, true);
 
     <div class="col" id="body-col">
       <div class="box">
-        <p>User</p>
+        <p>Category</p>
       </div>
       <div class="form-row">
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">ID</label>
-          <input type="text" class="form-control" id="userid" placeholder="ID" required>
+          <input type="text" class="form-control" id="category_id" placeholder="ID" disabled>
         </div>
         <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip01">Role</label>
-          <input type="text" class="form-control" id="role" placeholder="Role" required>
+          <label for="validationTooltip01">Name (Must be unique)</label>
+          <input type="text" class="form-control" id="name" placeholder="name">
         </div>
         <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip01">Name</label>
-          <input type="text" class="form-control" id="name" placeholder="Name" required>
-        </div> 
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Address</label>
-          <input type="text" class="form-control" id="address" placeholder="Address" required>
+          <label for="validationTooltip01">Description</label>
+          <input type="text" class="form-control" id="description" placeholder="description">
         </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Contact</label>
-          <input type="text" class="form-control" id="contact" placeholder="Contact" required>
-        </div> 
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Postcode</label>
-          <input type="text" class="form-control" id="postcode" placeholder="Postcode" required>
-        </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Email</label>
-          <input type="text" class="form-control" id="email" placeholder="Email" required>
-        </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Password</label>
-          <input type="text" class="form-control" id="password" placeholder="Password" required>
-        </div>
-        <div class="col-md-2 mb-3 mr-auto">
-          <label for="validationTooltip02">Confirmation Password</label>
-          <input type="text" class="form-control" id="cpassword" placeholder="Confirmation Password" required>
-        </div>
-        <div class="text-right">
-          <button id="" class="btn btn-danger ml-auto adduserbtn" value="false">Add Category</button>
+        <div class="text-right ml-auto">
+          <button id="" class="btn btn-danger addcategorybtn" value="false">Add Category</button>
         </div>
       </div>
       <hr>
       <table class="table table-hover">
-        <p class="text-center h3">List Users</p>
+        <p class="text-center h3">List Category</p>
         <thead class="thead-dark" style="text-transform: uppercase;">
           <tr>
             <th>ID</th>
-            <th>Role</th>
             <th>Name</th>
-            <th>Address</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Contact</th>
-            <th>Postcode</th>
+            <th>Description</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -150,13 +121,8 @@ $data = json_decode($konten, true);
           <?php foreach ($data['output'] as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
-              <th><?php echo $row['role'] ?></th>
               <th><?php echo $row['name'] ?></th>
-              <th><?php echo $row['address'] ?></th>
-              <th><?php echo $row['email'] ?></th>
-              <th><?php echo $row['password'] ?></th>
-              <th><?php echo $row['contact'] ?></th>
-              <th><?php echo $row['postcode'] ?></th>
+              <th><?php echo $row['description'] ?></th>
               <th class="col-1 text-center">
                 <button id="<?php echo $row['id'] ?>" class="btn edit" style="background-color: transparent;"><i class="bi bi-pencil"></i></button>
                 <button id="<?php echo $row['id'] ?>" class="btn delete" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
@@ -169,28 +135,20 @@ $data = json_decode($konten, true);
       </div>
 
   <script>
-    $('.adduserbtn').on('click',function(event){
-      var buttonupdate = $(this).val();
-      var user_id =  $(this).attr('id');
-      if(buttonupdate == "true"){
-        var role =  $('#role').val();
+    $('.addcategorybtn').on('click',function(event){
+      var need_to_be_updated = $('.addcategorybtn').val();
+      if(need_to_be_updated == "true"){
+        var id = $(this).attr('id');
         var name = $('#name').val();
-        var email =  $('#email').val();
-        var address =  $('#address').val();
-        var contact = $('#contact').val();
-        var postcode = $('#postcode').val();
+        var description =  $('#description').val();
         var data = {
-          id: user_id,
-          role: role,
+          id: id,
           name: name,
-          email: email,
-          address: address,
-          contact: contact,
-          postcode: postcode
+          description: description
         };
         $.ajax({
             type: "PATCH",
-            url: "http://localhost/PermataGordynMain/CRUD_API/update/update_user_api.php",
+            url: "http://localhost/PermataGordynMain/CRUD_API/update/update_category_api.php",
             contentType: "application/json",
             dataType: 'json',
             data: JSON.stringify(data),
@@ -207,36 +165,23 @@ $data = json_decode($konten, true);
         });
       }
       else{
-        console.log("Creating User");
-        var role =  $('#role').val();
         var name = $('#name').val();
-        var email =  $('#email').val();
-        var address =  $('#address').val();
-        var contact = $('#contact').val();
-        var postcode = $('#postcode').val();
-        var password =  $('#password').val();
-        var cpassword = $('#cpassword').val();
+        var description =  $('#description').val();
         var data = {
-          role: role,
           name: name,
-          email: email,
-          address: address,
-          contact: contact,
-          postcode: postcode,
-          password: password,
-          cpassword: cpassword,
+          description: description
         };
         $.ajax({
             type: "POST",
-            url: "http://localhost/PermataGordynMain/CRUD_API/post/post_user_api.php",
+            url: "http://localhost/PermataGordynMain/CRUD_API/post/post_category_api.php",
             contentType: "application/json",
             dataType: 'json',
             data: JSON.stringify(data),
             cache: false,
             success: function(dataResult){
-                console.log(dataResult);
-                alert(dataResult.output);
-                location.reload(true);  
+              console.log(dataResult);
+              alert(dataResult.output);
+              location.reload(true);
             },
             error: function(response){
               console.log(response);
@@ -246,33 +191,26 @@ $data = json_decode($konten, true);
       }
     });
 
-
     $('.edit').on('click',function(event){
-      var user_id =  $(this).attr('id');
+      var category_id =  $(this).attr('id');
       var data = { 
-        user_id: user_id
+        category_id: category_id
       };
       $.ajax({
-          type: "POST",
-          url: "http://localhost/PermataGordynMain/CRUD_API/get/get_user_api2.php",
+          type: "GET",
+          url: "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api.php",
           contentType: "application/json",
           dataType: 'json',
           data: JSON.stringify(data),
           cache: false,
           success: function(dataResult){
               console.log(dataResult.output[0].id);
-              $("#userid").attr("value", dataResult.output[0].id);
-              $("#role").attr("value", dataResult.output[0].role);
+              $("#category_id").attr("value", dataResult.output[0].id);
               $("#name").attr("value", dataResult.output[0].name);
-              $("#address").attr("value", dataResult.output[0].address);
-              $("#contact").attr("value", dataResult.output[0].contact);
-              $("#postcode").attr("value", dataResult.output[0].postcode);
-              $("#email").attr("value", dataResult.output[0].email);
-              $("#password").attr("value", dataResult.output[0].password);
-              $("#cpassword").attr("value", dataResult.output[0].password);
-              $(".adduserbtn").attr("id", dataResult.output[0].id);
-              $(".adduserbtn").attr("value", "true");
-              $(".adduserbtn").text("Update User");
+              $("#description").attr("value", dataResult.output[0].description);
+              $(".addcategorybtn").attr("id", dataResult.output[0].id);
+              $(".addcategorybtn").attr("value", "true");
+              $(".addcategorybtn").text("Update Category");
           },
           error: function(response){
             console.log(response);
@@ -282,11 +220,11 @@ $data = json_decode($konten, true);
     });
 
     $('.delete').on('click',function(event){
-      var user_id =  $(this).attr('id');
-      var data = {user_id: user_id,};
+      var category_id =  $(this).attr('id');
+      var data = {category_id: category_id,};
       $.ajax({
           type: "DELETE",
-          url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_user_api.php",
+          url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_category_api.php",
           contentType: "application/json",
           dataType: 'json',
           data: JSON.stringify(data),
