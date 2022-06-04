@@ -151,9 +151,9 @@ $catdata = json_decode($catkonten, true);
           <button id="" class="btn btn-danger search_product_btn" value="false">Search Product</button>
       </div>
       
-      <h4>Searched User</h4>
+      <h4>Searched Product</h4>
       <div id="search_result" class="table table-hover">
-        <table id="searchedUsers">
+        <table id="searched_products">
           <thead class="thead-dark" style="text-transform: uppercase;">
             <tr>
               <th>ID</th>

@@ -34,29 +34,54 @@ try {
             $query_result = $query_invoice_id->rowCount();
             
             if($query_result > 0){
-                $status = $data->status;
-                $update_invoice_id = "UPDATE invoices SET status='$status' WHERE id='$invoice_id'";
-                $update_invoice_id = $invoicedb->conn->prepare($update_invoice_id);
-                $update_invoice_id->execute();
-                $update_query_result = $query_invoice_id->rowCount();
-                // set error schema
-                if($update_query_result > 0){
-                    $error_schema["error_code"] = 0;
-                    $error_schema["message"] = "Success";
-                    
-                    $response["error_schema"] = $error_schema;
-                    $response["output"] = "Success confirming user payment!";
-                    // set response code - 200 OK
-                    http_response_code(200);
-                    
-                    // show products data in json format
-                    echo json_encode($response);
+                if($data->status == 'PAID'){
+                    $status = $data->status;
+                    $update_invoice_id = "UPDATE invoices SET status='$status' WHERE id='$invoice_id'";
+                    $update_invoice_id = $invoicedb->conn->prepare($update_invoice_id);
+                    $update_invoice_id->execute();
+                    $update_query_result = $query_invoice_id->rowCount();
+                    // set error schema
+                    if($update_query_result > 0){
+                        $error_schema["error_code"] = 0;
+                        $error_schema["message"] = "Success";
+                        
+                        $response["error_schema"] = $error_schema;
+                        $response["output"] = "Success confirming user payment!";
+                        // set response code - 200 OK
+                        http_response_code(200);
+                        
+                        // show products data in json format
+                        echo json_encode($response);
+                    }
+                    else{
+                        http_response_code(405);
+                        throw new Exception("Failed confirming user");
+                    }
                 }
-                else{
-                    http_response_code(405);
-                    throw new Exception("Failed confirming user");
+                else if($data->status == 'DECLINED'){
+                    $status = $data->status;
+                    $update_invoice_id = "UPDATE invoices SET status='$status' WHERE id='$invoice_id'";
+                    $update_invoice_id = $invoicedb->conn->prepare($update_invoice_id);
+                    $update_invoice_id->execute();
+                    $update_query_result = $query_invoice_id->rowCount();
+                    // set error schema
+                    if($update_query_result > 0){
+                        $error_schema["error_code"] = 0;
+                        $error_schema["message"] = "Success";
+                        
+                        $response["error_schema"] = $error_schema;
+                        $response["output"] = "Success Declining user payment!";
+                        // set response code - 200 OK
+                        http_response_code(200);
+                        
+                        // show products data in json format
+                        echo json_encode($response);
+                    }
+                    else{
+                        http_response_code(405);
+                        throw new Exception("Failed Declining user payment!");
+                    }
                 }
-               
                 
             } else {
                 http_response_code(405);

@@ -114,7 +114,7 @@ $data = json_decode($konten, true);
           <button id="" class="btn btn-danger search_category_btn" value="false">Search Category</button>
       </div>
       
-      <h4>Searched User</h4>
+      <h4>Searched Category</h4>
       <div id="search_result" class="table table-hover">
         <table id="searchedUsers">
           <thead class="thead-dark" style="text-transform: uppercase;">

@@ -86,45 +86,186 @@ $data = json_decode($konten, true);
         </li>
       </ul>
     </div>
-
     <div class="col" id="body-col">
-    <table class="table table-hover">
-        <p class="text-center h3">List Product</p>
-        <thead class="thead-dark" style="text-transform: uppercase;">
-          <tr>
-            <th>Invoice ID</th>
-            <th>user_id</th>
-            <th>name</th>
-            <th>metode_pembayaran</th>
-            <th>status</th>
-            <th>Action</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($data['output'] as $row) { ?> 
-            <tr>
-              <th scope="row"><?php echo $row['id']?></th>
-              <th><?php echo $row['user_id']?></th>
-              <th><?php echo $row['name']?></th>
-              <th><?php echo $row['metode_pembayaran']?></th>
-              <th><?php echo $row['status']?></th>
-            
-              <th class="col-1 text-center">
-                <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
-                <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
-              </th>
-            </tr>
-        <?php }?>
-        </tbody>
-        </table>
+      <div class="box">
+        <p>Category</p>
+      </div>
+    <hr>
+    <div class="container" style="max-width: 500px;margin-left:0px;">
+      <div class="row">
+        <div class="col-sm">
+          <label for="validationTooltip01">Search Order by User Name</label>
+          <input type="text" class="form-control mb-3" id="user_name" placeholder="Name" style="width: 250px;">
+        </div>
+        <div class="col-sm">
+          <label for="order_option">Status</label>
+          <select class="form-control order_status" id="" name="">
+            <option value="IN_PROCESS">IN_PROCESS</option>
+            <option value="DECLINED">DECLINED</option>
+            <option value="PAID">PAID</option>
+            <option value="UNPAID">UNPAID</option>
+          </select>
+        </div>
+      </div>
+      <button id="" class="btn btn-danger search_order_btn" value="false">Search Orders</button>
+    </div>
+    <hr>
+    <div>
+      <h4>Searched Order</h4>
+        <div id="search_result" class="table table-hover">
+          <table id="searched_products">
+            <thead class="thead-dark" style="text-transform: uppercase;">
+              <tr>
+                <th>INVOICE ID</th>
+                <th>USER_ID</th>
+                <th>Name</th>
+                <th>Metode_Pembayaran</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr> 
+            </thead>
+            <tbody id="search_body"> </tbody>
+          </table>
+        </div>
+        <hr>
     </div>
   </div>
+  
+  <div class="w-100"></div>
+  <div class="col" id="body-col">
+  <table class="table table-hover">
+    <div class="box">
+      <p>Order Lists</p>
     </div>
+      <thead class="thead-dark" style="text-transform: uppercase;">
+        <tr>
+          <th>Invoice ID</th>
+          <th>user_id</th>
+          <th>name</th>
+          <th>metode_pembayaran</th>
+          <th>status</th>
+          <th>Action</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+      <?php foreach ($data['output'] as $row) { ?> 
+          <tr>
+            <th scope="row"><?php echo $row['id']?></th>
+            <th><?php echo $row['user_id']?></th>
+            <th><?php echo $row['name']?></th>
+            <th><?php echo $row['metode_pembayaran']?></th>
+            <th><?php echo $row['status']?></th>
+          
+            <th class="col-1 text-center">
+              <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
+              <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
+            </th>
+          </tr>
+      <?php }?>
+      </tbody>
+      </table>
+  </div>
+  </div>
     
   </div>
+
+  
   <script>
     jQuery(document).ready(function () {
+      $('.search_order_btn').on('click',function(event){
+        var user_name = $('#user_name').val();
+        var order_status = $('.order_status').val();
+        var data = { 
+          user_name: user_name,
+          order_status: order_status
+        };
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/PermataGordynMain/CRUD_API/get/get_order_invoice_api2.php",
+            contentType: "application/json",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            cache: false,
+            success: function(dataResult){
+              $(dataResult.output).each(function(i, result){
+              
+                $('#search_body').append($("<tr>")
+                  .append($("<td>").append(result.id))
+                  .append($("<td>").append(result.user_id))
+                  .append($("<td>").append(result.name))
+                  .append($("<td>").append(result.metode_pembayaran))
+                  .append($("<td>").append(result.status))
+                  .append($("<td>").append($(document.createElement('button')).prop({
+                      type: 'button',
+                      innerHTML: 'Approve',
+                      id: result.id,
+                      class: 'approvebtn'
+                  }),
+                  $(document.createElement('button')).prop({
+                      type: 'button',
+                      innerHTML: 'Decline',
+                      id: result.id,
+                      class: 'declinebtn'
+                  })
+                  )));
+
+                  $('.approvebtn').on('click', function(event){
+                    var invoice_id = $(this).attr('id');
+                    var status = 'PAID';
+                    var data2 = {
+                      status : status,
+                      invoice_id : invoice_id
+                    }
+                    $.ajax({
+                        type: "PATCH",
+                        url: "http://localhost/PermataGordynMain/CRUD_API/update/update_invoice_api.php",
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify(data2),
+                        cache: false,
+                        success: function(dataResult){
+                          alert(dataResult.output);
+                        },
+                        error: function(response){
+                          console.log(response);
+                          alert(response.responseJSON.output);
+                        }
+                    });
+                  });
+
+                  $('.declinebtn').on('click', function(event){
+                    var invoice_id = $(this).attr('id');
+                    var status = 'DECLINED';
+                    var data2 = {
+                      status : status,
+                      invoice_id : invoice_id
+                    }
+                    $.ajax({
+                        type: "PATCH",
+                        url: "http://localhost/PermataGordynMain/CRUD_API/update/update_invoice_api.php",
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify(data2),
+                        cache: false,
+                        success: function(dataResult){
+                          alert(dataResult.output);
+                        },
+                        error: function(response){
+                          console.log(response);
+                          alert(response.responseJSON.output);
+                        }
+                    });
+                  });
+              });
+            },
+            error: function(response){
+              console.log(response.responseJSON.output);
+              alert(response.responseJSON.output);
+              
+            }
+        });
+      }); 
 
       $('.accept').on('click',function(event){
           var invoice_id = $(this).attr('id');
