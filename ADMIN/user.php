@@ -199,6 +199,7 @@ $data = json_decode($konten, true);
   <script>
 
     $('.search_user_btn').on('click',function(event){
+          
           var user_name = $('#user_name').val();
           var data = { 
             user_name: user_name
@@ -212,7 +213,14 @@ $data = json_decode($konten, true);
               cache: false,
               success: function(dataResult){
                 $(dataResult.output[0]).each(function(i, result){
-                  var id = dataResult.output[0].id;
+                  var user_id = dataResult.output[0].id;
+                  var data2 = { 
+                    user_id: user_id
+                  };
+                  var editbtn = document.createElement("button");
+                  editbtn.innerHTML = "Edit";
+                  var deletebtn = document.createElement("button");
+                  deletebtn.innerHTML = "Delete";
                   $('#search_body').append($("<tr>")
                     .append($("<td>").append(result.id))
                     .append($("<td>").append(result.role))
@@ -222,7 +230,56 @@ $data = json_decode($konten, true);
                     .append($("<td>").append(result.password))
                     .append($("<td>").append(result.contact))
                     .append($("<td>").append(result.postcode))
-                    .append($("<td>").append('<button id="'+result.id+'" class="btn testedit" style="background-color: transparent;"><i class="bi bi-pencil"></i></button>')));
+                    .append($("<td>").append(editbtn, deletebtn)));
+                    editbtn.addEventListener ("click", function() {
+                      $.ajax({
+                          type: "POST",
+                          url: "http://localhost/PermataGordynMain/CRUD_API/get/get_user_api2.php",
+                          contentType: "application/json",
+                          dataType: 'json',
+                          data: JSON.stringify(data2),
+                          cache: false,
+                          success: function(dataResult){
+                            $("#userid").attr("value", dataResult.output[0].id);
+                            $("#role").attr("value", dataResult.output[0].role);
+                            $("#name").attr("value", dataResult.output[0].name);
+                            $("#address").attr("value", dataResult.output[0].address);
+                            $("#contact").attr("value", dataResult.output[0].contact);
+                            $("#postcode").attr("value", dataResult.output[0].postcode);
+                            $("#email").attr("value", dataResult.output[0].email);
+                            $("#password").attr("value", dataResult.output[0].password);
+                            $("#cpassword").attr("value", dataResult.output[0].password);
+                            $(".adduserbtn").attr("id", dataResult.output[0].id);
+                            $(".adduserbtn").attr("value", "true");
+                            $(".adduserbtn").text("Update User");
+                            
+                          },
+                          error: function(response){
+                            console.log(response);
+                            alert(dataResult.response.responeJSON.output);
+                          }
+                      });
+                    });
+      
+                    deletebtn.addEventListener ("click", function() {
+                      $.ajax({
+                          type: "DELETE",
+                          url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_user_api.php",
+                          contentType: "application/json",
+                          dataType: 'json',
+                          data: JSON.stringify(data2),
+                          cache: false,
+                          success: function(dataResult){
+                            console.log(dataResult)
+                            alert(dataResult.output);
+                            location.reload(true);
+                          },
+                          error: function(response){
+                            console.log(response);
+                            alert(dataResult.response.responeJSON.output);
+                          }
+                      });
+                    });
                 });
               },
               error: function(response){
@@ -232,9 +289,6 @@ $data = json_decode($konten, true);
           });
         });       
 
-    $('.testedit').on('click', function(event){
-
-    });
     $('.adduserbtn').on('click',function(event){
       var buttonupdate = $(this).val();
       var user_id =  $(this).attr('id');
