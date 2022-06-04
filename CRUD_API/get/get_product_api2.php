@@ -22,10 +22,47 @@ try {
         $productdb = new ProductDb($db);
         // get posted data
         $data = json_decode(file_get_contents("php://input"));
-    
+        if(!empty($data->product_name)){
+
+            $product_name = $data->product_name;
+            $query = "SELECT * FROM product WHERE name like '%$product_name%' ";
+            $get_product_name = $productdb->conn->prepare($query);
+            $get_product_name->execute();
+            $query_result = $get_product_name->rowCount();
+            if($query_result > 0){
+                while ($row = $get_product_name->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    $productnamedata=array(
+                        "product_id" => $id,
+                        "category_id" => $category_id,
+                        "name" => $name,
+                        "price" => $price,
+                        "size" => $size,
+                        "colour" => $colour,
+                        "description" => $description,
+                        "image1" => $image1
+                    );
+                    array_push($response["output"], $productnamedata);
+                }
+                // set error schema
+                $error_schema["error_code"] = 0;
+                $error_schema["message"] = "Success";
+
+                $response["error_schema"] = $error_schema;
+                // set response code - 200 OK
+                http_response_code(200);
+              
+                // show products data in json format
+                echo json_encode($response);
+            }
+            else{
+                http_response_code(400);
+                throw new Exception("Product Not Found!");
+            }
+        }
 
         // make sure data is not empty
-        if(!empty($data->product_id)){
+        else if(!empty($data->product_id)){
             $product_id = $data->product_id;
 
             $query = "SELECT * FROM product WHERE id='$product_id'";

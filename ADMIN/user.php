@@ -283,7 +283,7 @@ $data = json_decode($konten, true);
                 });
               },
               error: function(response){
-                console.log(response.responseJSON.output);
+                alert(response.responseJSON.output);
                 
               }
           });

@@ -96,7 +96,7 @@ $data = json_decode($konten, true);
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">Name (Must be unique)</label>
-          <input type="text" class="form-control" id="name" placeholder="name">
+          <input type="text" class="form-control" id="category_name" placeholder="name">
         </div>
         <div class="col-md-2 mb-3 mr-auto">
           <label for="validationTooltip01">Description</label>
@@ -105,6 +105,33 @@ $data = json_decode($konten, true);
         <div class="text-right ml-auto">
           <button id="" class="btn btn-danger addcategorybtn" value="false">Add Category</button>
         </div>
+      </div>
+    
+      <hr>
+      <div class="col-md-2 mb-3 mr-auto">
+          <label for="validationTooltip01">Search by name</label>
+          <input type="text" class="form-control mb-3" id="search_category" placeholder="Name">
+          <button id="" class="btn btn-danger search_category_btn" value="false">Search Category</button>
+      </div>
+      
+      <h4>Searched User</h4>
+      <div id="search_result" class="table table-hover">
+        <table id="searchedUsers">
+          <thead class="thead-dark" style="text-transform: uppercase;">
+            <tr>
+              <th>ID</th>
+              <th>Category</th>
+              <th>Nama Produk</th>
+              <th>Harga Produk</th>
+              <th>Warna Produk</th>
+              <th>Size Produk</th>
+              <th>Description</th>
+              <th>Image1</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="search_body"> </tbody>
+        </table>
       </div>
       <hr>
       <table class="table table-hover">
@@ -135,11 +162,94 @@ $data = json_decode($konten, true);
       </div>
 
   <script>
+    $('.search_category_btn').on('click',function(event){
+        var category_name = $('#search_category').val();
+        console.log(category_name);
+        var data = { 
+          category_name: category_name
+        };
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api2.php",
+            contentType: "application/json",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            cache: false,
+            success: function(dataResult){
+              $(dataResult.output[0]).each(function(i, result){
+              
+                var category_id = dataResult.output[0].id;
+                var data2 = { 
+                  category_id: category_id
+                };
+                var editbtn = document.createElement("button");
+                editbtn.innerHTML = "Edit";
+                var deletebtn = document.createElement("button");
+                deletebtn.innerHTML = "Delete";
+                $('#search_body').append($("<tr>")
+                  .append($("<td>").append(result.id))
+                  .append($("<td>").append(result.name))
+                  .append($("<td>").append(result.description))
+                  .append($("<td>").append(editbtn, deletebtn)));
+                  editbtn.addEventListener ("click", function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api2.php",
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify(data2),
+                        cache: false,
+                        success: function(dataResult){
+                          $("#category_id").attr("value", dataResult.output[0].id);
+                          $("#category_name").attr("value", dataResult.output[0].name);
+                          $("#description").attr("value", dataResult.output[0].description);
+                          $(".addcategorybtn").attr("id", dataResult.output[0].id);
+                          $(".addcategorybtn").attr("value", "true");
+                          $(".addcategorybtn").text("Update Category");
+                          
+                        },
+                        error: function(response){
+                          console.log(response);
+                          alert(response.responseJSON.output);
+                        }
+                    });
+                  });
+    
+                  deletebtn.addEventListener ("click", function() {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_product_api.php",
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify(data2),
+                        cache: false,
+                        success: function(dataResult){
+                          console.log(dataResult)
+                          alert(dataResult.output);
+                          location.reload(true);
+                        },
+                        error: function(response){
+                          console.log(response);
+                          alert(response.responseJSON.output);
+                        }
+                    });
+                  });
+              });
+            },
+            error: function(response){
+              console.log(response.responseJSON.output);
+              alert(response.responseJSON.output);
+              
+            }
+        });
+      }); 
+
+
     $('.addcategorybtn').on('click',function(event){
       var need_to_be_updated = $('.addcategorybtn').val();
       if(need_to_be_updated == "true"){
         var id = $(this).attr('id');
-        var name = $('#name').val();
+        var name = $('#category_name').val();
         var description =  $('#description').val();
         var data = {
           id: id,
@@ -160,12 +270,12 @@ $data = json_decode($konten, true);
             },
             error: function(response){
               console.log(response);
-              alert(dataResult.response.responeJSON.output);
+              alert(response.responseJSON.output);
             }
         });
       }
       else{
-        var name = $('#name').val();
+        var name = $('#category_name').val();
         var description =  $('#description').val();
         var data = {
           name: name,
@@ -185,7 +295,7 @@ $data = json_decode($konten, true);
             },
             error: function(response){
               console.log(response);
-              alert(dataResult.response.responeJSON.output);
+              alert(response.responseJSON.output);
             }
         });
       }
@@ -197,8 +307,8 @@ $data = json_decode($konten, true);
         category_id: category_id
       };
       $.ajax({
-          type: "GET",
-          url: "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api.php",
+          type: "POST",
+          url: "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api2.php",
           contentType: "application/json",
           dataType: 'json',
           data: JSON.stringify(data),
@@ -206,7 +316,7 @@ $data = json_decode($konten, true);
           success: function(dataResult){
               console.log(dataResult.output[0].id);
               $("#category_id").attr("value", dataResult.output[0].id);
-              $("#name").attr("value", dataResult.output[0].name);
+              $("#category_name").attr("value", dataResult.output[0].name);
               $("#description").attr("value", dataResult.output[0].description);
               $(".addcategorybtn").attr("id", dataResult.output[0].id);
               $(".addcategorybtn").attr("value", "true");
@@ -214,7 +324,7 @@ $data = json_decode($konten, true);
           },
           error: function(response){
             console.log(response);
-            alert(dataResult.response.responeJSON.output);
+            alert(response.responseJSON.output);
           }
       });
     });
@@ -234,7 +344,7 @@ $data = json_decode($konten, true);
             location.reload(true);  
           },
           error: function(response){
-            alert(dataResult.response.responeJSON.output);
+            alert(response.responseJSON.output);
           }
       });
     });

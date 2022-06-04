@@ -144,7 +144,33 @@ $catdata = json_decode($catkonten, true);
         </div>
       </form>
       
+      <hr>
+      <div class="col-md-2 mb-3 mr-auto">
+          <label for="validationTooltip01">Search by name</label>
+          <input type="text" class="form-control mb-3" id="product_name" placeholder="Name">
+          <button id="" class="btn btn-danger search_product_btn" value="false">Search Product</button>
+      </div>
       
+      <h4>Searched User</h4>
+      <div id="search_result" class="table table-hover">
+        <table id="searchedUsers">
+          <thead class="thead-dark" style="text-transform: uppercase;">
+            <tr>
+              <th>ID</th>
+              <th>Category</th>
+              <th>Nama Produk</th>
+              <th>Harga Produk</th>
+              <th>Warna Produk</th>
+              <th>Size Produk</th>
+              <th>Description</th>
+              <th>Image1</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="search_body"> </tbody>
+        </table>
+      </div>
+      <hr>
       
       <table class="table table-hover">
         <p class="text-center h3">List Product</p>
@@ -185,6 +211,97 @@ $catdata = json_decode($catkonten, true);
 
   <script type="text/javascript">
     jQuery(document).ready(function () {
+      $('.search_product_btn').on('click',function(event){
+          var product_name = $('#product_name').val();
+          console.log(product_name);
+          var data = { 
+            product_name: product_name
+          };
+          $.ajax({
+              type: "POST",
+              url: "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api2.php",
+              contentType: "application/json",
+              dataType: 'json',
+              data: JSON.stringify(data),
+              cache: false,
+              success: function(dataResult){
+                $(dataResult.output[0]).each(function(i, result){
+                  var product_id = dataResult.output[0].product_id;
+                  console.log(product_id);
+                  var data2 = { 
+                    product_id: product_id
+                  };
+                  var editbtn = document.createElement("button");
+                  editbtn.innerHTML = "Edit";
+                  var deletebtn = document.createElement("button");
+                  deletebtn.innerHTML = "Delete";
+                  $('#search_body').append($("<tr>")
+                    .append($("<td>").append(result.product_id))
+                    .append($("<td>").append(result.category_id))
+                    .append($("<td>").append(result.name))
+                    .append($("<td>").append(result.price))
+                    .append($("<td>").append(result.size))
+                    .append($("<td>").append(result.colour))
+                    .append($("<td>").append(result.description))
+                    .append($("<td>").append('<img src ="'+result.image1+'" height="40" width="40">'))
+                    .append($("<td>").append(editbtn, deletebtn)));
+                    editbtn.addEventListener ("click", function() {
+                      $.ajax({
+                          type: "POST",
+                          url: "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api2.php",
+                          contentType: "application/json",
+                          dataType: 'json',
+                          data: JSON.stringify(data2),
+                          cache: false,
+                          success: function(dataResult){
+                            $("#prodid").attr("value", dataResult.output[0].id);
+                            $("#catid").attr("value", dataResult.output[0].category_id);
+                            $("#prodname").attr("value", dataResult.output[0].name);
+                            $("#prodprice").attr("value", dataResult.output[0].price);
+                            $("#prodcolour").attr("value", dataResult.output[0].size);
+                            $("#prodsize").attr("value", dataResult.output[0].colour);
+                            $("#proddesc").attr("value", dataResult.output[0].description);
+                            $("#image1").attr('src', dataResult.output[0].image1);
+                            $(".addproductbtn").attr("id", dataResult.output[0].id);
+                            $(".addproductbtn").attr("value", "true");
+                            $(".addproductbtn").text("Update Product");
+                            
+                          },
+                          error: function(response){
+                            console.log(response);
+                            alert(dataResult.response.responeJSON.output);
+                          }
+                      });
+                    });
+      
+                    deletebtn.addEventListener ("click", function() {
+                      $.ajax({
+                          type: "DELETE",
+                          url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_product_api.php",
+                          contentType: "application/json",
+                          dataType: 'json',
+                          data: JSON.stringify(data2),
+                          cache: false,
+                          success: function(dataResult){
+                            console.log(dataResult)
+                            alert(dataResult.output);
+                            location.reload(true);
+                          },
+                          error: function(response){
+                            console.log(response);
+                            alert(dataResult.response.responeJSON.output);
+                          }
+                      });
+                    });
+                });
+              },
+              error: function(response){
+                console.log(response.responseJSON.output);
+                alert(response.responseJSON.output);
+                
+              }
+          });
+        }); 
 
       $('.category_id').change(function(){
         catidm = $(this).val();
