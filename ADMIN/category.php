@@ -145,6 +145,7 @@ $data = json_decode($konten, true);
           </tr>
         </thead>
         <tbody>
+        <?php if ($data['output'] != 'Data not found') { ?>
           <?php foreach ($data['output'] as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
@@ -155,7 +156,7 @@ $data = json_decode($konten, true);
                 <button id="<?php echo $row['id'] ?>" class="btn delete" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
               </th>
             </tr>
-          <?php }?>
+          <?php }}?>
         </tbody>
       </table>
       </div>
@@ -176,22 +177,31 @@ $data = json_decode($konten, true);
             data: JSON.stringify(data),
             cache: false,
             success: function(dataResult){
-              $(dataResult.output[0]).each(function(i, result){
-              
-                var category_id = dataResult.output[0].id;
-                var data2 = { 
-                  category_id: category_id
-                };
-                var editbtn = document.createElement("button");
-                editbtn.innerHTML = "Edit";
-                var deletebtn = document.createElement("button");
-                deletebtn.innerHTML = "Delete";
+              console.log(dataResult);
+              $(dataResult.output).each(function(i, result){
                 $('#search_body').append($("<tr>")
                   .append($("<td>").append(result.id))
                   .append($("<td>").append(result.name))
                   .append($("<td>").append(result.description))
-                  .append($("<td>").append(editbtn, deletebtn)));
-                  editbtn.addEventListener ("click", function() {
+                  .append($("<td>").append(
+                    $(document.createElement('button')).prop({
+                          type: 'button',
+                          innerHTML: 'Edit',
+                          id: result.id,
+                          class: 'editbtn'
+                      }),
+                      $(document.createElement('button')).prop({
+                          type: 'button',
+                          innerHTML: 'Delete',
+                          id: result.id,
+                          class: 'deletebtn'
+                      })
+                  )));
+                  $('.editbtn').on('click', function(event){
+                    var category_id = $(this).attr('id');
+                    var data2 = {
+                      category_id : category_id
+                    };
                     $.ajax({
                         type: "POST",
                         url: "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api2.php",
@@ -215,10 +225,14 @@ $data = json_decode($konten, true);
                     });
                   });
     
-                  deletebtn.addEventListener ("click", function() {
+                  $('.deletebtn').on('click', function(event){
+                    var category_id = $(this).attr('id');
+                    var data2 = {
+                      category_id : category_id
+                    };
                     $.ajax({
                         type: "DELETE",
-                        url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_product_api.php",
+                        url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_category_api.php",
                         contentType: "application/json",
                         dataType: 'json',
                         data: JSON.stringify(data2),

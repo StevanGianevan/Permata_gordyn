@@ -117,30 +117,31 @@ $invoice_data = json_decode($result, true);
                     <div class="card-header">
                         <p>checkout</p>
                     </div>
-                    <?php foreach ($data['output'] as $row) { ?> 
-                        <div class="card-body">
-                            <div class="row align-content-center justify-content-center">
-                                <div class="col-lg-6 text-center">
-                                    <p><img src="<?php echo $row['image1']?>" width="150" height="100"></p>
-                                </div>
-                                
-                                <div class="col-lg-6">
-                                    <ul>
-                                        <li>
-                                            <p style="font-weight: 600; text-transform: uppercase;"><?php echo $row['name']?></p>
-                                        </li>
-                                        <li>
-                                            <p>Ukuran : <?php echo $row['pp'] ?> m x <?php echo $row['lp'] ?> m</p>
-                                            <p>Quantity : <?php echo $row['quantity'] ?> </p>
-                                        </li>
-                                        <!-- <li>
-                                            <p>warna : biru</p>
-                                        </li> -->
-                                    </ul>
+                    <?php if ($data['output'] != 'Data not found') { ?>
+                        <?php foreach ($data['output'] as $row) { ?> 
+                            <div class="card-body">
+                                <div class="row align-content-center justify-content-center">
+                                    <div class="col-lg-6 text-center">
+                                        <p><img src="<?php echo $row['image1']?>" width="150" height="100"></p>
+                                    </div>
+                                    
+                                    <div class="col-lg-6">
+                                        <ul>
+                                            <li>
+                                                <p style="font-weight: 600; text-transform: uppercase;"><?php echo $row['name']?></p>
+                                            </li>
+                                            <li>
+                                                <p>Ukuran : <?php echo $row['pp'] ?> m x <?php echo $row['lp'] ?> m</p>
+                                                <p>Quantity : <?php echo $row['quantity'] ?> </p>
+                                            </li>
+                                            <!-- <li>
+                                                <p>warna : biru</p>
+                                            </li> -->
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php }?>
+                    <?php }}?>
                 </div>
             </div>
             <div class="col-md-3">
@@ -155,28 +156,31 @@ $invoice_data = json_decode($result, true);
                             <div class="row">
                                 <div class="col-sm">
                                     <ul style="list-style-type: circle;" >
+                                    <?php if ($data['output'] != 'Data not found') { ?>
                                         <?php foreach ($data['output'] as $row) { ?> 
                                             <li>
                                                 <a><?php echo $row['name'] ?></a>
                                             </li>
-                                        <?php }?>
+                                        <?php }}?>
                                     </ul>
                                 </div>
                             
                                 <div class="col-sm text-right">
                                     <ul>
+                                    <?php if ($data['output'] != 'Data not found') { ?>
                                         <?php foreach ($data['output'] as $row) { ?> 
                                             <li>
                                                 <a>Rp. <?php echo $row['price'] ?></a>
                                             </li>
-                                        <?php }?>
+                                        <?php }}?>
                                     </ul>
                                 </div>
                             </div>
                             <hr>
+                            <?php if ($data['output'] != 'Data not found') { ?>
                             <?php foreach ($invoice_data['output'] as $row) { ?>
                                 <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo $row['total_price'] ?></p>
-                            <?php }  ?>
+                            <?php }}  ?>
                         </div>
                         
                         <div class="metode">

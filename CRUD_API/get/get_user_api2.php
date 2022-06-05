@@ -38,7 +38,6 @@ try {
                         "name" => $name,
                         "address" => $address,
                         "email" => $email,
-                        "password" => $password,
                         "contact" => $contact,
                         "postcode" => $postcode
                     );

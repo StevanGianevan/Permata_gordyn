@@ -66,11 +66,11 @@ try {
             }
             
             $productUrl="http://localhost/PermataGordynMain/CRUD_API/media/".$fileNameNew;
-            $query = "UPDATE product SET id='$prodidnew', category_id=$catid, name='$prodname', price=$prodprice, size='$prodsize', colour='$prodcolour', description='$proddesc', image1='$productUrl'
+            $query = "UPDATE product SET id='$prodidnew', category_id='$catid', name='$prodname', price=$prodprice, size='$prodsize', colour='$prodcolour', description='$proddesc', image1='$productUrl'
             WHERE id='$prodidbefore'";
         } 
         else{
-            $query = "UPDATE product SET id='$prodidnew', category_id=$catid, name='$prodname', price=$prodprice, size='$prodsize', colour='$prodcolour', description='$proddesc'
+            $query = "UPDATE product SET id='$prodidnew', category_id='$catid', name='$prodname', price=$prodprice, size='$prodsize', colour='$prodcolour', description='$proddesc'
             WHERE id='$prodidbefore'";
         }
         $update_product = $productdb->conn->prepare($query);            

@@ -118,14 +118,6 @@ $data = json_decode($konten, true);
           <label for="validationTooltip02">Email</label>
           <input type="text" class="form-control" id="email" placeholder="Email">
         </div>
-        <div class="col-md-4 mb-3">
-          <label for="validationTooltip02">Password</label>
-          <input type="text" class="form-control" id="password" placeholder="Password">
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="validationTooltip02">Confirmation Password</label>
-          <input type="text" class="form-control" id="cpassword" placeholder="Confirmation Password">
-        </div>
         <div class="text-right ml-auto">
           <button id="" class="btn btn-danger adduserbtn" value="false">Add User</button>
         </div>
@@ -147,7 +139,6 @@ $data = json_decode($konten, true);
               <th>Name</th>
               <th>Address</th>
               <th>Email</th>
-              <th>Password</th>
               <th>Contact</th>
               <th>Postcode</th>
               <th>Action</th>
@@ -168,13 +159,13 @@ $data = json_decode($konten, true);
             <th>Name</th>
             <th>Address</th>
             <th>Email</th>
-            <th>Password</th>
             <th>Contact</th>
             <th>Postcode</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody id="test_search_body">
+        <?php if ($data['output'] != 'Data not found') { ?>
           <?php foreach ($data['output'] as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
@@ -182,7 +173,6 @@ $data = json_decode($konten, true);
               <th><?php echo $row['name'] ?></th>
               <th><?php echo $row['address'] ?></th>
               <th><?php echo $row['email'] ?></th>
-              <th><?php echo $row['password'] ?></th>
               <th><?php echo $row['contact'] ?></th>
               <th><?php echo $row['postcode'] ?></th>
               <th class="col-1 text-center">
@@ -190,7 +180,7 @@ $data = json_decode($konten, true);
                 <button id="<?php echo $row['id'] ?>" class="btn delete" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
               </th>
             </tr>
-          <?php }?>
+          <?php }}?>
         </tbody>
       </table>
       </div>
@@ -212,15 +202,7 @@ $data = json_decode($konten, true);
               data: JSON.stringify(data),
               cache: false,
               success: function(dataResult){
-                $(dataResult.output[0]).each(function(i, result){
-                  var user_id = dataResult.output[0].id;
-                  var data2 = { 
-                    user_id: user_id
-                  };
-                  var editbtn = document.createElement("button");
-                  editbtn.innerHTML = "Edit";
-                  var deletebtn = document.createElement("button");
-                  deletebtn.innerHTML = "Delete";
+                $(dataResult.output).each(function(i, result){
                   $('#search_body').append($("<tr>")
                     .append($("<td>").append(result.id))
                     .append($("<td>").append(result.role))
@@ -230,8 +212,26 @@ $data = json_decode($konten, true);
                     .append($("<td>").append(result.password))
                     .append($("<td>").append(result.contact))
                     .append($("<td>").append(result.postcode))
-                    .append($("<td>").append(editbtn, deletebtn)));
-                    editbtn.addEventListener ("click", function() {
+                    .append($("<td>").append($(document.createElement('button')).prop({
+                      type: 'button',
+                      innerHTML: 'Edit',
+                      id: result.id,
+                      class: 'editbtn'
+                      }),
+                      $(document.createElement('button')).prop({
+                          type: 'button',
+                          innerHTML: 'Delete',
+                          id: result.id,
+                          class: 'deletebtn'
+                      })
+
+
+                  )));
+                    $('.editbtn').on('click', function(event){
+                      var user_id = $(this).attr('id');
+                      var data2 = {
+                        user_id : user_id
+                      };
                       $.ajax({
                           type: "POST",
                           url: "http://localhost/PermataGordynMain/CRUD_API/get/get_user_api2.php",
@@ -261,7 +261,11 @@ $data = json_decode($konten, true);
                       });
                     });
       
-                    deletebtn.addEventListener ("click", function() {
+                    $('.deletebtn').on('click', function(event){
+                      var user_id = $(this).attr('id');
+                      var data2 = {
+                        user_id : user_id
+                      };
                       $.ajax({
                           type: "DELETE",
                           url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_user_api.php",

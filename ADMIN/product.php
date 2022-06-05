@@ -99,9 +99,11 @@ $catdata = json_decode($catkonten, true);
           <div class="form-group">
             <label for="category_dropdown">Category</label>
             <select class="form-control category_id" id="" name="">
-            <?php foreach($catdata['output'] as $row) {?>
-              <option value="<?php echo $row['id']?>"> <?php echo $row['name'] ?></option>
-            <?php } ?>
+            <option value="">-- SELECT CATEGORY -- </option>
+            <?php if ($data['output'] != 'Data not found') { ?>
+              <?php foreach($catdata['output'] as $row) {?>
+                <option value="<?php echo $row['id']?>"> <?php echo $row['name'] ?></option>
+              <?php }} ?>
             </select>
           </div>
           <div class="col-md-2 mb-3 mr-auto">
@@ -188,6 +190,7 @@ $catdata = json_decode($catkonten, true);
           </tr>
         </thead>
         <tbody>
+        <?php if ($data['output'] != 'Data not found') { ?>
           <?php foreach ($data['output'] as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
@@ -203,7 +206,7 @@ $catdata = json_decode($catkonten, true);
                 <button id="<?php echo $row['id'] ?>" class="btn delete" style="background-color: transparent;"><i class="bi bi-trash"></i></button>
               </th>
             </tr>
-          <?php }?>
+          <?php }}?>
         </tbody>
         </table>
     </div>
@@ -225,16 +228,7 @@ $catdata = json_decode($catkonten, true);
               data: JSON.stringify(data),
               cache: false,
               success: function(dataResult){
-                $(dataResult.output[0]).each(function(i, result){
-                  var product_id = dataResult.output[0].product_id;
-                  console.log(product_id);
-                  var data2 = { 
-                    product_id: product_id
-                  };
-                  var editbtn = document.createElement("button");
-                  editbtn.innerHTML = "Edit";
-                  var deletebtn = document.createElement("button");
-                  deletebtn.innerHTML = "Delete";
+                $(dataResult.output).each(function(i, result){
                   $('#search_body').append($("<tr>")
                     .append($("<td>").append(result.product_id))
                     .append($("<td>").append(result.category_id))
@@ -244,8 +238,25 @@ $catdata = json_decode($catkonten, true);
                     .append($("<td>").append(result.colour))
                     .append($("<td>").append(result.description))
                     .append($("<td>").append('<img src ="'+result.image1+'" height="40" width="40">'))
-                    .append($("<td>").append(editbtn, deletebtn)));
-                    editbtn.addEventListener ("click", function() {
+                    .append($("<td>").append($(document.createElement('button')).prop({
+                          type: 'button',
+                          innerHTML: 'Edit',
+                          id: result.product_id,
+                          class: 'editbtn'
+                      }),
+                      $(document.createElement('button')).prop({
+                          type: 'button',
+                          innerHTML: 'Delete',
+                          id: result.product_id,
+                          class: 'deletebtn'
+                      })
+
+                    )));
+                    $('.editbtn').on('click', function(event){
+                      var product_id = $(this).attr('id');
+                      var data2 = { 
+                        product_id: product_id
+                      };
                       $.ajax({
                           type: "POST",
                           url: "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api2.php",
@@ -274,7 +285,11 @@ $catdata = json_decode($catkonten, true);
                       });
                     });
       
-                    deletebtn.addEventListener ("click", function() {
+                    $('.deletebtn').on('click', function(event){
+                      var product_id = $(this).attr('id');
+                      var data2 = { 
+                        product_id: product_id
+                      };
                       $.ajax({
                           type: "DELETE",
                           url: "http://localhost/PermataGordynMain/CRUD_API/delete/delete_product_api.php",

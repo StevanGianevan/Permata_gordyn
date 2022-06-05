@@ -149,20 +149,21 @@ $data = json_decode($konten, true);
         </tr>
       </thead>
       <tbody>
-      <?php foreach ($data['output'] as $row) { ?> 
-          <tr>
-            <th scope="row"><?php echo $row['id']?></th>
-            <th><?php echo $row['user_id']?></th>
-            <th><?php echo $row['name']?></th>
-            <th><?php echo $row['metode_pembayaran']?></th>
-            <th><?php echo $row['status']?></th>
-          
-            <th class="col-1 text-center">
-              <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
-              <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
-            </th>
-          </tr>
-      <?php }?>
+      <?php if ($data['output'] != 'Data not found') { ?>
+        <?php foreach ($data['output'] as $row) { ?> 
+            <tr>
+              <th scope="row"><?php echo $row['id']?></th>
+              <th><?php echo $row['user_id']?></th>
+              <th><?php echo $row['name']?></th>
+              <th><?php echo $row['metode_pembayaran']?></th>
+              <th><?php echo $row['status']?></th>
+            
+              <th class="col-1 text-center">
+                <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
+                <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
+              </th>
+            </tr>
+      <?php }} ?>
       </tbody>
       </table>
   </div>
@@ -200,13 +201,15 @@ $data = json_decode($konten, true);
                       type: 'button',
                       innerHTML: 'Approve',
                       id: result.id,
-                      class: 'approvebtn'
+                      class: 'approvebtn',
+                      style: 'background-color: green;'
                   }),
                   $(document.createElement('button')).prop({
                       type: 'button',
                       innerHTML: 'Decline',
                       id: result.id,
-                      class: 'declinebtn'
+                      class: 'declinebtn',
+                      style: 'background-color: red;'
                   })
                   )));
 
@@ -225,10 +228,11 @@ $data = json_decode($konten, true);
                         data: JSON.stringify(data2),
                         cache: false,
                         success: function(dataResult){
+                          console.log(dataResult);
                           alert(dataResult.output);
+                          location.reload(true);
                         },
                         error: function(response){
-                          console.log(response);
                           alert(response.responseJSON.output);
                         }
                     });
@@ -250,9 +254,10 @@ $data = json_decode($konten, true);
                         cache: false,
                         success: function(dataResult){
                           alert(dataResult.output);
+                          location.reload(true);
                         },
                         error: function(response){
-                          console.log(response);
+                          location.reload(true);
                           alert(response.responseJSON.output);
                         }
                     });

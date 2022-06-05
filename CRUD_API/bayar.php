@@ -90,29 +90,30 @@ $invoice_data = json_decode($result, true);
                     <div class="card-header">
                         <p>INVOICE</p>
                     </div>
-                    <?php foreach ($data['output'] as $row) { ?> 
-                    <div class="card-body">
-                        <div class="row align-content-center justify-content-center">
-                            <div class="col-lg-6 text-center">
-                                <p><img src="<?php echo $row['image1']?>" width="150" height="100"></p>
+                    <?php if ($data['output'] != 'Data not found') { ?>
+                        <?php foreach ($data['output'] as $row) { ?> 
+                        <div class="card-body">
+                            <div class="row align-content-center justify-content-center">
+                                <div class="col-lg-6 text-center">
+                                    <p><img src="<?php echo $row['image1']?>" width="150" height="100"></p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <ul>
+                                        <li>
+                                            <p style="font-weight: 600; text-transform: uppercase;"><?php echo $row['name']?></p>
+                                        </li>
+                                        <li>
+                                            <p>ukuran : <?php echo $row['pp'] ?>m x <?php echo $row['lp'] ?>m</p>
+                                        </li>
+                                        <li>
+                                            <p>Quantity: <?php echo $row['quantity']?></p>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="col-lg-6">
-                                <ul>
-                                    <li>
-                                        <p style="font-weight: 600; text-transform: uppercase;"><?php echo $row['name']?></p>
-                                    </li>
-                                    <li>
-                                        <p>ukuran : <?php echo $row['pp'] ?>m x <?php echo $row['lp'] ?>m</p>
-                                    </li>
-                                    <li>
-                                        <p>Quantity: <?php echo $row['quantity']?></p>
-                                    </li>
-                                </ul>
-                            </div>
+                            
                         </div>
-                        
-                    </div>
-                    <?php }?>
+                    <?php }}?>
                 <h4 style ="text-align: center;" >Pesanan akan di proses dalam jangka waktu 2x24 jam.</h4>
                 </div>
                 <div class="card">
