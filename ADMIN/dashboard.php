@@ -1,3 +1,27 @@
+<?php 
+session_start();
+
+$sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php";
+$konten = file_get_contents($sumber);
+$data = json_decode($konten, true);
+$jumlah_produk = count($data['output']);
+
+$usersumber = "http://localhost/PermataGordynMain/CRUD_API/get/list_user_api.php";
+$usercontent = file_get_contents($usersumber);
+$userdata = json_decode($usercontent, true);
+$jumlah_user = count($userdata['output']);
+
+$odersumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_order_invoice_api.php";
+$orderkonten = file_get_contents($odersumber);
+$orderdata = json_decode($orderkonten, true);
+$jumlah_order = count($orderdata['output']);
+?>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,7 +106,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="font-weight-bold">Product</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">25 Produk</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $jumlah_produk?> Produk</div>
                 </div>
                 <div class="col-auto">
                   <i class="bi bi-boxes" style="font-size: 30px;"></i>
@@ -97,7 +121,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="font-weight-bold">Order</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">10 order</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $jumlah_order?> order</div>
                 </div>
                 <div class="col-auto">
                   <i class="bi bi-journal" style="font-size: 30px;"></i>
@@ -127,7 +151,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="font-weight-bold">User</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">3 Orang</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $jumlah_user?> Orang</div>
                 </div>
                 <div class="col-auto">
                   <i class="bi bi-person" style="font-size: 30px;"></i>
