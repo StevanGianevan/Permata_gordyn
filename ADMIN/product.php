@@ -347,6 +347,7 @@ $catdata = json_decode($catkonten, true);
                   $("#proddesc").attr("value", dataResult.output[0].description);
                   $("#image1").attr('src', dataResult.output[0].image1);
                   $(".formadmin").attr("id", dataResult.output[0].product_id);
+                  $(".formadmin").attr("value", dataResult.output[0].category_id);
                   $('select[name="category_id"]').val(dataResult.output[0].category_id);
                   $(".addproductbtn").attr("value", "true");
                   $(".addproductbtn").text("Update Product");
@@ -367,8 +368,6 @@ $catdata = json_decode($catkonten, true);
         console.log("ready");
         // var prodidbefore = $(this).attr('id');
         var buttonupdate = $('.addproductbtn').val();
-        console.log(buttonupdate);
-
         if(buttonupdate == "true"){
           let form_data = new FormData();
           let prodidbefore = $(this).attr('id');
