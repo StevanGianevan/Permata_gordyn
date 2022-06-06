@@ -98,7 +98,7 @@ $catdata = json_decode($catkonten, true);
           </div>
           <div class="form-group">
             <label for="category_dropdown">Category</label>
-            <select class="form-control category_id" id="" name="">
+            <select class="form-control category_id" id="" name="category_id">
             <option value="">-- SELECT CATEGORY -- </option>
             <?php if ($data['output'] != 'Data not found') { ?>
               <?php foreach($catdata['output'] as $row) {?>
@@ -273,6 +273,7 @@ $catdata = json_decode($catkonten, true);
                             $("#prodsize").attr("value", dataResult.output[0].colour);
                             $("#proddesc").attr("value", dataResult.output[0].description);
                             $("#image1").attr('src', dataResult.output[0].image1);
+                            $('select[name="category_id"]').val(dataResult.output[0].category_id);
                             $(".addproductbtn").attr("id", dataResult.output[0].id);
                             $(".addproductbtn").attr("value", "true");
                             $(".addproductbtn").text("Update Product");
@@ -346,6 +347,7 @@ $catdata = json_decode($catkonten, true);
                   $("#proddesc").attr("value", dataResult.output[0].description);
                   $("#image1").attr('src', dataResult.output[0].image1);
                   $(".formadmin").attr("id", dataResult.output[0].product_id);
+                  $('select[name="category_id"]').val(dataResult.output[0].category_id);
                   $(".addproductbtn").attr("value", "true");
                   $(".addproductbtn").text("Update Product");
               },
