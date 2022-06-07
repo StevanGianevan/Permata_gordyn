@@ -77,6 +77,14 @@ body{
     outline: none;
 }
 
+.pembelian .row ul{
+    padding: 0;
+}
+
+.pembelian .row ul li{
+    list-style: none;
+}
+
 /* footer */
 .sticky-footer{
     position: sticky;

@@ -88,10 +88,10 @@ $data = json_decode($konten, true);
     </div>
     <div class="col" id="body-col">
       <div class="box">
-        <p>Category</p>
+        <p>Order</p>
       </div>
     <hr>
-    <div class="container" style="max-width: 500px;margin-left:0px;">
+    <div class="container p-0" style="max-width: 500px;margin-left:0px;">
       <div class="row">
         <div class="col-sm">
           <label for="validationTooltip01">Search Order by User Name</label>
@@ -111,9 +111,10 @@ $data = json_decode($konten, true);
     </div>
     <hr>
     <div>
-      <h4>Searched Order</h4>
-        <div id="search_result" class="table table-hover">
-          <table id="searched_products">
+      
+        <div id="search_result" class="table table-hover d-none">
+        <p class="text-center h3">Search Order</p>
+          <table class="table table-hover" id="searched_products">
             <thead class="thead-dark" style="text-transform: uppercase;">
               <tr>
                 <th>INVOICE ID</th>
@@ -129,42 +130,35 @@ $data = json_decode($konten, true);
         </div>
         <hr>
     </div>
-  </div>
-  
-  <div class="w-100"></div>
-  <div class="col" id="body-col">
-  <table class="table table-hover">
-    <div class="box">
-      <p>Order Lists</p>
-    </div>
-      <thead class="thead-dark" style="text-transform: uppercase;">
-        <tr>
-          <th>Invoice ID</th>
-          <th>user_id</th>
-          <th>name</th>
-          <th>metode_pembayaran</th>
-          <th>status</th>
-          <th>Action</th>
-          
-        </tr>
-      </thead>
-      <tbody>
-      <?php if ($data['output'] != 'Data not found') { ?>
-        <?php foreach ($data['output'] as $row) { ?> 
-            <tr>
-              <th scope="row"><?php echo $row['id']?></th>
-              <th><?php echo $row['user_id']?></th>
-              <th><?php echo $row['name']?></th>
-              <th><?php echo $row['metode_pembayaran']?></th>
-              <th><?php echo $row['status']?></th>
-            
-              <th class="col-1 text-center">
-                <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
-                <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
-              </th>
-            </tr>
-      <?php }} ?>
-      </tbody>
+    <div class="col" id="body-col">
+    <table class="table table-hover">
+      <p class="text-center h3">List Order</p>
+        <thead class="thead-dark" style="text-transform: uppercase;">
+          <tr>
+            <th>Invoice ID</th>
+            <th>user_id</th>
+            <th>name</th>
+            <th>metode_pembayaran</th>
+            <th>status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php if ($data['output'] != 'Data not found') { ?>
+          <?php foreach ($data['output'] as $row) { ?> 
+              <tr>
+                <th scope="row"><?php echo $row['id']?></th>
+                <th><?php echo $row['user_id']?></th>
+                <th><?php echo $row['name']?></th>
+                <th><?php echo $row['metode_pembayaran']?></th>
+                <th><?php echo $row['status']?></th>
+                <th class="col-1 text-center">
+                  <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent; color:green"><i class="bi bi-check-lg"></i></button>
+                  <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent; color:red"><i class="bi bi-exclamation-lg"></i></button>
+                </th>
+              </tr>
+        <?php }} ?>
+        </tbody>
       </table>
   </div>
   </div>
@@ -175,6 +169,7 @@ $data = json_decode($konten, true);
   <script>
     jQuery(document).ready(function () {
       $('.search_order_btn').on('click',function(event){
+        $('#search_result').removeClass('d-none');
         var user_name = $('#user_name').val();
         var order_status = $('.order_status').val();
         var data = { 
@@ -199,17 +194,17 @@ $data = json_decode($konten, true);
                   .append($("<td>").append(result.status))
                   .append($("<td>").append($(document.createElement('button')).prop({
                       type: 'button',
-                      innerHTML: 'Approve',
+                      innerHTML: '<i class="bi bi-check-lg"></i>',
                       id: result.id,
                       class: 'approvebtn',
-                      style: 'background-color: green;'
+                      style: 'color: green; background-color: transparent; border: none'
                   }),
                   $(document.createElement('button')).prop({
                       type: 'button',
-                      innerHTML: 'Decline',
+                      innerHTML: '<i class="bi bi-exclamation-lg"></i>',
                       id: result.id,
                       class: 'declinebtn',
-                      style: 'background-color: red;'
+                      style: 'color: red; background-color:transparent; border: none; '
                   })
                   )));
 

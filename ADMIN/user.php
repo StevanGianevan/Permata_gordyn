@@ -118,20 +118,30 @@ $data = json_decode($konten, true);
           <label for="validationTooltip02">Email</label>
           <input type="text" class="form-control" id="email" placeholder="Email">
         </div>
+        <div class="col-md-4 mb-3">
+          <label for="validationTooltip02">Password</label>
+          <input type="text" class="form-control" id="email" placeholder="Password">
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="validationTooltip02">Confirm Password</label>
+          <input type="text" class="form-control" id="email" placeholder="Confirm Password">
+        </div>      
         <div class="text-right ml-auto">
           <button id="" class="btn btn-danger adduserbtn" value="false">Add User</button>
         </div>
       </div>
+
       <hr>
-      <div class="col-md-2 mb-3 mr-auto">
+      <div class="col-md-2 mb-3 mr-auto p-0">
           <label for="validationTooltip01">Search by name</label>
           <input type="text" class="form-control mb-3" id="user_name" placeholder="Name">
           <button id="" class="btn btn-danger search_user_btn" value="false">Search User</button>
       </div>
       
-      <h4>Searched User</h4>
-      <div id="search_result" class="table table-hover">
-        <table id="searchedUsers">
+
+      <div id="search_result" class="table table-hover d-none">
+      <p class="text-center h3">Search User</p>
+        <table class="table tabel-hover" id="searchedUsers">
           <thead class="thead-dark" style="text-transform: uppercase;">
             <tr>
               <th>ID</th>
@@ -189,7 +199,7 @@ $data = json_decode($konten, true);
   <script>
 
     $('.search_user_btn').on('click',function(event){
-          
+          $('#search_result').removeClass('d-none');
           var user_name = $('#user_name').val();
           var data = { 
             user_name: user_name
@@ -209,20 +219,21 @@ $data = json_decode($konten, true);
                     .append($("<td>").append(result.name))
                     .append($("<td>").append(result.address))
                     .append($("<td>").append(result.email))
-                    .append($("<td>").append(result.password))
                     .append($("<td>").append(result.contact))
                     .append($("<td>").append(result.postcode))
                     .append($("<td>").append($(document.createElement('button')).prop({
                       type: 'button',
-                      innerHTML: 'Edit',
+                      innerHTML: '<i class="bi bi-pencil"></i>',
                       id: result.id,
-                      class: 'editbtn'
+                      class: 'editbtn',
+                      style: 'background-color: transparent ; border:none; margin-right : 10px'
                       }),
                       $(document.createElement('button')).prop({
                           type: 'button',
-                          innerHTML: 'Delete',
+                          innerHTML: '<i class="bi bi-trash"></i>',
                           id: result.id,
-                          class: 'deletebtn'
+                          class: 'deletebtn',
+                          style: 'background-color: transparent ; border:none; margin-right: 10px'
                       })
 
 

@@ -117,6 +117,11 @@ $invoice_data = json_decode($result, true);
                 <h4 style ="text-align: center;" >Pesanan akan di proses dalam jangka waktu 2x24 jam.</h4>
                 </div>
                 <div class="card">
+                    <div class="card-header">
+                        <h4 style= "text-align: center;">
+                                METODE PEMBAYARAN DIPILIH 
+                        </h4>
+                    </div>
                     <div class="card-body">
                     <?php foreach ($invoice_data['output'] as $row) { ?>
                         <div class="row align-content-center justify-content-center">
@@ -125,10 +130,8 @@ $invoice_data = json_decode($result, true);
                                     <img src="../Image/bca.png" width="100px" height="auto">
                                 </div>
                                 <div class="col-lg-8">
-                                    <h4 style= "text-align: center;">
-                                        METODE PEMBAYARAN DIPILIH 
-                                    </h4>
                                     <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                                    <label style="color: grey;">*Wajib beri keterangan transfer atas nama pembeli sesuai username account</label>
                                 </div>
                             <?php } ?>
                             <?php if ($row['metode_pembayaran'] == "OVO"){ ?>
@@ -136,10 +139,8 @@ $invoice_data = json_decode($result, true);
                                     <img src="../Image/ovo.png" width="100px" height="auto">
                                 </div>
                                 <div class="col-lg-8">
-                                    <h4 style= "text-align: center;">
-                                        METODE PEMBAYARAN DIPILIH
-                                    </h4>
                                     <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                                    <label style="color: grey;">*Wajib beri keterangan transfer atas nama pembeli sesuai username account</label>
                                 </div>
                             <?php } ?>
                             <?php if ($row['metode_pembayaran'] == "GOPAY"){ ?>
@@ -147,10 +148,8 @@ $invoice_data = json_decode($result, true);
                                     <img src="../Image/gopay.png" width="100px" height="auto">
                                 </div>
                                 <div class="col-lg-8">
-                                    <h4 style= "text-align: center;">
-                                        METODE PEMBAYARAN DIPILIH
-                                    </h4>
                                     <p>No. Rekening : 1238180457 </br> Nama Rekening : Permata Gordyn </p>
+                                    <label style="color: grey;">*Wajib beri keterangan transfer atas nama pembeli sesuai username account</label>
                                 </div>
                             <?php } ?>
                         </div>

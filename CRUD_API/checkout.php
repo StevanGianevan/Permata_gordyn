@@ -54,28 +54,6 @@ $invoice_data = json_decode($result, true);
 ?>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,7 +61,7 @@ $invoice_data = json_decode($result, true);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="checkout.css"/>
+    <link rel="stylesheet" href="../CSS/checkout.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -154,8 +132,8 @@ $invoice_data = json_decode($result, true);
                             <p style="text-transform: uppercase;">List Pembelian</p>
                             <hr>
                             <div class="row">
-                                <div class="col-sm">
-                                    <ul style="list-style-type: circle;" >
+                                <div>
+                                    <ul>
                                     <?php if ($data['output'] != 'Data not found') { ?>
                                         <?php foreach ($data['output'] as $row) { ?> 
                                             <li>

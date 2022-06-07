@@ -94,11 +94,11 @@ $data = json_decode($konten, true);
           <label for="validationTooltip01">ID</label>
           <input type="text" class="form-control" id="category_id" placeholder="ID" disabled>
         </div>
-        <div class="col-md-2 mb-3 mr-auto">
+        <div class="col-md-4 mb-3 mr-auto">
           <label for="validationTooltip01">Name (Must be unique)</label>
           <input type="text" class="form-control" id="category_name" placeholder="name">
         </div>
-        <div class="col-md-2 mb-3 mr-auto">
+        <div class="col-md-6 mb-3 mr-auto">
           <label for="validationTooltip01">Description</label>
           <input type="text" class="form-control" id="description" placeholder="description">
         </div>
@@ -108,25 +108,21 @@ $data = json_decode($konten, true);
       </div>
     
       <hr>
-      <div class="col-md-2 mb-3 mr-auto">
+      <div class="col-md-2 mb-3 mr-auto p-0">
           <label for="validationTooltip01">Search by name</label>
           <input type="text" class="form-control mb-3" id="search_category" placeholder="Name">
           <button id="" class="btn btn-danger search_category_btn" value="false">Search Category</button>
       </div>
       
-      <h4>Searched Category</h4>
-      <div id="search_result" class="table table-hover">
-        <table id="searchedUsers">
+      
+      <div id="search_result" class="table table-hover d-none">
+      <p class="text-center h3">Search Category</p>
+        <table class="table table-hover"id="searchedUsers">
           <thead class="thead-dark" style="text-transform: uppercase;">
             <tr>
               <th>ID</th>
-              <th>Category</th>
-              <th>Nama Produk</th>
-              <th>Harga Produk</th>
-              <th>Warna Produk</th>
-              <th>Size Produk</th>
+              <th>Name</th>
               <th>Description</th>
-              <th>Image1</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -164,6 +160,7 @@ $data = json_decode($konten, true);
 
   <script>
     $('.search_category_btn').on('click',function(event){
+        $('#search_result').removeClass('d-none');
         var category_name = $('#search_category').val();
         console.log(category_name);
         var data = { 
@@ -186,15 +183,17 @@ $data = json_decode($konten, true);
                   .append($("<td>").append(
                     $(document.createElement('button')).prop({
                           type: 'button',
-                          innerHTML: 'Edit',
+                          innerHTML: '<i class="bi bi-pencil"></i>',
                           id: result.id,
-                          class: 'editbtn'
+                          class: 'editbtn',
+                          style: 'background-color: transparent ; border:none; margin-right: 10px'
                       }),
                       $(document.createElement('button')).prop({
                           type: 'button',
-                          innerHTML: 'Delete',
+                          innerHTML: '<i class="bi bi-trash"></i>',
                           id: result.id,
-                          class: 'deletebtn'
+                          class: 'deletebtn',
+                          style: 'background-color: transparent ; border:none; margin-right: 10px'
                       })
                   )));
                   $('.editbtn').on('click', function(event){

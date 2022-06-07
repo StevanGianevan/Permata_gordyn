@@ -133,29 +133,29 @@ $catdata = json_decode($catkonten, true);
         </div>
         <div class="form-row mb-3">
           <div class="col">
-            <label for="validationTooltip02">Gambar Produk 1</label>
+            <label for="validationTooltip02">Gambar Produk</label>
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="prodimage1" name="prodimage1">
               <label class="custom-file-label" for="customFile">Upload Image</label>
-              <img src ="" id="image1" height="40" width="40">
             </div>
           </div>
         </div>
         <div class="text-right">
-        <button id="" class="btn btn-danger ml-auto addproductbtn" type="submit" value="false">+ Produk</button>
+        <button id="" class="btn btn-danger ml-auto addproductbtn" type="submit" value="false">Add Produk</button>
         </div>
       </form>
       
       <hr>
-      <div class="col-md-2 mb-3 mr-auto">
+      <div class="col-md-2 mb-3 mr-auto p-0">
           <label for="validationTooltip01">Search by name</label>
           <input type="text" class="form-control mb-3" id="product_name" placeholder="Name">
           <button id="" class="btn btn-danger search_product_btn" value="false">Search Product</button>
       </div>
       
-      <h4>Searched Product</h4>
-      <div id="search_result" class="table table-hover">
-        <table id="searched_products">
+      
+      <div id="search_result" class="table table-hover d-none">
+      <p class="text-center h3">Search Product</p>
+        <table class="table table-hover" id="searched_products">
           <thead class="thead-dark" style="text-transform: uppercase;">
             <tr>
               <th>ID</th>
@@ -215,6 +215,7 @@ $catdata = json_decode($catkonten, true);
   <script type="text/javascript">
     jQuery(document).ready(function () {
       $('.search_product_btn').on('click',function(event){
+          $('#search_result').removeClass('d-none');
           var product_name = $('#product_name').val();
           console.log(product_name);
           var data = { 
@@ -240,15 +241,17 @@ $catdata = json_decode($catkonten, true);
                     .append($("<td>").append('<img src ="'+result.image1+'" height="40" width="40">'))
                     .append($("<td>").append($(document.createElement('button')).prop({
                           type: 'button',
-                          innerHTML: 'Edit',
+                          innerHTML: '<i class="bi bi-pencil"></i>',
                           id: result.product_id,
-                          class: 'editbtn'
+                          class: 'editbtn',
+                          style: 'background-color: transparent ; border:none; margin-right: 10px'
                       }),
                       $(document.createElement('button')).prop({
                           type: 'button',
-                          innerHTML: 'Delete',
+                          innerHTML: '<i class="bi bi-trash"></i>',
                           id: result.product_id,
-                          class: 'deletebtn'
+                          class: 'deletebtn',
+                          style: 'background-color: transparent ; border:none; margin-right: 10px'
                       })
 
                     )));
@@ -381,7 +384,6 @@ $catdata = json_decode($catkonten, true);
           let proddesc = $('#proddesc').val();
           let prodimage1 = $('#prodimage1')[0].files;
           let bool_image = false;
-          console.log(prodimage1);
           if( document.getElementById("prodimage1").files.length != 0 ){
             bool_image = true;
             form_data.append('prodimage1', prodimage1[0]);

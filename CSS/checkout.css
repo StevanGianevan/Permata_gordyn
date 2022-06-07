@@ -77,6 +77,14 @@ body{
 .checkout .card-footer button{
     width: 100%;
 }
+
+.pembelian .row ul{
+    padding: 0;
+}
+
+.pembelian .row ul li{
+    list-style: none;
+}
 /* footer */
 .sticky-footer{
     position: sticky;
