@@ -1,0 +1,169 @@
+*{
+    font-family: monospace;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* header */
+.header{
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    background-color: black;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.navbar-nav button{
+    margin: 10px;
+    transition: 0.3s;
+}
+.navbar-nav button a{
+    font-weight: 600;
+    color: white;
+}
+
+.navbar-nav button a:hover{
+    color: white;
+    text-decoration: none;
+}
+
+.nav-link{
+    transition: 0.3s;
+}
+.nav-link i:hover{
+    color: rgb(182, 182, 182);
+}
+
+/* body */
+/* landing page */
+.konten1{
+    width: 100%;
+    height: 600px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    margin-top: 100px;
+}
+
+.konten1_konten{
+    width: 60%;
+    margin-top: 20%;
+}
+
+.konten1_konten h2{
+    font-weight: 500;
+    margin-bottom: 29px;
+}
+
+.konten1_konten button{
+    margin-top: 29px;
+    transition: 0.3s;
+}
+
+/* sejarah permata gordyn */
+.konten2{
+    width: 100%;
+    height: 380px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+.konten2 p{
+    text-align: center;
+}
+
+.konten2 .sejarah{
+    padding-top: 80px;
+}
+
+/* banner */
+.banner{
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 70px;
+}
+
+
+.banner p{
+    text-align: center;
+    font-weight: 600;
+    font-size: 22px;
+}
+.banner_item{
+    padding: 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 265px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.banner_category{
+    margin-top: 80%;
+}
+
+.banner_category p{
+    display: block;
+    color: black;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    width: 100%;
+}
+
+.banner_category a{
+    display: block;
+    margin-top: -20%;
+    text-decoration: none;
+    color: grey;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.banner_category a:hover{
+    color: black;
+    text-decoration: none;
+}
+
+/* footer */
+.sticky-footer{
+    position: sticky;
+    top: 100%;
+    background-color: black;
+    color: white;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.sticky-footer .row ul li{
+    list-style: none;
+    margin-top: 10px;
+}
+
+.sticky-footer .row p{
+    margin-top: 10px;
+    margin-left: 40px ;
+}
+
+.sticky-footer .row a{
+    color: white;
+    text-decoration: none;
+}
+
+.sticky-footer .row a:hover{
+    color: lightgrey;
+}

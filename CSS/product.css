@@ -39,45 +39,78 @@ body{
     color: rgb(182, 182, 182);
 }
 
-
-/* checkout */
-.checkout{
-    margin-top: 10px;
+/* PRODUCTS */
+/* LANDING PAGE */
+.lproduct{
+    /* width: 100%; */
+    height: 350px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    margin-top: 100px;
 }
 
-.checkout .card{
-    border: none;
-    outline: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.checkout .row{
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.card-header{
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-.card-header p{
-    margin-bottom: 0;
+.lproduct_konten{
     text-align: center;
+    margin-top: 6%;
 }
 
-.checkout .card-body .pembelian{
-    margin-bottom: 40px;
+.lproduct_konten h5{
+    margin-top: 29px;
 }
 
-.checkout .card-body .pembelian ul li{
-    list-style: none;
+.lproduct_konten button{
+    margin-top: 29px;
 }
 
-.checkout .card-footer button{
-    width: 100%;
+
+/* Slider Product */
+.sliderbx{
+    margin: 40px 70px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+    border-radius: 10px;
 }
 
+.sliderbx p{
+    padding: 40px 0;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.blindtype{
+    margin: 20px 70px;
+}
+
+.carousel-item{
+    margin: 40px 200px;
+    border-radius: 10px;
+}
+
+.carousel-item .card{
+    margin: 0 25px;
+    text-align: center;
+    border: none;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+}
+
+.carousel-item .card a{
+    color: black;
+}
+
+.carousel-item .card a:hover{
+    color: grey;
+    text-decoration: none;
+}
+
+.card-header button{
+    color: black;
+}
+
+.card-header button:hover{
+    text-decoration: none;
+    color: black;
+}
 
 /* footer */
 .sticky-footer{
@@ -94,7 +127,7 @@ body{
     margin-top: 10px;
 }
 
-.sticky-footer .header p{
+.sticky-footer .row p{
     margin-top: 10px;
     margin-left: 40px ;
 }

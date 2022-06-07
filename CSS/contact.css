@@ -39,45 +39,33 @@ body{
     color: rgb(182, 182, 182);
 }
 
-
-/* checkout */
-.checkout{
-    margin-top: 10px;
+/* Visit Us */
+/* Landing Page */
+.contactbx{
+    margin: 40px 80px;
+    box-shadow: 0 0 20px 0 grey;
+    border-radius: 10px;
 }
 
-.checkout .card{
-    border: none;
-    outline: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+.row .contact-us{
+    margin-top: 50px;
+    margin-left: 80px;
 }
 
-.checkout .row{
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.card-header{
-    text-transform: uppercase;
+.row .contact-us h2{
+    margin-bottom: 25px;
+    font-size: 20px;
     font-weight: 600;
 }
 
-.card-header p{
-    margin-bottom: 0;
+.row .contact-us p img{
+    margin: 20px 20px;
+}
+
+.row .maps-view{
+    margin: 40px 40px;
     text-align: center;
 }
-
-.checkout .card-body .pembelian{
-    margin-bottom: 40px;
-}
-
-.checkout .card-body .pembelian ul li{
-    list-style: none;
-}
-
-.checkout .card-footer button{
-    width: 100%;
-}
-
 
 /* footer */
 .sticky-footer{
@@ -94,7 +82,7 @@ body{
     margin-top: 10px;
 }
 
-.sticky-footer .header p{
+.sticky-footer .row p{
     margin-top: 10px;
     margin-left: 40px ;
 }
