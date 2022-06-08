@@ -39,52 +39,9 @@ $catdata = json_decode($catkonten, true);
 </head>
 
 <body>
-  <!--Header-->
-  <div class="header">
-    <nav class="navbar navbar-expand-lg navbar-dark py-3">
-      <a class="navbar-brand" href="#"><img src="../Image/Logo.png" class="px-3" width="90px" height="auto">Permata
-        Gordyn</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <i class="bi bi-person"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Logout</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-
-  <!-- sidebar -->
-  <div class="row" id="body-row">
-    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
-      <ul class="list-group">
-        <li>
-          <a href="dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        </li>
-        <li>
-          <a href="order.php"><i class="bi bi-journal"></i> Order</a>
-        </li>
-        <li>
-          <a href="category.php"><i class="bi bi-box2-fill"></i> Category</a>
-        </li>
-        <li class="active">
-          <a href="product.php"><i class="bi bi-boxes"></i> Product</a>
-        </li>
-        <li>
-          <a href="user.php"><i class="bi bi-person"></i> User</a>
-        </li>
-      </ul>
-    </div>
+ 
+  <!--Template-->
+  <?php include 'template.php'; ?>
 
     <div class="col" id="body-col">
       <div class="box">
@@ -350,6 +307,7 @@ $catdata = json_decode($catkonten, true);
                   $("#proddesc").attr("value", dataResult.output[0].description);
                   $("#image1").attr('src', dataResult.output[0].image1);
                   $(".formadmin").attr("id", dataResult.output[0].product_id);
+                  $(".formadmin").attr("value", dataResult.output[0].category_id);
                   $('select[name="category_id"]').val(dataResult.output[0].category_id);
                   $(".addproductbtn").attr("value", "true");
                   $(".addproductbtn").text("Update Product");
@@ -370,8 +328,6 @@ $catdata = json_decode($catkonten, true);
         console.log("ready");
         // var prodidbefore = $(this).attr('id');
         var buttonupdate = $('.addproductbtn').val();
-        console.log(buttonupdate);
-
         if(buttonupdate == "true"){
           let form_data = new FormData();
           let prodidbefore = $(this).attr('id');

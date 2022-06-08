@@ -28,17 +28,6 @@
     <title>Permata Gordyn | Login Page</title>
 </head>
 
-
-
-
-
-
-
-
-
-
-
-
 <body>
 <?php include "header.php" ?>
 <div class="d-flex justify-content-center" style="margin-top: 30px;">

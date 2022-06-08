@@ -7,7 +7,8 @@ $ch = curl_init($url);
 
 // Setup request to send json via POST
 $user_id = $_SESSION['id'];
-$payload = json_encode(array("user_id" => $user_id));
+$invoice_id = $_GET['invoice_id'];
+$payload = json_encode(array("user_id" => $user_id, "invoice_id" => $invoice_id));
 
 // Attach encoded JSON string to the POST fields
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -25,31 +26,6 @@ $result = curl_exec($ch);
 curl_close($ch);
 $my_array = array();
 $data = json_decode($result, true);
-// Get Invoice data
-$url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api3.php';
-
-// Create a new cURL resource
-$ch = curl_init($url);
-
-// Setup request to send json via POST
-$payload = json_encode(array("user_id" => $user_id));
-
-// Attach encoded JSON string to the POST fields
-curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-
-// Set the content type to application/json
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-
-// Return response instead of outputting
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Execute the POST request
-$result = curl_exec($ch);
-
-// Close cURL resource
-curl_close($ch);
-$my_array = array();
-$invoice_data = json_decode($result, true);
 
 ?>
 
@@ -60,7 +36,7 @@ $invoice_data = json_decode($result, true);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="invoices.css">
+    <link rel="stylesheet" href="../CSS/bayar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -89,44 +65,44 @@ $invoice_data = json_decode($result, true);
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <p>INVOICE</p>
+                        <p>REVIEW PRODUCT</p>
                     </div>
-                    <?php if ($invoice_data['output'] != 'Data not found') { ?>
-                        <?php foreach ($invoice_data['output'] as $row) { ?> 
+                    <?php if ($data['output'] != 'Data not found') { ?>
+                        <?php foreach ($data['output'] as $row) { ?> 
                         <div class="card-body">
                             <div class="row align-content-center justify-content-center">
-                            <img src="../Image/invoice.png" width="100px" height="100px">
+                                <div class="col-lg-6 text-center">
+                                    <p><img src="<?php echo $row['image1']?>" width="150" height="100"></p>
+                                </div>
                                 <div class="col-lg-6">
                                     <ul>
                                         <li>
-                                            <p style="font-weight: 600; text-transform: uppercase;">Invoice Id: <?php echo $row['id']?></p>
+                                            <p style="font-weight: 600; text-transform: uppercase;"><?php echo $row['name']?></p>
                                         </li>
                                         <li>
-                                            <p>Metode Pembayaran: <?php echo $row['metode_pembayaran'] ?></p>
+                                            <p>ukuran : <?php echo $row['pp'] ?>m x <?php echo $row['lp'] ?>m</p>
                                         </li>
                                         <li>
-                                            <button class="btn primary-button" id="<?php echo $row['status']?>" disabled>Status: <?php echo $row['status']?></button>
+                                            <p>Quantity: <?php echo $row['quantity']?></p>
                                         </li>
-                                       
-                                        <button class="btn primary-button details" id="<?php echo $row['id']?>">See Details</button>
-                                        <?php if ($row['status'] == "SENT") { ?>
-                                            <button class="btn primary-button terimabarang" id="<?php echo $row['id']?>">Barang Diterima</button>
-                                        <?php } ?>
+                                        <li>
+                                            Review: 
+                                            <input id="id_review_<?php echo trim($row['product_id'])?>" class="form-control" type="text" placeholder="Review Product">
+                                        </li>
+                                        <li>
+                                            <button id="<?php echo $row['product_id'] ?>" type="submit" class="btn btn-primary submitreviewbtn">Submit</button> 
+                                        </li>
                                     </ul>
-                                
-                                    <hr>
                                 </div>
                             </div>
-                            
                         </div>
                     <?php }}?>
-                </div>
-                
-            
+                <!-- <h4 style ="text-align: center;" >Pesanan akan di proses dalam jangka waktu 2x24 jam.</h4> -->
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Footer -->
     <footer class="sticky-footer">
@@ -185,39 +161,35 @@ $invoice_data = json_decode($result, true);
 
     <script type="text/javascript">
         jQuery(document).ready(function (){
-            $('.details').on('click', function(e) {
+            $('.submitreviewbtn').on('click', function() {
                 console.log("ready!");
-                var invoice_id = $(this).attr('id');
-                window.location.href = "invoice_detail.php"+'?invoice_id='+invoice_id;
-            });
-
-            $('.terimabarang').on('click', function(e) {
-                console.log("ready!");
-                var invoice_id = $(this).attr('id');
+                var product_id =  $(this).attr('id');
+                var user_id = '<?php echo $_SESSION['id'];?>';
+                var description = $('#id_review_'+product_id).val();
+                var invoice_id = '<?php echo $invoice_id;?>';
                 var data = { 
+                    product_id: product_id,
+                    user_id: user_id,
                     invoice_id: invoice_id,
-                    status: "COMPLETED"
+                    description: description
                 };
-                console.log(data);
                 $.ajax({
-                    type: "PATCH",
-                    url: "http://localhost/PermataGordynMain/CRUD_API/update/update_invoice_api.php",
+                    type: "POST",
+                    url: "http://localhost/PermataGordynMain/CRUD_API/post/post_review_api.php",
                     contentType: "application/json",
-                    dataType: 'json',
+                    dataType: "json",
                     data: JSON.stringify(data),
-                    cache: false,
                     success: function(dataResult){
-                        alert("Item SENT.")
-                        window.location.href = "review.php"+'?invoice_id='+invoice_id;
+                        alert(dataResult.output);
+                        $('#id_review_'+product_id).attr("disabled", true);
                     },
-                    error: function(response){
-                        console.log(response);
-                        alert(dataResult.response.responeJSON.output);
+                    error: function(dataResult){
+                        console.log(dataResult);
+                        console.log("ERORR");
+                        alert(dataResult.output);
                     }
-      });
-
-
-            });
+                });
+            })
         });
     </script>
 </body>

@@ -37,55 +37,9 @@ $data = json_decode($konten, true);
 </head>
 
 <body>
-  <!--Header-->
-  <div class="header">
-    <nav class="navbar navbar-expand-lg navbar-dark py-3">
-      <a class="navbar-brand" href="#"><img src="../Image/Logo.png" class="px-3" width="90px" height="auto">Permata
-        Gordyn</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <i class="bi bi-person"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
+  <!--Template-->
+  <?php include 'template.php'; ?>
 
-  <!-- sidebar -->
-  <div class="row" id="body-row">
-    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
-      <ul class="list-group">
-        <li>
-          <a href="dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        </li>
-        <li  class="active">
-          <a href="order.php"><i class="bi bi-journal"></i> Order</a>
-        </li>
-        <li>
-          <a href="category.php"><i class="bi bi-box2-fill"></i> Category</a>
-        </li>
-        <li>
-          <a href="product.php"><i class="bi bi-boxes"></i> Product</a>
-        </li>
-        <li>
-          <a href="user.php"><i class="bi bi-person"></i> User</a>
-        </li>
-      </ul>
-    </div>
     <div class="col" id="body-col">
       <div class="box">
         <p>Order</p>
@@ -130,6 +84,7 @@ $data = json_decode($konten, true);
         </div>
         <hr>
     </div>
+<<<<<<< HEAD
     <div class="col" id="body-col">
     <table class="table table-hover">
       <p class="text-center h3">List Order</p>
@@ -159,12 +114,53 @@ $data = json_decode($konten, true);
               </tr>
         <?php }} ?>
         </tbody>
+=======
+  
+  <div class="w-100"></div>
+  <div class="col" id="body-col">
+  <table class="table table-hover">
+    <div class="box">
+      <p>Order Lists</p>
+    </div>
+      <thead class="thead-dark" style="text-transform: uppercase;">
+        <tr>
+          <th>Invoice ID</th>
+          <th>user_id</th>
+          <th>name</th>
+          <th>metode_pembayaran</th>
+          <th>status</th>
+          <th>Action</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+      <?php if ($data['output'] != 'Data not found') { ?>
+        <?php foreach ($data['output'] as $row) { ?> 
+            <tr>
+              <th scope="row"><?php echo $row['id']?></th>
+              <th><?php echo $row['user_id']?></th>
+              <th><?php echo $row['name']?></th>
+              <th><?php echo $row['metode_pembayaran']?></th>
+              <th><?php echo $row['status']?></th>
+              <?php if ($row['status'] == "IN_PROCESS") { ?>
+                <th class="col-1 text-center">
+                  <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
+                  <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
+                </th>
+              <?php } else { ?>
+                <th></th>
+              <?php } ?>
+            </tr>
+      <?php }} ?>
+      </tbody>
+>>>>>>> ad4d9076fa3ffb3ba7176efa17a55fb5dbf44f19
       </table>
   </div>
   </div>
     
   </div>
 
+  </div>
   
   <script>
     jQuery(document).ready(function () {

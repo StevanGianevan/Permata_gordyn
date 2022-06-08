@@ -30,6 +30,10 @@ try {
         if(!empty($data->user_id)){
             $user_id = $data->user_id;
             $query = "SELECT * FROM invoices WHERE user_id ='$user_id' and status != 'UNPAID' ORDER BY created_date DESC";
+
+            if (!empty($data->filter_by_status)){
+                $query = "SELECT * FROM invoices WHERE user_id ='$user_id' and status='$data->filter_by_status' ORDER BY created_date DESC";
+            }
             $get_invoices = $invoicedb->conn->prepare($query);
             $get_invoices->execute();
             $query_result = $get_invoices->rowCount();
@@ -38,8 +42,10 @@ try {
                     extract($row);
                     $invoice_data=array(
                         "id" => $id,
+                        "user_id" => $user_id,
                         "metode_pembayaran" => $metode_pembayaran,
-                        "status" => $status
+                        "status" => $status,
+                        "created_date" => $created_date
                     );
                     array_push($response['output'], $invoice_data);
                 }

@@ -50,10 +50,10 @@ $invoice_data = json_decode($result, true);
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="cart.css"/>
+    <link rel="stylesheet" href="../CSS/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -67,14 +67,15 @@ $invoice_data = json_decode($result, true);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Permata Gordyn | Login Page</title>
 </head>
 
 <body>
-    <?php include "header.php" ?>
+    <!--Header-->
+    <?php include 'header.php'; ?>
+
     <section class="h-100 gradient-custom">
         <div class="container py-5">
             <div class="row d-flex justify-content-center my-4">
@@ -129,9 +130,6 @@ $invoice_data = json_decode($result, true);
                                         <label class="form-label" for="form1">Lebar   : </label>
                                         <input id="lebar_id_<?php echo trim($row['product_id'])?>" min="0" name="lebar" type="number" class="form-control lp" value="<?php echo $row['lp'] ?>" />
                                     </div>
-                                    
-                                    
-                                    
                                     <button id="<?php echo $row['product_id'] ?>" type="submit" class="btn btn-primary calculatebtn">Calculate</button>
                                 </form>
                             </div>

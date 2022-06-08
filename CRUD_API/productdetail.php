@@ -28,6 +28,15 @@ $my_array = array();
 $data = json_decode($result, true);
 
 
+$review_url = "http://localhost/PermataGordynMain/CRUD_API/get/get_review_api.php";
+$konten = file_get_contents($review_url);
+$review_data = json_decode($konten, true);
+
+// $filterBy = 'PAID';
+$review_product_data = array_filter($review_data['output'], function ($var) use ($product_id) {
+    return ($var['product_id'] == $product_id);
+});
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,9 +100,33 @@ $data = json_decode($result, true);
                             Add to cart
                         </button>
                     <?php }?>
-                        <!-- Modal -->
-                        
+
+                    <!-- Review -->
+                    <?php foreach ($review_product_data as $row) { ?>
                     </div>
+                        <div class="review p-5">
+                        <div class="row d-flex">
+                            <div class="profile-pic"><img src="https://i.imgur.com/Mcd6HIg.jpg" width="60px" height="60px"></div>
+                            <div class="d-flex flex-column pl-3">
+                                <h4><?php echo $row['user_id']?></h4>
+                                <p class="grey-text"><?php echo $row['created_date']?></p>
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="fa fa-circle green-dot my-auto rating-dot"></div>
+                            <div class="fa fa-circle green-dot my-auto rating-dot"></div>
+                            <div class="fa fa-circle green-dot my-auto rating-dot"></div>
+                            <div class="fa fa-circle green-dot my-auto rating-dot"></div>
+                            <div class="fa fa-circle green-dot my-auto rating-dot"></div>
+                            <div class="green-text">
+                                <h5 class="mb-0 pl-3">Excellent</h5>
+                            </div>
+                        </div>
+                        <div class="row pb-3">
+                            <p><?php echo $row['description']?></p>
+                        </div>
+                    </div>
+                    <?php }?>
                 </div>
             </div>
         </div>
