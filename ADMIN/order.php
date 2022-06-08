@@ -83,7 +83,6 @@ $data = json_decode($konten, true);
         </div>
         <hr>
     </div>
-  </div>
   
   <div class="w-100"></div>
   <div class="col" id="body-col">
@@ -111,11 +110,14 @@ $data = json_decode($konten, true);
               <th><?php echo $row['name']?></th>
               <th><?php echo $row['metode_pembayaran']?></th>
               <th><?php echo $row['status']?></th>
-            
-              <th class="col-1 text-center">
-                <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
-                <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
-              </th>
+              <?php if ($row['status'] == "IN_PROCESS") { ?>
+                <th class="col-1 text-center">
+                  <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
+                  <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
+                </th>
+              <?php } else { ?>
+                <th></th>
+              <?php } ?>
             </tr>
       <?php }} ?>
       </tbody>
@@ -125,6 +127,7 @@ $data = json_decode($konten, true);
     
   </div>
 
+  </div>
   
   <script>
     jQuery(document).ready(function () {

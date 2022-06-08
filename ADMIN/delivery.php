@@ -1,85 +1,22 @@
 <?php 
-session_start();
-$url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api3.php';
+$sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_order_invoice_api.php";
+$konten = file_get_contents($sumber);
+$data = json_decode($konten, true);
 
-// Create a new cURL resource
-$ch = curl_init($url);
+$filterBy = 'PAID';
+$invoice_paid_data = array_filter($data['output'], function ($var) use ($filterBy) {
+    return ($var['status'] == $filterBy);
+});
 
-// Setup request to send json via POST
-$user_id = $_SESSION['id'];
-$filter_by_status = 'PAID';
-$payload = json_encode(array("user_id" => $user_id, "filter_by_status" => $filter_by_status));
+$filterBy = 'SENT';
+$invoice_sent_data = array_filter($data['output'], function ($var) use ($filterBy) {
+    return ($var['status'] == $filterBy);
+});
 
-// Attach encoded JSON string to the POST fields
-curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-
-// Set the content type to application/json
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-
-// Return response instead of outputting
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Execute the POST request
-$result = curl_exec($ch);
-
-// Close cURL resource
-curl_close($ch);
-$my_array = array();
-$data = json_decode($result, true);
-
-$url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api3.php';
-
-// Create a new cURL resource
-$ch = curl_init($url);
-
-// Setup request to send json via POST
-$user_id = $_SESSION['id'];
-$filter_by_status = 'SENT';
-$payload = json_encode(array("user_id" => $user_id, "filter_by_status" => $filter_by_status));
-
-// Attach encoded JSON string to the POST fields
-curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-
-// Set the content type to application/json
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-
-// Return response instead of outputting
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Execute the POST request
-$result = curl_exec($ch);
-
-// Close cURL resource
-curl_close($ch);
-$my_array = array();
-$another_data = json_decode($result, true);
-
-$url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_invoice_api3.php';
-
-// Create a new cURL resource
-$ch = curl_init($url);
-
-// Setup request to send json via POST
-$user_id = $_SESSION['id'];
-$filter_by_status = 'COMPLETED';
-$payload = json_encode(array("user_id" => $user_id, "filter_by_status" => $filter_by_status));
-
-// Attach encoded JSON string to the POST fields
-curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-
-// Set the content type to application/json
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-
-// Return response instead of outputting
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Execute the POST request
-$result = curl_exec($ch);
-
-// Close cURL resource
-curl_close($ch);
-$my_array = array();
-$another_one_data = json_decode($result, true);
+$filterBy = 'COMPLETED';
+$invoice_completed_data = array_filter($data['output'], function ($var) use ($filterBy) {
+    return ($var['status'] == $filterBy);
+});
 
 ?>
 
@@ -133,8 +70,8 @@ $another_one_data = json_decode($result, true);
           </tr>
         </thead>
         <tbody id="test_search_body">
-        <?php if ($data['output'] != 'Data not found') { ?>
-          <?php foreach ($data['output'] as $row) { ?> 
+        <?php if ($invoice_paid_data != '{}') { ?>
+          <?php foreach ($invoice_paid_data as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
               <th><?php echo $row['user_id'] ?></th>
@@ -159,8 +96,8 @@ $another_one_data = json_decode($result, true);
           </tr>
         </thead>
         <tbody id="test_search_body">
-        <?php if ($another_data['output'] != 'Data not found') { ?>
-          <?php foreach ($another_data['output'] as $row) { ?> 
+        <?php if ($invoice_sent_data != '{}') { ?>
+          <?php foreach ($invoice_sent_data as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
               <th><?php echo $row['user_id'] ?></th>
@@ -181,19 +118,17 @@ $another_one_data = json_decode($result, true);
             <th>STATUS</th>
             <th>METODE PEMBAYARAN</th>
             <th>CREATED DATE</th>
-            <th>CUSTOMER REVIEW</th>
           </tr>
         </thead>
         <tbody id="test_search_body">
-        <?php if ($another_one_data['output'] != 'Data not found') { ?>
-          <?php foreach ($another_one_data['output'] as $row) { ?> 
+        <?php if ($invoice_completed_data != '{}') { ?>
+          <?php foreach ($invoice_completed_data as $row) { ?> 
             <tr>
               <th scope="row"><?php echo $row['id'] ?></th>
               <th><?php echo $row['user_id'] ?></th>
               <th><?php echo $row['status'] ?></th>
               <th><?php echo $row['metode_pembayaran'] ?></th>
               <th><?php echo $row['created_date'] ?></th>
-              <th>Reviewed</th>
             </tr>
           <?php }}?>
         </tbody>

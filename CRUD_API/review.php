@@ -184,6 +184,7 @@ $data = json_decode($result, true);
                         $('#id_review_'+product_id).attr("disabled", true);
                     },
                     error: function(dataResult){
+                        console.log(dataResult);
                         console.log("ERORR");
                         alert(dataResult.output);
                     }

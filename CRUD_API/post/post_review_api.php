@@ -31,10 +31,28 @@ try {
             $description = $data->description;
             $invoice_id = $data->invoice_id;
             
-            $query = "INSERT INTO review (id, user_id, product_id, invoice_id, description)VALUE('$review_id', '$user_id', '$product_id', '$invoice_id', '$description')";
-            $add_review= $reviewdb->conn->prepare($query);
-            $add_review->execute();
-            $query_results = $add_review->rowCount();
+            $check_existing_review_query = "SELECT id FROM review WHERE user_id = '$user_id' AND product_id = '$product_id' AND invoice_id = '$invoice_id'";
+            $check_existing_review= $reviewdb->conn->prepare($check_existing_review_query);
+            $check_existing_review->execute();
+            $check_existing_review_query_results = $check_existing_review->rowCount();
+            if ($check_existing_review_query_results == 1){
+                while ($row = $check_existing_review->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    $existing_review_id = $id;
+                }
+                $update_review_query = "UPDATE review SET description = '$description' WHERE id='$existing_review_id'";
+                $update_review= $reviewdb->conn->prepare($update_review_query);
+                $update_review->execute();
+                $query_results = $update_review->rowCount();
+            }
+            else{
+                $query = "INSERT INTO review (id, user_id, product_id, invoice_id, description)VALUE('$review_id', '$user_id', '$product_id', '$invoice_id', '$description')";
+                $add_review= $reviewdb->conn->prepare($query);
+                $add_review->execute();
+                $query_results = $add_review->rowCount();
+            }
+
+
 
             if($query_results == 0){
                 http_response_code(405);
@@ -48,7 +66,6 @@ try {
                 http_response_code(201);
                 echo json_encode($response);
             }
-            
            
         } else {
             throw new Exception("Missing some requirement fields");
