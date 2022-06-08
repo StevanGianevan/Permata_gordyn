@@ -1,0 +1,15 @@
+#submitdata{
+    text-align: center;
+    height: 40px;
+    width: 125px;
+}
+
+.submitpass{
+    text-align: center;
+    height: 40px;
+    width: 125px;
+}
+
+body{
+    background-color: azure;
+}

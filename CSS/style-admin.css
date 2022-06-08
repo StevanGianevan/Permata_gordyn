@@ -32,12 +32,12 @@
 }
 
 .sidebar-expanded {
-    width: 200px;
+    width: 230px;
 }
 
-/* .sidebar-collapsed {
+.sidebar-collapsed {
     width: 60px;
-} */
+}
 
 #sidebar-container .list-group li{
     padding: 10px;
@@ -45,7 +45,8 @@
 }
 
 #sidebar-container .list-group a{
-    padding: 11px 38px;
+    padding-left: 30px;
+    background-color: rgb(0, 0, 0);
     color: white;
     text-decoration: none;
 }
@@ -75,13 +76,3 @@
     font-weight: 600;
     font-size: 30px;
 }
-
-/* Product Kontent */
-.thead tr th p{
-    text-transform: uppercase;
-}
-/* User Kontent */
-
-/* Oreder Kontent */
-
-/* History Kontent */

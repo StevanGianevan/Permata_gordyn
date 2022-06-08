@@ -89,17 +89,6 @@ section .container .signinBx .formBx button{
     /* margin-left: -25%; */
 }
 
-section .container .signinBx .formBx p h2{
-    position: absolute;
-    margin-top: 50%;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: #555;
-    text-transform: uppercase;
-    font-weight: 300;
-    /* margin-left: -26%; */
-}
-
 section .container .signinBx .formBx p{
     position: absolute;
     margin-top: 50%;
