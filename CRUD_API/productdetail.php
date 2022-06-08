@@ -100,10 +100,11 @@ $review_product_data = array_filter($review_data['output'], function ($var) use 
                             Add to cart
                         </button>
                     <?php }?>
-
-                    <!-- Review -->
-                    <?php foreach ($review_product_data as $row) { ?>
                     </div>
+                    <!-- Review -->
+                    
+    
+                    <?php foreach ($review_product_data as $row) { ?>
                         <div class="review p-5">
                         <div class="row d-flex">
                             <div class="profile-pic"><img src="https://i.imgur.com/Mcd6HIg.jpg" width="60px" height="60px"></div>

@@ -84,7 +84,6 @@ $data = json_decode($konten, true);
         </div>
         <hr>
     </div>
-<<<<<<< HEAD
     <div class="col" id="body-col">
     <table class="table table-hover">
       <p class="text-center h3">List Order</p>
@@ -114,46 +113,6 @@ $data = json_decode($konten, true);
               </tr>
         <?php }} ?>
         </tbody>
-=======
-  
-  <div class="w-100"></div>
-  <div class="col" id="body-col">
-  <table class="table table-hover">
-    <div class="box">
-      <p>Order Lists</p>
-    </div>
-      <thead class="thead-dark" style="text-transform: uppercase;">
-        <tr>
-          <th>Invoice ID</th>
-          <th>user_id</th>
-          <th>name</th>
-          <th>metode_pembayaran</th>
-          <th>status</th>
-          <th>Action</th>
-          
-        </tr>
-      </thead>
-      <tbody>
-      <?php if ($data['output'] != 'Data not found') { ?>
-        <?php foreach ($data['output'] as $row) { ?> 
-            <tr>
-              <th scope="row"><?php echo $row['id']?></th>
-              <th><?php echo $row['user_id']?></th>
-              <th><?php echo $row['name']?></th>
-              <th><?php echo $row['metode_pembayaran']?></th>
-              <th><?php echo $row['status']?></th>
-              <?php if ($row['status'] == "IN_PROCESS") { ?>
-                <th class="col-1 text-center">
-                  <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent;"><i class="bi bi-check-lg"></i></button>
-                  <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent;"><i class="bi bi-exclamation-lg"></i></button>
-                </th>
-              <?php } else { ?>
-                <th></th>
-              <?php } ?>
-            </tr>
-      <?php }} ?>
-      </tbody>
->>>>>>> ad4d9076fa3ffb3ba7176efa17a55fb5dbf44f19
       </table>
   </div>
   </div>
