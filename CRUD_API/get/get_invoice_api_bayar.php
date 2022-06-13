@@ -32,22 +32,26 @@ try {
 
             if(!empty($data->invoice_id)){
                 $invoice_id = $data->invoice_id;
-                $query_invoice_data = "SELECT metode_pembayaran FROM invoices WHERE id = '$invoice_id'";
+                $query_invoice_data = "SELECT * FROM invoices WHERE id = '$invoice_id'";
                 $query_invoice_data = $invoicedb->conn->prepare($query_invoice_data);
                 $query_invoice_data->execute();
                 while ($row = $query_invoice_data->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $metode_pembayaran = $metode_pembayaran;
+                    $discount_amount = $discount_amount;
+                    $total_amount = $total_amount;
                 }
             }
             else {
-                $query_invoice_id = "SELECT id, metode_pembayaran FROM invoices WHERE user_id = '$user_id' AND status='IN_PROCESS'";
+                $query_invoice_id = "SELECT * FROM invoices WHERE user_id = '$user_id' AND status='IN_PROCESS'";
                 $query_invoice_id = $invoicedb->conn->prepare($query_invoice_id);
                 $query_invoice_id->execute();
                 while ($row = $query_invoice_id->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $invoice_id = $id;
                     $metode_pembayaran = $metode_pembayaran;
+                    $discount_amount = $discount_amount;
+                    $total_amount = $total_amount;
                 }
             }
 
@@ -69,6 +73,7 @@ try {
                         $total_price += $value;
                     }
                 }
+
                 $total_price = number_format($total_price, 2);
                 // set error schema
                 $error_schema["error_code"] = 0;
@@ -82,7 +87,9 @@ try {
                 // show products data in json format
                 $invoice_data=array(
                     "total_price" => $total_price,
-                    "metode_pembayaran" => $metode_pembayaran
+                    "metode_pembayaran" => $metode_pembayaran,
+                    "discount_amount" => $discount_amount,
+                    "total_amount" => $total_amount
                 );
                 session_start();
                 $_SESSION['total_price'] = $total_price;

@@ -73,21 +73,12 @@ $data = json_decode($konten, true);
         </div>
         <div class="col-md-4 mb-3">
           <label for="validationTooltip02">Password</label>
-<<<<<<< HEAD
-          <input type="text" class="form-control" id="email" placeholder="Password">
-        </div>
-        <div class="col-md-4 mb-3">
-          <label for="validationTooltip02">Confirm Password</label>
-          <input type="text" class="form-control" id="email" placeholder="Confirm Password">
-        </div>      
-=======
-          <input type="text" class="form-control" id="password" placeholder="password">
+        <input type="text" class="form-control" id="password" placeholder="password">
         </div>
         <div class="col-md-4 mb-3">
           <label for="validationTooltip02">Confirmation Password</label>
           <input type="text" class="form-control" id="cpassword" placeholder="confirmation password">
         </div>
->>>>>>> ad4d9076fa3ffb3ba7176efa17a55fb5dbf44f19
         <div class="text-right ml-auto">
           <button id="" class="btn btn-danger adduserbtn" value="false">Add User</button>
         </div>

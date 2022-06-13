@@ -50,8 +50,6 @@ $result = curl_exec($ch);
 curl_close($ch);
 $my_array = array();
 $invoice_data = json_decode($result, true);
-
-
 ?>
 
 
@@ -190,7 +188,8 @@ $invoice_data = json_decode($result, true);
                             </div>
                             <hr>
                         <?php foreach ($invoice_data['output'] as $row) { ?>   
-                            <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo $row['total_price']?></p>
+                            <p class="text-right"><strong> Discount :</strong> Rp. <?php echo number_format($row['discount_amount'], 2)?></p>
+                            <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo number_format($row['total_amount'], 2)?></p>
                         </div>
                         <?php }?>
                     </div>

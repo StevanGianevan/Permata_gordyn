@@ -222,6 +222,7 @@ $data = json_decode($konten, true);
           name: name,
           description: description
         };
+        console.log(data);
         $.ajax({
             type: "PATCH",
             url: "http://localhost/PermataGordynMain/CRUD_API/update/update_category_api.php",
@@ -280,7 +281,6 @@ $data = json_decode($konten, true);
           data: JSON.stringify(data),
           cache: false,
           success: function(dataResult){
-              console.log(dataResult.output[0].id);
               $("#category_id").attr("value", dataResult.output[0].id);
               $("#category_name").attr("value", dataResult.output[0].name);
               $("#description").attr("value", dataResult.output[0].description);

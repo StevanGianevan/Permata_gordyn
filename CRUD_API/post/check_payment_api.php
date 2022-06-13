@@ -25,9 +25,11 @@ try {
         $invoicedb = new InvoiceDB($db);
         $data = json_decode(file_get_contents("php://input"));
         //check request empty or not
-        if(!empty($data->user_id) && !empty($data->metode_pembayaran)){
+        if(!empty($data->user_id) && !empty($data->metode_pembayaran) && !empty($data->final_price)){
             $user_id = $data->user_id;
             $metode_pembayaran = $data->metode_pembayaran;
+            $discount_price = $data->discount_price;
+            $final_price = $data->final_price;
 
             $query = "SELECT id from invoices WHERE user_id = '$user_id' and status ='UNPAID'";
             $get_inv = $invoicedb->conn->prepare($query);
@@ -44,7 +46,8 @@ try {
                 throw new Exception("Invoice doesn't exist.");
             }
 
-            $query = "UPDATE invoices SET metode_pembayaran='$metode_pembayaran', status='IN_PROCESS' WHERE user_id = '$user_id' and status ='UNPAID'";
+            $query = "UPDATE invoices SET metode_pembayaran='$metode_pembayaran', status='IN_PROCESS', discount_amount=$discount_price, total_amount=$final_price 
+            WHERE user_id = '$user_id' and status ='UNPAID'";
             $update_invoice = $invoicedb->conn->prepare($query);
             $update_invoice->execute();
             $query_result = $update_invoice->rowCount();
@@ -84,7 +87,7 @@ try {
         
         } else {
             http_response_code(400);
-            throw new Exception("Missing UserID and Payment Method Field");
+            throw new Exception("Missing Required Field");
         }
         
     } else {

@@ -10,6 +10,7 @@ include_once "../connection.php";
 include_once "../cartdb.php";
 include_once "../productdb.php";
 include_once "../invoicedb.php";
+include_once "../discountdb.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -25,6 +26,7 @@ try {
         $cartdb = new CartDb($db);
         $productdb = new ProductDb($db);
         $invoicedb = new InvoiceDB($db);
+        $discountdb = new DiscountDB($db);
         $data = json_decode(file_get_contents("php://input"));
         //check request empty or not
         if(!empty($data->user_id)){
@@ -45,11 +47,29 @@ try {
                 foreach($price_array as $array){
                     foreach($array as $key=>$value){
                         $total_price += $value;
-                        
                     }
                 }
-                $total_price = number_format($total_price, 2);
 
+                // $discount_price = 0;
+                // if(!empty($data->is_discount)){
+                //     if ($data->is_discount == "true"){
+                //         $discount_query = "SELECT * FROM discount";
+                //         $get_discount = $discountdb->conn->prepare($discount_query);
+                //         $get_discount->execute();
+                //         $query_discount_result = $get_discount->rowCount();
+                //         if($query_discount_result > 0){
+                //             while ($discount_row = $get_discount->fetch(PDO::FETCH_ASSOC)){
+                //                 extract($discount_row);
+                //                 $discount_percentage = $percentage;
+                //             }
+                //         }
+                //         $discount_price = $discount_percentage / 100 * $total_price;
+                //         $total_price = $total_price - $discount_price;
+                //     }
+                // }
+
+                // $discount_price = number_format($discount_price, 2);
+                // $total_price = number_format($total_price, 2);
                 // set error schema
                 $error_schema["error_code"] = 0;
                 $error_schema["message"] = "Success";

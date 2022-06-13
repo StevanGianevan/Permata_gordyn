@@ -43,6 +43,35 @@ $result = curl_exec($ch);
 curl_close($ch);
 $my_array = array();
 $invoice_data = json_decode($result, true);
+$product_total = 0;
+if ($invoice_data['output'] != 'Data not found'){
+    $product_total = $invoice_data['output'][0]['total_price'];
+}
+$product_total_formatted = number_format($product_total, 2);
+$discount_price = 0;
+$final_price = 0;
+
+//FETCH DISCOUNT CODE
+$sumber = 'http://localhost/PermataGordynMain/CRUD_API/get/get_discount_api.php';
+$konten = file_get_contents($sumber);
+$discount_data = json_decode($konten, true);
+$filterBy = 'TRUE';
+$active_discount_data = array_filter($discount_data['output'], function ($var) use ($filterBy) {
+    return ($var['active'] == $filterBy);
+});
+if (empty($active_discount_data)){
+    $existing_discount_code = "NO_DISCOUNT_ACTIVATED";
+}
+else{
+    $existing_discount_code = $active_discount_data[0]['code'];
+    $existing_discount_percentage = $active_discount_data[0]['percentage'];
+    $discount_price = $existing_discount_percentage / 100 * $product_total;
+    $final_price = $product_total - $discount_price;
+}
+
+$discount_price = number_format($discount_price, 2);
+$final_price = number_format($final_price, 2);
+
 ?>
 
 
@@ -157,6 +186,26 @@ $invoice_data = json_decode($result, true);
                
             </div>
             <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group"> <label>Have coupon?</label>
+                                <?php if ($data['output'] != 'Data not found') { ?>
+                                    <div class="input-group"> 
+                                        <input type="text" class="form-control coupon" id="discount_code" name="" placeholder="Coupon code"> 
+                                        <span class="input-group-append"> <button class="btn btn-primary btn-apply coupon" id="couponbtn">Apply</button> </span> 
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="input-group"> 
+                                        <input disabled type="text" class="form-control coupon" id="discount_code" name="" placeholder="Coupon code"> 
+                                        <span class="input-group-append"> <button disabled class="btn btn-primary btn-apply coupon" id="couponbtn">Apply</button> </span> 
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="card mb-4">
                 <div class="card-header py-3">
                     <h5 class="mb-0">Summary</h5>
@@ -164,27 +213,28 @@ $invoice_data = json_decode($result, true);
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                 <?php if ($data['output'] != 'Data not found') { ?>
-                    <?php foreach ($invoice_data['output'] as $row) { ?> 
-                      
                     <li
                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                         Products Total: 
-                        <span>Rp. <?php echo $row['total_price']?></span>
+                        <span>Rp. <?php echo $product_total_formatted; ?></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                        Shipping
+                        Shipping:
                         <span>Free</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        Discount:
+                        <p id="discount_price">Rp. 0</p>
                     </li>
                     <li
                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                         <div>
-                        <strong>Total amount</strong>
-                       
+                            <strong>Total amount</strong>
                         </div>
-                        <span><strong>Rp. <?php echo $row['total_price']?></strong></span>
+                        <p id="final_price">Rp. <?php echo $product_total_formatted; ?></p>
                     </li>
                     </ul>
-                <?php }}  ?>
+                <?php }  ?>
                 <?php if ($data['output'] != 'Data not found') { ?>
                 <button id="checkout" type="submit" class="btn btn-primary">Checkout</button>
                 <?php } else{?>
@@ -200,12 +250,27 @@ $invoice_data = json_decode($result, true);
     <script>
 
         jQuery(document).ready(function () {
-            
+            var is_discount = "false";
+            $('#couponbtn').on('click', function() {
+                event.preventDefault();
+                var discount_code = $('#discount_code').val();
+                if (discount_code == '<?php echo $existing_discount_code; ?>'){
+                    alert("Discount Applied!.");
+                    $("#discount_price").text("Rp. "+'<?php echo $discount_price; ?>');
+                    $("#final_price").text("Rp. "+'<?php echo $final_price; ?>');
+                    is_discount = "true";
+                }
+                else{
+                    alert("DISCOUNT CODE INVALID!!!");
+                    location.reload(true);
+                }
+            });
+
             $('#checkout').on('click', function() {
                 console.log("ready!");
                 var user_id =  '<?php echo $_SESSION['id'] ?>';
                 var data = { 
-                            user_id: user_id
+                            user_id: user_id,
                         };
                 $.ajax({
                 type: "POST",
@@ -216,7 +281,7 @@ $invoice_data = json_decode($result, true);
                 // cache: false,
                 success: function(data){
                     console.log("SUCCESS");
-                    window.location.href = "checkout.php";
+                    window.location.href = "checkout.php"+'?is_discount='+is_discount;
                 },
                 error: function(dataResult){
                     console.log("ERORR");

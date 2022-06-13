@@ -106,10 +106,14 @@ $data = json_decode($konten, true);
                 <th><?php echo $row['name']?></th>
                 <th><?php echo $row['metode_pembayaran']?></th>
                 <th><?php echo $row['status']?></th>
-                <th class="col-1 text-center">
-                  <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent; color:green"><i class="bi bi-check-lg"></i></button>
-                  <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent; color:red"><i class="bi bi-exclamation-lg"></i></button>
-                </th>
+                <?php if($row['status'] == 'IN_PROCESS') {?>
+                  <th class="col-1 text-center">
+                    <button id="<?php echo $row['id']?>" class="btn accept" style="background-color: transparent; color:green"><i class="bi bi-check-lg"></i></button>
+                    <button id="<?php echo $row['id']?>" class="btn reject" style="background-color: transparent; color:red"><i class="bi bi-exclamation-lg"></i></button>
+                  </th>
+                <?php } else { ?>
+                  <th></th>
+                <?php } ?>
               </tr>
         <?php }} ?>
         </tbody>

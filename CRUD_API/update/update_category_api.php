@@ -30,24 +30,13 @@ try {
             $query = "UPDATE category SET name='$name', description='$description' WHERE id='$id'";
             $update_category = $categorydb->conn->prepare($query);
             $update_category->execute();
-            $update_query_result = $update_category->rowCount();
-            // set error schema
-            if($update_query_result > 0){
-                $error_schema["error_code"] = 0;
-                $error_schema["message"] = "Success";
-                
-                $response["error_schema"] = $error_schema;
-                $response["output"] = "Success update category!";
-                // set response code - 200 OK
-                http_response_code(200);
-                
-                // show products data in json format
-                echo json_encode($response);
-            }
-            else{
-                http_response_code(405);
-                throw new Exception("Failed update category");
-            }
+            $error_schema["error_code"] = 0;
+            $error_schema["message"] = "Success";
+            
+            $response["error_schema"] = $error_schema;
+            $response["output"] = "Success update category!";
+            http_response_code(200);
+            echo json_encode($response);
         
         } else {
             http_response_code(405);

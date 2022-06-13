@@ -1,5 +1,7 @@
 <?php
 session_start();
+$is_discount = $_GET['is_discount'];
+
 $url = 'http://localhost/PermataGordynMain/CRUD_API/get/get_cart_api.php';
 
 // Create a new cURL resource
@@ -51,6 +53,30 @@ $result = curl_exec($ch);
 curl_close($ch);
 $my_array = array();
 $invoice_data = json_decode($result, true);
+$product_total = $invoice_data['output'][0]['total_price'];
+
+//FETCH DISCOUNT DATA
+$sumber = 'http://localhost/PermataGordynMain/CRUD_API/get/get_discount_api.php';
+$konten = file_get_contents($sumber);
+$discount_data = json_decode($konten, true);
+$filterBy = 'TRUE';
+$active_discount_data = array_filter($discount_data['output'], function ($var) use ($filterBy) {
+    return ($var['active'] == $filterBy);
+});
+
+if ($is_discount == "true"){
+    $existing_discount_code = $active_discount_data[0]['code'];
+    $existing_discount_percentage = $active_discount_data[0]['percentage'];
+    $discount_price = $existing_discount_percentage / 100 * $product_total;
+    $final_price = $product_total - $discount_price;
+}
+else{
+    $discount_price = 0;
+    $final_price = $product_total;
+}
+$discount_price_formatted = number_format($discount_price, 2);
+$final_price_formatted = number_format($final_price, 2);
+
 ?>
 
 
@@ -156,9 +182,9 @@ $invoice_data = json_decode($result, true);
                             </div>
                             <hr>
                             <?php if ($data['output'] != 'Data not found') { ?>
-                            <?php foreach ($invoice_data['output'] as $row) { ?>
-                                <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo $row['total_price'] ?></p>
-                            <?php }}  ?>
+                                <p class="text-right" id="discount_price"><strong> Discount :</strong> Rp. <?php echo $discount_price_formatted ?></p>
+                                <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo $final_price_formatted ?></p>
+                            <?php }  ?>
                         </div>
                         
                         <div class="metode">
@@ -276,8 +302,11 @@ $invoice_data = json_decode($result, true);
             console.log(metode_pembayaran); 
             var data = { 
                         user_id: user_id,
-                        metode_pembayaran
+                        metode_pembayaran: metode_pembayaran,
+                        discount_price: <?php echo $discount_price; ?>,
+                        final_price: <?php echo $final_price; ?>
             };
+            console.log(data);
             $.ajax({
             type: "POST",
             url: "http://localhost/PermataGordynMain/CRUD_API/post/check_payment_api.php",

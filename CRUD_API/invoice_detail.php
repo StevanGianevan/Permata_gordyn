@@ -197,11 +197,11 @@ $invoice_data = json_decode($result, true);
                                 </div>
                             </div>
                             <hr>
-                            <?php if ($data['output'] != 'Data not found') { ?>
-                                <?php foreach ($invoice_data['output'] as $row) { ?>   
-                                    <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo $row['total_price']?></p>
-                                </div>
-                        <?php }}?>
+                            <?php foreach ($invoice_data['output'] as $row) { ?>   
+                                <p class="text-right"><strong> Discount :</strong> Rp. <?php echo number_format($row['discount_amount'], 2)?></p>
+                                <p class="text-right"><strong> Total Harga :</strong> Rp. <?php echo number_format($row['total_amount'], 2)?></p>
+                            </div>
+                            <?php }?>
                     </div>
                     
                 </div>

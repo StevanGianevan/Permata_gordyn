@@ -48,6 +48,9 @@ $first_part = $components[3];
         <li class="<?php if ($first_part=="product.php") {echo "active"; } else  {echo "noactive";}?>">
           <a href="product.php"><i class="bi bi-boxes"></i> Product</a>
         </li>
+        <li class="<?php if ($first_part=="discount.php") {echo "active"; } else  {echo "noactive";}?>">
+          <a href="discount.php"><i class="bi bi-person"></i> Discount</a>
+        </li>
         <li class="<?php if ($first_part=="category.php") {echo "active"; } else  {echo "noactive";}?>">
           <a href="category.php"><i class="bi bi-box2-fill"></i> Category</a>
         </li>
