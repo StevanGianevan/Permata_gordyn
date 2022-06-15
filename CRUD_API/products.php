@@ -1,10 +1,20 @@
 <?php 
 session_start();
 
-$sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php";
-$konten = file_get_contents($sumber);
+$product_sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_product_api.php";
+$product_konten = file_get_contents($product_sumber);
+$product_data = json_decode($product_konten, true);
 
-$data = json_decode($konten, true);
+$category_sumber = "http://localhost/PermataGordynMain/CRUD_API/get/get_category_api.php";
+$category_konten = file_get_contents($category_sumber);
+$category_data = json_decode($category_konten, true);
+
+function get_product_by_category($product_data, $filterByValue){
+    $product_category_data = array_filter($product_data['output'], function ($var) use ($filterByValue) {
+        return ($var['category_id'] == $filterByValue);
+    });
+    return $product_category_data;
+}
 
 ?>
 
@@ -63,73 +73,39 @@ $data = json_decode($konten, true);
         <div class="container-sm ">
             <!-- Blind type -->
             <div class="box sliderbx" style="background-color: white;">
-                <p>Blinds Type</p>
+                <p>CATEGORY</p>
             </div>
             <div class="accordion blindtype" id="accordionExample">
                 <div class="card">
+                    <?php foreach ($category_data['output'] as $row) { ?>
                     <div class="card-header" id="headingOne">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                data-target="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
-                                Roller Blind
+                                data-target="#<?php echo $row['id']?>" aria-expanded="true" aria-controls="<?php echo $row['id']?>">
+                                "<?php echo $row['name']?>"
                             </button>
                         </h2>
                     </div>
-                    <div id="collapse-1" class="collapse" aria-labelledby="heading-1" data-parent="#accordionExample">
+                    <div id="<?php echo $row['id']?>" class="collapse" aria-labelledby="heading-1" data-parent="#accordionExample">
                         <div class="card-body" style="background-color: rgb(186, 185, 185);">
                             <div id="carouselExampleIndicators" class="carousel slide" data-interval="false"
                                 data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active ">
                                         <div class="row">
-                                            <?php foreach ($data['output'] as $row) { ?>
+                                            <?php foreach (get_product_by_category($product_data, $row['id']) as $row) { ?>
                                             <div class="card rounded" style="width: 18rem;">
                                                 <img class="card-img-top" src="<?php echo $row['image1']?>" alt="Dimout">
                                                 <div class="card-body">
                                                     <h5 class="card-title"><?php echo $row['name']?></h5>
                                                     <input type="submit" style="margin-top: 20px;" id="<?php echo $row['id']?> "name="add_to_cart" class="btn btn-info add_to_cart" value="Add To Cart" />
                                                     <button style="margin-top: 20px;" id="<?php echo $row['id']?> "name="add_to_cart" class="btn btn-info product_details">See Details</button>
+                                                    <button style="margin-top: 20px;" id="<?php echo $row['id']?> "name="add_to_cart" class="btn btn-info addwishlist">Add to Wishlist</button>
                                                 </div>
                                             </div>
                                             <?php }?>
                                         </div>
                                     </div>
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <a class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators"
                                     data-slide="prev">
@@ -144,528 +120,8 @@ $data = json_decode($konten, true);
                             </div>
                         </div>
                     </div>
+                    <?php }?>
                 </div>
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                                aria-controls="collapseTwo">
-                                Vertical Blind
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                        <div class="card-body" style="background-color: rgb(186, 185, 185);">
-                            <div id="carouselExampleIndicators" class="carousel slide" data-interval="false"
-                                data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active ">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-                                aria-controls="collapseThree">
-                                Zebra Blind
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                        data-parent="#accordionExample">
-                        <div class="card-body" style="background-color: rgb(186, 185, 185);">
-                            <div id="carouselExampleIndicators" class="carousel slide" data-interval="false"
-                                data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active ">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end Blinds -->
-            
-            <!-- Gordyn -->
-            <div class="box sliderbx" style="background-color: white;">
-                <p>Blinds Type</p>
-            </div>
-            <div class="accordion blindtype" id="accordionExample">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                data-target="#collapse-4" aria-expanded="true" aria-controls="collapse-4">
-                                Roller Blind
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordionExample">
-                        <div class="card-body" style="background-color: rgb(186, 185, 185);">
-                            <div id="carouselExampleIndicators" class="carousel slide" data-interval="false"
-                                data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active ">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                                aria-controls="collapseTwo">
-                                Vertical Blind
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                        <div class="card-body" style="background-color: rgb(186, 185, 185);">
-                            <div id="carouselExampleIndicators" class="carousel slide" data-interval="false"
-                                data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active ">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-                                aria-controls="collapseThree">
-                                Zebra Blind
-                            </button>
-                        </h2>
-                    </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                        data-parent="#accordionExample">
-                        <div class="card-body" style="background-color: rgb(186, 185, 185);">
-                            <div id="carouselExampleIndicators" class="carousel slide" data-interval="false"
-                                data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active ">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                            <div class="card rounded" style="width: 18rem;">
-                                                <img class="card-img-top" src="../Image/Logo.png" alt="Dimout">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Dimout</h5>
-                                                    <p class="card-text">Rp. 450.000/m<sup>2</sup></p>
-                                                    <a href="#">see details</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" type="button" data-target="#carouselExampleIndicators"
-                                    data-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end Gordyn -->
         </div>
     </div>
 
@@ -726,6 +182,26 @@ $data = json_decode($konten, true);
                 console.log("ready!");
                 var product_id = $(this).attr('id');
                 window.location.href = "productdetail.php"+'?product_id='+product_id;
+            });
+
+            $('.addwishlist').on('click', function(e) {
+                console.log("add wishlist!");
+                var user_id = '<?php echo $_SESSION['id'];?>';
+                var product_id = $(this).attr('id');
+                var data = {product_id: product_id, user_id: user_id};
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/PermataGordynMain/CRUD_API/post/post_wishlist_api.php",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function(dataResult){
+                        alert(dataResult.output);
+                    },
+                    error: function(dataResult){
+                        alert(dataResult.responseJSON.output);
+                    }
+                });
             });
             
             $('.add_to_cart').on('click', function() {

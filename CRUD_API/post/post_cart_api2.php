@@ -12,6 +12,7 @@ include_once "../cart3db.php";
 include_once "../productdb.php";
 include_once "../usersdb.php";
 include_once "../invoicedb.php";
+include_once "../wishlistdb.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -28,6 +29,7 @@ try {
         $productdb = new ProductDb($db);
         $usersdb = new UsersDb($db);
         $invoicedb = new InvoiceDB($db);
+        $wishlistdb = new WishlistDb($db);
         
         // get posted data
         $data = json_decode(file_get_contents("php://input"));
@@ -91,10 +93,20 @@ try {
                     $create_cart = $cartdb->conn->prepare($query);
                     $need_to_be_executed = $create_cart;
                 }
-
                 
-            }    
+            }   
 
+            if (!empty($data->wishlist_id)){
+                $wishlist_id = $data->wishlist_id;
+                $query = "DELETE FROM wishlist WHERE id='$wishlist_id'";
+                $delete_wishlist = $wishlistdb->conn->prepare($query);
+                $delete_wishlist->execute();  
+                $query_wishlist_result = $delete_wishlist->rowCount();
+                if($query_wishlist_result == 0){
+                    http_response_code(404);
+                    throw new Exception("Remove wishlist Failed.");
+                }
+            }
             
             if($need_to_be_executed->execute()){
                     // set error schema

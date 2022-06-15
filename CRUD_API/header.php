@@ -32,6 +32,11 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item cart">
+                        <a class="nav-link <?php if ($page == "wishlist.php") {echo "active";} ?>" href="wishlist.php">Wishlist</i></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item cart">
                         <a class="nav-link <?php if ($page == "invoices.php") {echo "active";} ?>" href="invoices.php">My Orders</a>
                     </li>
                 </ul>
